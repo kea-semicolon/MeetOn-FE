@@ -1,0 +1,35 @@
+{
+  "rooms" : [
+    {
+      "roomId": 0,
+      "users": [0,1],
+      "chats":
+      [
+        { "id": 0, "senderId": 0, "text": "정말 고마", "date": "Sat Oct 01 2022 02:49:31 GMT+0900" },
+        { "id": 1, "senderId": 0, "text": "워요", "date": "Sat Oct 01 2022 02:49:31 GMT+0900" },
+        { "id": 2, "senderId": 1, "text": "안아줘요", "date": "Sat Oct 01 2022 02:49:31 GMT+0900" }
+      ]
+    },
+    {
+      "roomId": 1,
+      "users": [0,2,3],
+      "chats":
+      [
+        { "id": 0, "senderId": 0, "text": "정말", "date": "Sat Oct 01 2022 02:49:31 GMT+0900" },
+        { "id": 1, "senderId": 2, "text": "안녕?", "date": "Sat Oct 01 2022 02:49:31 GMT+0900" },
+        { "id": 2, "senderId": 3, "text": "앨렐레", "date": "Sat Oct 01 2022 02:49:31 GMT+0900" }
+      ]
+    },
+    {
+      "roomId": 2,
+      "users": [0,4],
+      "chats":
+      [
+        { "id": 0, "senderId": 4, "text": "뱃속에", "date": "Sat Oct 01 2022 02:49:31 GMT+0900" },
+        { "id": 1, "senderId": 4, "text": "고기가", "date": "Sat Oct 01 2022 02:49:31 GMT+0900" },
+        { "id": 2, "senderId": 4, "text": "있어요", "date": "Sat Oct 01 2022 02:49:31 GMT+0900" }
+      ]
+    }
+  ]
+
+}
