@@ -15,6 +15,22 @@ const Calendar: NextPage = () => {
 
     return (
         <div>
+            {/* fullcalendar css */}
+            <style jsx global>{`
+                .fc-today-button, .fc-prev-button, .fc-next-button, .fc-addEventButton-button {
+                    background-color: transparent !important;
+                    border: none !important;
+                    width: 50px !important;
+                    color : black !important; ;
+                    font-size: medium !important; 
+                }
+
+                .fc-toolbar-title {
+                    font-weight: bold;
+                }
+            `}</style>
+
+
             <FullCalendar
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
@@ -26,7 +42,7 @@ const Calendar: NextPage = () => {
                 }}
                 customButtons={{
                     addEventButton: {
-                        text: '일정 추가',
+                        text: '+',
                         click: () => setShowModal(true),
                     },
                 }}
