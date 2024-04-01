@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function Login() {
   const handleLogin = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=1bab02deaaf8c73caa95dcdd8e84f6b7&redirect_uri=http://localhost:3000/login/kakao`
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KEY}&redirect_uri=http://localhost:3000/login/kakao`
   }
   return (
     <div className="flex flex-col px-6 py-5 h-screen">
