@@ -8,7 +8,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import AddEventModal from './addEventModal';
 import { AddEventBtn } from '@/_assets/Icons'
-import {red} from "next/dist/lib/picocolors";
 
 interface CalendarProps {
     showAddButton?: boolean;
@@ -154,7 +153,7 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
             <FullCalendar
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
-                timeZone="UTC"
+                timeZone="local"
                 aspectRatio={2}
                 headerToolbar={{
                     left : 'prev,title,next',
