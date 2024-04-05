@@ -1,3 +1,4 @@
+// calender.tsx
 'use client'
 
 import {useState} from 'react';
@@ -6,6 +7,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import AddEventModal from './addEventModal';
+import { AddEventBtn } from '@/_assets/Icons'
 
 interface CalendarProps {
     showAddButton?: boolean;
@@ -38,8 +40,9 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                     width: 72px !important;
                     height: 28px !important;
                     color: black !important;;
-                    font-size: x-small !important;
+                    font-size: small !important;
                     margin: 10px 8px 7px 0 !important;
+                    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
 
                 }
                 
@@ -52,12 +55,13 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                     color: #757575 !important;
                     border-radius: 5px !important;
                     font-size: x-small !important;
+                    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
 
                 }
 
                 .fc-next-button {
                     padding-right: 10% !important;
-                    margin: 0 10px 10px 5px !important;
+                    margin: 0 0 10px 5px !important;
                     width: 28px !important;
                     height: 28px !important;
                     background-color: #F8F8F8 !important;
@@ -65,6 +69,7 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                     color: #757575 !important;
                     border-radius: 5px !important;
                     font-size: x-small !important;
+                    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
                 }
 
                 .fc-toolbar-title {
@@ -76,12 +81,12 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
 
                 .fc-addEventButton-button {
                     margin : 7px 13px 0 3px !important;
-                    background-color: #FEE2D7 !important;
+                    background-color: #FFE063 !important;
                     
                     border: none !important;
                     width: 32px !important;
                     height : 32px !important;
-                    color : #FF6D37 !important; ;
+                    color : white !important; ;
                     font-size: small !important;
                     border-radius: 50% !important;
                    
@@ -123,7 +128,7 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
 
                 { /* 컨테이너 */  }
                 .fc {
-                    border: 1px solid #d9d9d9 !important;
+                    border: none !important;
                     border-radius: 10px !important;
                     box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.05);
                 !important;
@@ -141,12 +146,13 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                 }}
                 customButtons={{
                     addEventButton: {
-                        text: '+',
+                        text : "+",
+                        //icon: AddEventBtn,
                         click: () => setShowModal(true),
                     }
                 }}
                 editable={true}
-                displayEventTime={false}
+                displayEventTime={true}
                 fixedWeekCount={false}
                 events={events}
                 dayMaxEvents={2} // = eventLimit
