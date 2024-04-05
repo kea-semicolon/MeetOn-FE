@@ -1,28 +1,36 @@
 'use client'
 
-import { useState } from 'react'
-import { NextPage } from 'next'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import {useState} from 'react';
+import {NextPage} from 'next';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import AddEventModal from './addEventModal';
 
-const Calendar: NextPage = () => {
-    const [showModal, setShowModal] = useState(false)
-    const [content, setContent] = useState('')
-    const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
-    const [events, setEvents] = useState([])
+interface CalendarProps {
+    showAddButton?: boolean;
+}
+
+const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
+    const [showModal, setShowModal] = useState(false);
+    const [events, setEvents] = useState<any[]>([]);
+
+
+    const handleSaveEvent = (newEvent: any) => {
+        setEvents(prevEvents => [...prevEvents, newEvent]);
+    };
+
 
     return (
         <div>
+
             {/* fullcalendar css */}
             <style jsx global>{`
 
                 .fc-toolbar h2 {
                     display: inline !important;
                 }
-
-
+                
                 .fc-today-button {
                     background-color: #ffffff !important;
                     border-color: #d9d9d9 !important;
@@ -34,7 +42,7 @@ const Calendar: NextPage = () => {
                     margin: 10px 8px 7px 0 !important;
 
                 }
-
+                
                 .fc-prev-button {
                     margin: 0 6px 10px 0 !important;
                     width: 28px !important;
@@ -69,16 +77,16 @@ const Calendar: NextPage = () => {
                 .fc-addEventButton-button {
                     margin : 7px 13px 0 3px !important;
                     background-color: #FEE2D7 !important;
-
+                    
                     border: none !important;
                     width: 32px !important;
                     height : 32px !important;
                     color : #FF6D37 !important; ;
                     font-size: small !important;
                     border-radius: 50% !important;
-
+                   
                 }
-
+                
                 .fc-header-toolbar {
                     height : 58px !important;
                 }
@@ -86,10 +94,8 @@ const Calendar: NextPage = () => {
 
                 .fc .fc-toolbar.fc-header-toolbar {
                     padding: 2% 0 0 2% !important;
-
+                    
                 }
-
-
 
                 .fc th {
                     border-top: 1px solid #d9d9d9 !important;
@@ -124,31 +130,35 @@ const Calendar: NextPage = () => {
                 }
             `}</style>
 
-
-
             <FullCalendar
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
                 timeZone="UTC"
                 aspectRatio={2}
                 headerToolbar={{
-                    left: 'prev,title,next',
-                    end: 'today,addEventButton'
-
+                    left : 'prev,title,next',
+                    end: 'today' + (showAddButton ? ',addEventButton' : ''),
                 }}
                 customButtons={{
                     addEventButton: {
                         text: '+',
                         click: () => setShowModal(true),
-                    },
+                    }
                 }}
                 editable={true}
                 displayEventTime={false}
                 fixedWeekCount={false}
                 events={events}
+                dayMaxEvents={2} // = eventLimit
+
 
             />
-
+            {showModal && (
+                <AddEventModal
+                    onClose={() => setShowModal(false)}
+                    onSave={handleSaveEvent}
+                />
+            )}
         </div>
     );
 };
