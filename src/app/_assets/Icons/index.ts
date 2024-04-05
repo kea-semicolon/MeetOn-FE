@@ -1,0 +1,6 @@
+export { default as DownArrow } from './downarrow.svg'
+export { default as UpArrow } from './uparrow.svg'
+export { default as Pin } from './pin.svg'
+export { default as Trashcan } from './trashcan.svg'
+export { default as Rectangle } from './rectangle.svg'
+export { default as Plus } from './plus.svg'
