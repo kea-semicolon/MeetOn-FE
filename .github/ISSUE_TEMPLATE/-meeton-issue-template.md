@@ -1,7 +1,7 @@
 ---
-name: "\bMeetOn issue template"
+name: "\bmeeton"
 about: Communicate the content simply but clearly
-title: ''
+title: '[feat] - '
 labels: ''
 assignees: ''
 
