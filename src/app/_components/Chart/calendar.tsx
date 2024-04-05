@@ -8,6 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import AddEventModal from './addEventModal';
 import { AddEventBtn } from '@/_assets/Icons'
+import {red} from "next/dist/lib/picocolors";
 
 interface CalendarProps {
     showAddButton?: boolean;
@@ -32,6 +33,21 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                 .fc-toolbar h2 {
                     display: inline !important;
                 }
+
+                .fc .fc-daygrid-day-number {
+                    margin-right : 2px !important;
+                    font-size: small !important;
+                }
+
+                .fc .fc-daygrid-day.fc-day-today {
+                    background-color: transparent !important; 
+                    
+                    .fc-daygrid-day-number {
+                        font-weight: bold !important;
+                    }
+                }
+                
+                
                 
                 .fc-today-button {
                     background-color: #ffffff !important;
@@ -150,6 +166,13 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                         //icon: AddEventBtn,
                         click: () => setShowModal(true),
                     }
+                }}
+                eventBackgroundColor={'#FF7236'}
+                eventBorderColor={'#FF7236'}
+                eventTimeFormat={{
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
                 }}
                 editable={true}
                 displayEventTime={true}
