@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import {Cancel} from "@/_assets/Icons";
 import {ViewCalendarBtn} from "@/_assets/Icons";
-import { ko } from 'date-fns/locale/ko'; // 한국어 locale 불러오기
+
 
 interface AddEventModalProps {
     onClose: () => void;
@@ -92,19 +92,16 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
                     align-items: center;
                     display: flex;
                 }
-
-                .react-datepicker__header--time {
-                    font-weight: ;
-                }
+                
                 
                 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
                     background-color: #ffcd00;
                     color: white;
                     font-weight: bold;
-                    text-align: center; /* 가로 중앙 정렬 */
+                    text-align: center;
                     display: flex;
-                    justify-content: center; /* 가로 중앙 정렬 */
-                    align-items: center; /* 세로 중앙 정렬 */
+                    justify-content: center;
+                    align-items: center; 
                 }
 
                 .react-datepicker__day--selected {
@@ -132,7 +129,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
                                     onChange={(date: Date | null) => setStartDate(date)}
                                     dateFormat="MM월 dd일"
                                     className="text-xs bg-white w-[115px] h-[28px] border border-gray-300 rounded-full mx-2 pl-3.5"
-                                    //locale={ko} // 한국어 locale 설정
                                     formatWeekDay={nameOfDay => nameOfDay.substr(0,3)}
                                 />
                                 <Image src={ViewCalendarBtn} alt={'error'}
@@ -165,7 +161,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
                                 dateFormat="MM월 dd일"
                                 className="text-xs bg-white w-[115px] h-[28px] border border-gray-300 rounded-full mx-2 pl-3.5"
                                 formatWeekDay={nameOfDay => nameOfDay.substr(0,3)}
-                                // locale={ko} // 한국어 locale 설정
                             />
                             <Image src={ViewCalendarBtn} alt={'error'}
                                    className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-[-7px]"/>

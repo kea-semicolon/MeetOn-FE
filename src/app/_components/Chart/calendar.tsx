@@ -1,4 +1,3 @@
-// calender.tsx
 'use client'
 
 import {useState} from 'react';
@@ -7,7 +6,6 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import AddEventModal from './addEventModal';
-import { AddEventBtn } from '@/_assets/Icons'
 
 interface CalendarProps {
     showAddButton?: boolean;
@@ -17,15 +15,12 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
     const [showModal, setShowModal] = useState(false);
     const [events, setEvents] = useState<any[]>([]);
 
-
     const handleSaveEvent = (newEvent: any) => {
         setEvents(prevEvents => [...prevEvents, newEvent]);
     };
 
-
     return (
         <div>
-
             {/* fullcalendar css */}
             <style jsx global>{`
 
@@ -47,7 +42,6 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                 }
                 
                 
-                
                 .fc-today-button {
                     background-color: #ffffff !important;
                     border-color: #d9d9d9 !important;
@@ -58,7 +52,6 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                     font-size: small !important;
                     margin: 10px 8px 7px 0 !important;
                     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
-
                 }
                 
                 .fc-prev-button {
@@ -71,7 +64,6 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                     border-radius: 5px !important;
                     font-size: x-small !important;
                     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
-
                 }
 
                 .fc-next-button {
@@ -162,7 +154,6 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                 customButtons={{
                     addEventButton: {
                         text : "+",
-                        //icon: AddEventBtn,
                         click: () => setShowModal(true),
                     }
                 }}
