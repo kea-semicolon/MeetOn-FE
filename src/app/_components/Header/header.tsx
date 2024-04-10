@@ -14,7 +14,7 @@ export default function Header() {
     { href: '/일정공유', text: '일정 공유' },
     { href: '/게시판', text: '게시판' },
     { href: '/메모장', text: '메모장' },
-    { href: '/회의관리', text: '회의 관리' },
+    { href: '/admin', text: '회의 관리' },
   ]
 
   return (

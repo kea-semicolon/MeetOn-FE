@@ -3,7 +3,7 @@ import MemoZone from '@/_components/Memo/memoZone'
 
 export default function Fix() {
   return (
-    <div className="ml-5 mt-4">
+    <div className="ml-5 mt-4 absolute">
       <div className="ml-9">
         <Header />
       </div>
