@@ -9,7 +9,7 @@ const StickerMemo = () => {
   const [pin, setPin] = useState<boolean>(false)
   return (
     <div className="flex flex-col mb-3">
-      <div className="relative w-[240px] h-[23px] bg-[#FFCD00] bg-opacity-20">
+      <div className="relative w-full h-[23px] bg-[#FFCD00] bg-opacity-20">
         <button type="button" onClick={() => setPin(!pin)}>
           <Image
             className="absolute left-3 top-1.5"
@@ -33,7 +33,7 @@ const StickerMemo = () => {
         </button>
       </div>
       {content && (
-        <textarea className="text-[10px] p-2 focus:outline-none w-[240px] h-[183px] bg-[#FFCD00] bg-opacity-10" />
+        <textarea className="text-[10px] p-2 focus:outline-none w-full h-[183px] bg-[#FFCD00] bg-opacity-10" />
       )}
     </div>
   )

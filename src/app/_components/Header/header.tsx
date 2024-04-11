@@ -17,9 +17,26 @@ export default function Header() {
     { href: '/admin', text: '회의 관리' },
   ]
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  // Admin 컴포넌트의 mx 값을 동적으로 설정
+  const headerStyles = {
+    marginRight: `${windowWidth / 7}px`, // 화면 너비의 1/5 만큼 왼쪽으로 이동
+  }
+
   return (
     <div className="flex items-center">
-      <div className="flex mr-48">
+      <div className="flex" style={headerStyles}>
         <p className="text-[28px] font-bold text-[#FFCD00]">Meet;</p>
         <p className="text-[28px] font-bold text-[#4D4D4D]">ON</p>
       </div>

@@ -5,7 +5,7 @@ import { DeleteUser } from '@/_assets/Icons'
 import Image from 'next/image'
 
 const Userlist = () => {
-  const [selectAll, setSelectAll] = useState(false)
+  const [selectAll, setSelectAll] = useState<boolean>(false)
   const [checkboxes, setCheckboxes] = useState([
     { id: 1, checked: false },
     { id: 2, checked: false },
