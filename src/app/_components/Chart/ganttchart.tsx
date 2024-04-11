@@ -1,58 +1,55 @@
-'use client'
+'use client' // today highlighting ver
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+import '@/styles/ganttchart.css'
 
 const GanttChart: React.FC = () => {
     const events = [
         {
-            //title: '이벤트 1',
             start: '2024-04-01',
             end: '2024-04-03',
             resourceId: 'resource1'
         },
         {
-            //title: '이벤트 2',
             start: '2024-04-05',
             end: '2024-04-07',
             resourceId: 'resource2'
         },
         {
-            //title: '이벤트 3',
             start: '2024-04-10',
             end: '2024-04-12',
             resourceId: 'resource3'
         }
     ];
 
+    useEffect(() => {
+        // 서버와 클라이언트 간의 시차
+        const timeOffset = new Date().getTimezoneOffset() * 60000;
+        const today = new Date(Date.now() - timeOffset).toISOString().slice(0, 10);
+        const todayElements = document.querySelectorAll(`.fc-day[data-date="${today}"]`);
+        todayElements.forEach(element => {
+            element.classList.add('today-highlight');
+        });
+    }, []);
+
     return (
         <div>
-            <style jsx global>{`
-                .fc-timeline-event {
-                    border-radius: 8px;
-               
-                }
-                
-
-            `}</style>
-
-
             <FullCalendar
                 schedulerLicenseKey='CC-Attribution-NonCommercial-NoDerivatives'
                 plugins={[dayGridPlugin, resourceTimelinePlugin]}
-                initialView="resourceTimelineMonth"
-                aspectRatio={1.5}
+                initialView="resourceTimelineYear"
+                //aspectRatio={1.5}
                 headerToolbar={{
-                    left: 'prev,next',
+                    left: 'today',
                     center: 'title',
                     right: 'resourceTimelineMonth,resourceTimelineYear'
                 }}
                 editable={true}
+                resourceAreaWidth={'18%'}
                 resourceAreaHeaderContent="프로젝트명"
-                //resources="https://fullcalendar.io/api/demo-feeds/resources.json?with-nesting&with-colors"
-                //events="https://fullcalendar.io/api/demo-feeds/events.json?single-day&for-resource-timeline"
                 eventBackgroundColor={'#FFcd00'}
                 eventBorderColor={'#FFcd00'}
                 events={events}
@@ -61,18 +58,16 @@ const GanttChart: React.FC = () => {
                     {id: 'resource2', title: '리소스 2'},
                     {id: 'resource3', title: '리소스 3'}
                 ]}
-
                 slotLabelFormat={{
-                    day: 'numeric',
-                    month: 'short'
-
+                    weekday: 'short', // 요일
+                    day: 'numeric', // 날짜
                 }}
-
-                // 타이틀 포맷 설정
                 titleFormat={{
                     month: 'long',
                     year: 'numeric'
                 }}
+
+                height={350}
             />
         </div>
     );

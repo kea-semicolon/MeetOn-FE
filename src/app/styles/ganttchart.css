@@ -1,0 +1,25 @@
+.fc-timeline-event {
+    border-radius: 8px;
+}
+
+.fc .fc-datagrid-header .fc-datagrid-cell-frame{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fc-timeline-header-row { /* 날짜 표시 포맷 조정 */
+    font-size: small;
+}
+
+.fc .fc-timeline-slot-cushion {
+    white-space: normal; /* 줄 바꿈 활성화 */
+}
+
+.fc .fc-timeline-slot-cushion {
+    margin : 5px;
+}
+
+.today-highlight {
+    background-color: #ffdb58 !important;
+}
