@@ -1,3 +1,4 @@
+export { default as KakaoIcon } from './kakao.svg'
 export { default as DownArrow } from './downarrow.svg'
 export { default as UpArrow } from './uparrow.svg'
 export { default as Pin } from './pin.svg'
