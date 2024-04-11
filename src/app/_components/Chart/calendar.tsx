@@ -21,7 +21,7 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
     };
 
     return (
-        <div>
+        <div className='calendar'>
             <FullCalendar
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"

@@ -1,13 +1,13 @@
-.fc-toolbar h2 {
+.calendar .fc-toolbar h2 {
     display: inline !important;
 }
 
-.fc .fc-daygrid-day-number {
+.calendar .fc .fc-daygrid-day-number {
     margin-right: 2px !important;
     font-size: small !important;
 }
 
-.fc .fc-daygrid-day.fc-day-today {
+.calendar .fc .fc-daygrid-day.fc-day-today {
     background-color: transparent !important;
 
     .fc-daygrid-day-number {
@@ -15,8 +15,11 @@
     }
 }
 
+.calendar .fc-toolbar-chunk {
+    white-space: nowrap !important;
+}
 
-.fc-today-button {
+.calendar .fc-today-button {
     background-color: #ffffff !important;
     border-color: #d9d9d9 !important;
     border-radius: 3px !important;
@@ -28,7 +31,7 @@
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
 }
 
-.fc-prev-button {
+.calendar .fc-prev-button {
     margin: 0 6px 10px 0 !important;
     width: 28px !important;
     height: 28px !important;
@@ -40,8 +43,7 @@
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
 }
 
-.fc-next-button {
-    padding-right: 10% !important;
+.calendar .fc-next-button {
     margin: 0 0 10px 5px !important;
     width: 28px !important;
     height: 28px !important;
@@ -53,14 +55,14 @@
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
 }
 
-.fc-toolbar-title {
+.calendar .fc-toolbar-title {
 
     font-weight: bold;
     font-size: x-large !important;
     margin: 2% !important;
 }
 
-.fc-addEventButton-button {
+.calendar .fc-addEventButton-button {
     margin: 7px 13px 0 3px !important;
     background-color: #FFE063 !important;
 
@@ -73,58 +75,53 @@
 
 }
 
-.fc-header-toolbar {
+.calendar .fc-header-toolbar {
     height: 58px !important;
 }
 
 
-.fc .fc-toolbar.fc-header-toolbar {
+.calendar .fc .fc-toolbar.fc-header-toolbar {
     padding: 2% 0 0 2% !important;
 
 }
 
-.fc th {
+.calendar .fc th {
     border-top: 1px solid #d9d9d9 !important;
 }
 
-{ /* 캘린더 오른쪽 선 */
-}
-.fc-theme-standard td, .fc-theme-standard th {
+{ /* 캘린더 오른쪽 선 */ }
+.calendar .fc-theme-standard td, .fc-theme-standard th {
     border-right-style: hidden !important;
 }
 
-{ /* 캘린더 아래쪽 선 */
-}
-.fc-theme-standard td {
+{ /* 캘린더 아래쪽 선 */ }
+.calendar .fc-theme-standard td {
     border-bottom-style: hidden !important;
 }
 
-{ /* 내부 격자*/
-}
-.fc .fc-daygrid-day {
+{ /* 내부 격자 */ }
+.calendar .fc .fc-daygrid-day {
     border: 0.5px solid #d9d9d9 !important;
 }
 
-{ /* 테두리 */
-}
-.fc .fc-scrollgrid {
+{ /* 테두리 */ }
+.calendar .fc .fc-scrollgrid {
     border: none !important;
 }
 
-{ /* 컨테이너 */
-}
-.fc {
+{ /* 컨테이너 */ }
+.calendar .fc {
     border: none !important;
     border-radius: 10px !important;
     box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
-.fc .fc-daygrid-more-link {
+.calendar .fc .fc-daygrid-more-link {
     border-radius: 6px !important;
     color: #848484;
 }
 
-.more-events-link::before {
+.calendar .more-events-link::before {
     content: '';
     display: inline-block;
     width: 5px;
@@ -133,8 +130,4 @@
     background-color: #ffcd00;
     margin: 0 5px 3px 3px;
     vertical-align: middle;
-}
-
-.fc-daygrid-more-link fc-more-link more-events-link {
-    background-color: blue;
 }
