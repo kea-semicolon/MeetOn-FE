@@ -12,10 +12,10 @@ interface AddEventModalProps {
 }
 
 const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
-    const [title, setTitle] = useState('');
-    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [title, setTitle] = useState<string>('');
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
     const [startTime, setStartTime] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
+    const [endDate, setEndDate] = useState<Date | null>(new Date());
     const [endTime, setEndTime] = useState<Date | null>(null);
 
     const handleSave = () => {
@@ -41,7 +41,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
                 endTime.getHours(),
                 endTime.getMinutes()
             );
-            console.log(title, startDateTime, endDateTime);
             onSave({title, start: startDateTime, end: endDateTime});
             onClose();
         }
@@ -92,7 +91,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
                     align-items: center;
                     display: flex;
                 }
-                
                 
                 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
                     background-color: #ffcd00;
