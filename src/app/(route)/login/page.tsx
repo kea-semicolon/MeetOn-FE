@@ -8,14 +8,23 @@ export default function Login() {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KEY}&redirect_uri=http://localhost:3000/login/kakao`
   }
   return (
-    <div className="flex flex-col px-6 py-5 h-screen">
-      <div className="font-xs mb-5 text-center text-[#959595] mt-52">
-        SNS로 간편하게 가입하기
+    <div className="bg-white flex flex-col px-6 py-5 h-screen items-center">
+      <div className="flex flex-col items-center">
+        <div className="flex text-[40px] font-bold mt-32 mb-5">
+          <h1 className="text-[#FFCD00]">Meet;</h1>
+          <h1 className="text-[#4D4D4D]">ON</h1>
+        </div>
+        <h2 className="text-[30px] font-bold text-[#444847] mb-10">
+          Meet ON 서비스에 오신 것을 환영합니다!
+        </h2>
+        <p className="text-[15px] text-[#444847] mb-32">
+          데스크톱과 브라우저에서 MeetON을 사용할 수 있습니다.
+        </p>
       </div>
       <button
         type="button"
         onClick={handleLogin}
-        className="w-1/2 mx-auto flex h-[45px] items-center justify-center gap-2 rounded-[3rem] bg-[#FEE500]"
+        className="w-1/3 mx-auto flex h-[45px] items-center justify-center gap-2 rounded-[7px] bg-[#FEE500]"
       >
         <div className="mt-1 flex">
           <Image
