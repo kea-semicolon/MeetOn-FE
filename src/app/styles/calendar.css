@@ -1,3 +1,7 @@
+.calendar .fc {
+    background-color: white !important;
+}
+
 .calendar .fc-toolbar h2 {
     display: inline !important;
 }
