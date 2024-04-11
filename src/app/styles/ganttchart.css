@@ -1,25 +1,90 @@
-.fc-timeline-event {
-    border-radius: 8px;
+.gantt-chart .fc {
+    background-color: white !important;
 }
 
-.fc .fc-datagrid-header .fc-datagrid-cell-frame{
+.gantt-chart .fc-header-toolbar {
+    height : 45px !important;
+}
+
+.gantt-chart .fc-toolbar-chunk {
+    width : auto !important;
+}
+
+.gantt-chart .fc-timeline-event {
+    border-radius: 8px;
+    margin-top : 5px;
+}
+
+.gantt-chart .fc-resourceTimelineMonth-button {
+    margin-right: 2px !important;
+    background-color: #ffffff !important;
+    border-color: #d9d9d9 !important;
+    border-radius: 3px !important;
+    color: black !important;
+    font-size : small !important;
+    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+}
+
+.gantt-chart .fc-resourceTimelineYear-button {
+    background-color: #ffffff !important;
+    border-color: #d9d9d9 !important;
+    border-radius: 3px !important;
+    color: black !important;
+    margin-right: 10px !important;
+    font-size : small !important;
+    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+}
+
+.gantt-chart .fc-today-button {
+    height: 31px !important;
+
+}
+
+.gantt-chart .fc-prev-button {
+    margin : 10px 2px 0 0 !important;
+    width: 31px !important;
+    height: 31px !important;
+    background-color: white !important;
+    border-color: #d9d9d9 !important;
+    color: #757575 !important;
+    border-radius: 3px !important;
+    font-size: x-small !important;
+    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+}
+
+.gantt-chart .fc-next-button {
+    margin : 10px 4px 0 0 !important;
+    width: 31px !important;
+    height: 31px !important;
+    background-color: white !important;
+    border-color: #d9d9d9 !important;
+    color: #757575 !important;
+    border-radius: 3px !important;
+    font-size: x-small !important;
+    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+}
+
+
+
+.gantt-chart .fc-timeline-header-row { /* 날짜 표시 포맷 조정 */
+    font-size: small;
+}
+
+.gantt-chart .fc .fc-timeline-slot-cushion {
+    white-space: normal; /* 줄 바꿈 활성화 */
+}
+
+.gantt-chart .fc .fc-timeline-slot-cushion {
+    margin : 5px;
+}
+
+.gantt-chart .today-highlight {
+    background-color: #d5d5d5 !important;
+}
+
+.gantt-chart .fc .fc-datagrid-header .fc-datagrid-cell-frame{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.fc-timeline-header-row { /* 날짜 표시 포맷 조정 */
-    font-size: small;
-}
-
-.fc .fc-timeline-slot-cushion {
-    white-space: normal; /* 줄 바꿈 활성화 */
-}
-
-.fc .fc-timeline-slot-cushion {
-    margin : 5px;
-}
-
-.today-highlight {
-    background-color: #ffdb58 !important;
-}

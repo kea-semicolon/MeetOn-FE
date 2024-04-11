@@ -1,4 +1,4 @@
-'use client' // today highlighting ver
+'use client'
 
 import React, { useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
@@ -36,16 +36,16 @@ const GanttChart: React.FC = () => {
     }, []);
 
     return (
-        <div>
+        <div className="gantt-chart">
             <FullCalendar
                 schedulerLicenseKey='CC-Attribution-NonCommercial-NoDerivatives'
                 plugins={[dayGridPlugin, resourceTimelinePlugin]}
                 initialView="resourceTimelineYear"
                 //aspectRatio={1.5}
                 headerToolbar={{
-                    left: 'today',
+                    left: 'resourceTimelineMonth,resourceTimelineYear',
                     center: 'title',
-                    right: 'resourceTimelineMonth,resourceTimelineYear'
+                    right: 'prev,next,today'
                 }}
                 editable={true}
                 resourceAreaWidth={'18%'}
@@ -68,6 +68,20 @@ const GanttChart: React.FC = () => {
                 }}
 
                 height={350}
+
+                views={{
+                    resourceTimelineMonth: {
+                        titleFormat: {
+                            month: 'long',
+                            year: 'numeric'
+                        }
+                    },
+                    resourceTimelineYear: {
+                        titleFormat: {
+                            year: 'numeric'
+                        }
+                    }
+                }}
             />
         </div>
     );
