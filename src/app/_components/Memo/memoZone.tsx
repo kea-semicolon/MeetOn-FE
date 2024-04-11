@@ -18,7 +18,7 @@ export default function MemoZone() {
     return memos
   }
   return (
-    <div className="flex flex-col w-[235px]">
+    <div className="flex flex-col w-full">
       <div className="flex justify-between mb-3">
         <h2 className="ml-2 text-[20px]">메모</h2>
         <button type="button" onClick={addMemo}>
