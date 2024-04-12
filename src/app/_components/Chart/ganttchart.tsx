@@ -68,6 +68,7 @@ const GanttChart: React.FC = () => {
                 }}
 
                 height={350}
+                slotMinWidth={28}
 
                 views={{
                     resourceTimelineMonth: {
