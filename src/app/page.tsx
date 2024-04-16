@@ -1,3 +1,7 @@
+import Fix from '@/_components/Fix/fix'
+
 export default function Home() {
-  return <p>test </p>
+
+  return <Fix />
+
 }

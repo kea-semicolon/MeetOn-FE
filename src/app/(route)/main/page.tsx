@@ -1,9 +1,9 @@
-import Calendar from '@/_components/Chart/calendar';
+import Fix from '@/_components/Fix/fix'
 
 export default function MainPage() {
-    return (
-        <div>
-            <Calendar showAddButton={true}/>
-        </div>
-    );
+  return (
+    <div>
+      <Fix />
+    </div>
+  )
 }
