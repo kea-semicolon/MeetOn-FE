@@ -13,7 +13,7 @@ interface CalendarProps {
 }
 
 const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
     const [events, setEvents] = useState<any[]>([]);
 
     const handleSaveEvent = (newEvent: any) => {
@@ -33,7 +33,7 @@ const Calendar: NextPage<CalendarProps> = ({showAddButton = true}) => {
                 }}
                 customButtons={{
                     addEventButton: {
-                        text : "+",
+                        text: '+',
                         click: () => setShowModal(true),
                     }
                 }}
