@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import {Cancel} from "@/_assets/Icons";
 import {ViewCalendarBtn} from "@/_assets/Icons";
-
+import '@/styles/addEventModal.css';
 
 interface AddEventModalProps {
     onClose: () => void;
@@ -50,62 +50,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
     return (
         <div
             className="absolute top-[238px] right-[305px] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[309px] h-[373px]">
-            <style jsx global>{`
-                .react-datepicker {
-                    font-size: 10px;
-                    background-color: #fff;
-                    color: #000;
-                    border: 1px solid #d5d5d5;
-                    border-radius: 0.3rem;
-                    display: inline-block;
-                    position: relative;
-                    line-height: initial;
-                }
-                .react-datepicker__day-names {
-                    white-space: nowrap;
-                    margin: 3px 0 -8px 0;
-                }
-                .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle {
-                    fill: white;
-                    color: white;
-                }
-                .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle {
-                    fill: white;
-                    color: white;
-                }
-                .react-datepicker__header {
-                    background-color: white;
-                }
-                .react-datepicker__day--selected, .react-datepicker__day--selected:hover {
-                    background-color: #FFCD00;
-                    color: white;
-                    border-radius: 50%;
-                }
-                .react-datepicker__day:hover {
-                    border-radius: 50%;
-                }
-                
-                .react-datepicker__time-list li {
-                    text-align: center;
-                    justify-content: center;
-                    align-items: center;
-                    display: flex;
-                }
-                
-                .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
-                    background-color: #ffcd00;
-                    color: white;
-                    font-weight: bold;
-                    text-align: center;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center; 
-                }
-
-                .react-datepicker__day--selected {
-                    font-weight: bold;
-                }
-            `}</style>
 
             <div className="flex justify-between items-center">
                 <h1 className="text-sm font-semibold">일정 추가</h1>
