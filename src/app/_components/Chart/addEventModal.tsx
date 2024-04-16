@@ -54,7 +54,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
 
     return (
         <div
-            className="absolute top-[238px] right-[305px] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[309px] h-[373px]">
+            className="absolute top-[38px] right-[-118px] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[309px] h-[373px]">
 
             <div className="flex justify-between items-center">
                 <h1 className="text-sm font-semibold">일정 추가</h1>
