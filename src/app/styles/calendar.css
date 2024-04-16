@@ -61,8 +61,7 @@
 
 .calendar .fc-toolbar-title {
 
-    font-weight: bold;
-    font-size: x-large !important;
+    font-size: 22px !important;
     margin: 2% !important;
 }
 
@@ -80,7 +79,7 @@
 }
 
 .calendar .fc-header-toolbar {
-    height: 58px !important;
+    height: 30px !important;
 }
 
 
