@@ -13,10 +13,15 @@ interface AddEventModalProps {
 
 const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
     const [title, setTitle] = useState<string>('');
+    const defaultTime = new Date();
+    defaultTime.setHours(9, 0, 0, 0); // 오전 9시
+
+
     const [startDate, setStartDate] = useState<Date | null>(new Date());
-    const [startTime, setStartTime] = useState<Date | null>(null);
+    const [startTime, setStartTime] = useState<Date | null>(defaultTime);
     const [endDate, setEndDate] = useState<Date | null>(new Date());
-    const [endTime, setEndTime] = useState<Date | null>(null);
+    const [endTime, setEndTime] = useState<Date | null>(defaultTime);
+
 
     const handleSave = () => {
         if (!startDate && !startTime && !endDate && !endTime) {
