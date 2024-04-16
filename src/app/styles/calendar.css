@@ -37,26 +37,29 @@
 
 .calendar .fc-prev-button {
     margin: 0 6px 10px 0 !important;
-    width: 28px !important;
-    height: 28px !important;
+    width: 26px !important;
+    height: 26px !important;
     background-color: #F8F8F8 !important;
     border-color: #d5d5d5 !important;
     color: #757575 !important;
     border-radius: 5px !important;
     font-size: x-small !important;
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+
+
 }
 
 .calendar .fc-next-button {
     margin: 0 0 10px 5px !important;
-    width: 28px !important;
-    height: 28px !important;
+    width: 26px !important;
+    height: 26px !important;
     background-color: #F8F8F8 !important;
     border-color: #d5d5d5 !important;
     color: #757575 !important;
     border-radius: 5px !important;
     font-size: x-small !important;
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+
 }
 
 .calendar .fc-toolbar-title {
@@ -73,9 +76,11 @@
     width: 32px !important;
     height: 32px !important;
     color: white !important;;
-    font-size: small !important;
+    font-size: 22px !important;
     border-radius: 50% !important;
-
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .calendar .fc-header-toolbar {
@@ -145,4 +150,6 @@
     margin : 3px 0 3px 0;
     font-size : 12px;
 }
+
+
 
