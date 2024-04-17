@@ -86,19 +86,28 @@ const GanttChart: React.FC = () => {
                 height={350}
                 slotMinWidth={28}
 
+
                 views={{
                     resourceTimelineMonth: {
-                        titleFormat: {
-                            month: 'long',
-                            year: 'numeric'
+                        titleFormat: function(arg) {
+                            const date = arg.date.marker; // ExpandedZonedMarker에서 Date로 변환
+                            const year = new Intl.DateTimeFormat('ko-KR', { year: 'numeric' }).format(date);
+                            const month = new Intl.DateTimeFormat('ko-KR', { month: 'long' }).format(date);
+                            return year + ' ' + month;
                         }
                     },
                     resourceTimelineYear: {
-                        titleFormat: {
-                            year: 'numeric'
+                        titleFormat: function(arg) {
+                            const date = arg.date.marker; // ExpandedZonedMarker에서 Date로 변환
+                            const year = new Intl.DateTimeFormat('ko-KR', { year: 'numeric' }).format(date);
+                            return year + '';
                         }
                     }
                 }}
+
+
+
+
             />
         </div>
     );

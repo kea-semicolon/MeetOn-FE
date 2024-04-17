@@ -4,11 +4,18 @@
     overflow: hidden !important;
 }
 
-.gantt-chart .fc {
-    background-color: white !important;
+.gantt-chart .fc .fc-scroller-harness-liquid {
+    background-color: #F8F9FB !important;
 }
 
 
+.gantt-chart .fc .fc-scrollgrid-liquid {
+    border-left-style: hidden !important;
+}
+
+.gantt-chart .fc-view-harness-active {
+    border : hidden !important;
+}
 
 .gantt-chart .fc .fc-toolbar.fc-header-toolbar {
     height: 32px !important;
@@ -31,8 +38,9 @@
 
 .gantt-chart .fc-timeline-event {
     border-radius: 8px;
-    margin-top : 5px;
 }
+
+
 
 .gantt-chart .fc-resourceTimelineMonth-button {
     height : 24px !important;
@@ -177,5 +185,9 @@
 
 .gantt-chart .fc-cell-shaded {
     width: 0 !important;
+}
+
+.tb {
+    background-color: red !important;
 }
 
