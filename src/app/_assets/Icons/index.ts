@@ -8,4 +8,6 @@ export { default as Trashcan } from './trashcan.svg'
 export { default as Rectangle } from './rectangle.svg'
 export { default as Plus } from './plus.svg'
 export { default as DeleteUser } from './deleteuser.svg'
+export { default as CalendarImg } from './calendar.svg'
+export { default as Table } from './table.svg'
 
