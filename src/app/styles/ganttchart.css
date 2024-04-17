@@ -1,9 +1,26 @@
+.gantt-chart {
+    border : 1px solid #d9d9d9 !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+}
+
 .gantt-chart .fc {
     background-color: white !important;
 }
 
-.gantt-chart .fc-header-toolbar {
-    height : 55px !important;
+
+
+.gantt-chart .fc .fc-toolbar.fc-header-toolbar {
+    height: 32px !important;
+    margin-bottom: 1px;
+}
+
+.gantt-chart .fc-toolbar-title {
+    font-weight: bold !important;
+    font-size: 14px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -18,55 +35,76 @@
 }
 
 .gantt-chart .fc-resourceTimelineMonth-button {
-    margin: 0 2px 0 -8px !important;
+    height : 24px !important;
+    margin: 0px 2px 0 15px !important;
     background-color: #ffffff !important;
     border-color: #d9d9d9 !important;
     border-radius: 3px !important;
     color: #757575 !important;
-    font-size : small !important;
+    font-size : 10px !important;
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .gantt-chart .fc-resourceTimelineYear-button {
+    height:24px !important;
     background-color: #ffffff !important;
     border-color: #d9d9d9 !important;
     border-radius: 3px !important;
     color: #757575 !important;
     margin-right: 10px !important;
-    font-size : small !important;
+    font-size : 10px !important;
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.gantt-chart .fc-today-button {
-    height: 37px !important;
-    margin-right: 15px !important;
-    color: #757575 !important;
-    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05) !important;
-
+.gantt-chart .fc-todayButton-button {
+    background-color: #ffffff !important;
+    border-color: #d9d9d9 !important;
+    border-radius: 3px !important;
+    width: 55px !important;
+    height: 24px !important;
+    color: black !important;;
+    font-size: 10px !important;
+    margin: 10px 8px 7px 0 !important;
+    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .gantt-chart .fc-prev-button {
     margin : 10px 2px 0 0 !important;
-    width: 37px !important;
-    height: 37px !important;
+    width: 24px !important;
+    height: 24px !important;
     background-color: white !important;
     border-color: #d9d9d9 !important;
     color: #757575 !important;
     border-radius: 3px !important;
     font-size: x-small !important;
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .gantt-chart .fc-next-button {
     margin : 10px 4px 0 0 !important;
-    width: 37px !important;
-    height: 37px !important;
+    width: 24px !important;
+    height: 24px !important;
     background-color: white !important;
     border-color: #d9d9d9 !important;
     color: #757575 !important;
     border-radius: 3px !important;
     font-size: x-small !important;
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -77,11 +115,8 @@
 
 .gantt-chart .fc .fc-timeline-slot-cushion {
     white-space: normal;
+    margin: 5px;
 
-}
-
-.gantt-chart .fc .fc-timeline-slot-cushion {
-    margin : 5px;
 }
 
 
@@ -90,18 +125,24 @@
 }
 
 
-
 .gantt-chart .fc .fc-datagrid-header .fc-datagrid-cell-frame{ /* 프로젝트명 */
     display: flex;
     justify-content: center;
     align-items: center;
     font-size : 14px;
+    font-weight: normal;
+}
+
+.gantt-chart .fc-datagrid-header .fc-datagrid-cell-frame .fc-datagrid-cell-main {
+    border : 1px solid #d9d9d9;
+    border-radius: 3px;
+    padding: 5px 25px 5px 25px !important;
+
 }
 
 .gantt-chart .fc-timeline-header-row {
     margin : 2px !important;
     font-size : 10px !important;
-
 }
 
 
@@ -123,10 +164,18 @@
 /* 내부 격자무늬 -> .gantt-chart .fc-direction-ltr .fc-timeline-slot  */
 .gantt-chart .fc .fc-timeline-header-row .fc-timeline-slot {
     border-right-style : hidden !important;
+    font-weight: lighter !important;
 }
 
 .gantt-chart .fc-theme-standard td { /* 리소스명 */
     font-size: 12px;
 }
 
+.gantt-chart .fc-icon .fc-icon-chevron-left { /* 왼족 이동 아이콘 */
+
+}
+
+.gantt-chart .fc-cell-shaded {
+    width: 0 !important;
+}
 

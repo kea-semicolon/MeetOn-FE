@@ -1,12 +1,16 @@
 'use client'
 
-import React, { useEffect } from 'react';
+import React, {useEffect, useRef} from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+import koLocale from '@fullcalendar/core/locales/ko';
+
 import '@/styles/ganttchart.css'
 
 const GanttChart: React.FC = () => {
+    const calendarRef = useRef<FullCalendar>(null);
+
     const events = [
         {
             start: '2024-04-01',
@@ -36,7 +40,7 @@ const GanttChart: React.FC = () => {
     }, []);
 
     return (
-        <div className="gantt-chart">
+        <div className="gantt-chart w-full">
             <FullCalendar
                 schedulerLicenseKey='CC-Attribution-NonCommercial-NoDerivatives'
                 plugins={[dayGridPlugin, resourceTimelinePlugin]}
@@ -45,10 +49,22 @@ const GanttChart: React.FC = () => {
                 headerToolbar={{
                     left: 'resourceTimelineMonth,resourceTimelineYear',
                     center: 'title',
-                    right: 'prev,next,today'
+                    right: 'prev,next,todayButton'
                 }}
+                customButtons={{ // 'hey' 버튼 정의
+                    todayButton: {
+                        text: 'Today',
+                        click: () => {
+                            const calendarApi = calendarRef.current?.getApi();
+                            if (calendarApi) {
+                                calendarApi.today();
+                            }
+                        }
+                    }
+                }}
+
                 editable={true}
-                resourceAreaWidth={'18%'}
+                resourceAreaWidth={'10%'}
                 resourceAreaHeaderContent="프로젝트명"
                 eventBackgroundColor={'#FFcd00'}
                 eventBorderColor={'#FFcd00'}
