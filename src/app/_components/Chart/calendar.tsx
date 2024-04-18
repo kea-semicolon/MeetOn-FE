@@ -34,7 +34,7 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
             locale={koLocale}
             customButtons={{
               addEventButton: {
-                text: '+',
+                text: '',
                 click: () => setShowModal(true),
               },
               todayButton: {

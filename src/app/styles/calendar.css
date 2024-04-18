@@ -97,8 +97,10 @@
 
 .calendar .fc-addEventButton-button {
     margin: 7px 13px 0 3px !important;
-    background-color: #FFE063 !important;
-
+    background-color: transparent !important;
+    background-image: url('../_assets/Icons/plusEvent.svg');
+    background-repeat : no-repeat;
+    background-size : cover;
     border: none !important;
     width: 32px !important;
     height: 32px !important;
