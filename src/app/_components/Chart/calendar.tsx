@@ -58,8 +58,8 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
               minute: '2-digit',
               hour12: false,
             }}
-            editable
-            displayEventTime
+            editable={true}
+            displayEventTime={true}
             fixedWeekCount={false}
             events={events}
             dayMaxEvents={2} // = eventLimit
