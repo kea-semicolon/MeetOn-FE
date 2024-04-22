@@ -1,5 +1,5 @@
 export { default as Cancel } from './cancel.svg'
-export { default as ViewCalendarBtn} from './addEventBtn.svg'
+export { default as ViewCalendarBtn } from './addEventBtn.svg'
 export { default as KakaoIcon } from './kakao.svg'
 export { default as DownArrow } from './downarrow.svg'
 export { default as UpArrow } from './uparrow.svg'
@@ -10,4 +10,4 @@ export { default as Plus } from './plus.svg'
 export { default as DeleteUser } from './deleteuser.svg'
 export { default as CalendarImg } from './calendar.svg'
 export { default as Table } from './table.svg'
-
+export { default as Blank } from './blank.svg'

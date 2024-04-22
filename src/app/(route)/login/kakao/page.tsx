@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import Cookies from 'js-cookie'
 
 const LoginHandler = () => {
   const router = useRouter()
@@ -11,11 +12,25 @@ const LoginHandler = () => {
       const codeURL = new URL(window.location.href).searchParams.get('code')
       if (codeURL) {
         axios
-          .post(`http://localhost:8080/oauth/callback/kakao?code=${codeURL}`)
+          .post(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/oauth/callback/kakao?code=${codeURL}`,
+          )
           .then((response) => {
             // 요청이 성공할 경우 토큰을 받아옴
-            localStorage.setItem('accessToken', response.data.accessToken)
-            localStorage.setItem('refreshToken', response.data.refreshToken)
+            const accessTokenExpiry = new Date()
+            accessTokenExpiry.setTime(
+              accessTokenExpiry.getTime() + 24 * 60 * 60 * 1000,
+            )
+            Cookies.set('accessToken', response.data.accessToken, {
+              expires: accessTokenExpiry,
+            })
+            const refreshTokenExpiry = new Date()
+            refreshTokenExpiry.setTime(
+              refreshTokenExpiry.getTime() + 3 * 24 * 60 * 60 * 1000,
+            )
+            Cookies.set('refreshToken', response.data.refreshToken, {
+              expires: refreshTokenExpiry,
+            })
             router.push('/main')
           })
           .catch((error) => {
