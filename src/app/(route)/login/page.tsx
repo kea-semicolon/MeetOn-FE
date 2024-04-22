@@ -32,7 +32,7 @@ export default function Login() {
             className="mr-3 mt-0.5 h-[18px] w-[18px]"
             alt="kakao"
           />
-          <p>카카오톡으로 로그인</p>
+          <p>카카오계정으로 로그인</p>
         </div>
       </button>
     </div>
