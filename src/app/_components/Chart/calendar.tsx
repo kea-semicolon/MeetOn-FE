@@ -4,7 +4,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import AddEventModal from './addEventModal';
-import '@/styles/calendar.css';
+import '@/_styles/calendar.css';
 import koLocale from '@fullcalendar/core/locales/ko';
 
 interface CalendarProps {

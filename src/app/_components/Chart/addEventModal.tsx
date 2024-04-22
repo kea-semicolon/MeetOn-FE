@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import {Cancel} from "@/_assets/Icons";
 import {ViewCalendarBtn} from "@/_assets/Icons";
-import '@/styles/addEventModal.css';
+import '@/_styles/addEventModal.css';
 
 interface AddEventModalProps {
     onClose: () => void;
