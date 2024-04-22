@@ -6,7 +6,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import AddEventModal from './addEventModal'
-import '@/styles/calendar.css'
+import '@/_styles/calendar.css'
 
 interface CalendarProps {
   showAddButton?: boolean
@@ -33,7 +33,7 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         }}
         customButtons={{
           addEventButton: {
-            text: '+',
+            text: '',
             click: () => setShowModal(true),
           },
         }}
