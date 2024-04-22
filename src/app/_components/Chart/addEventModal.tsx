@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import {Cancel} from "@/_assets/Icons";
 import {ViewCalendarBtn} from "@/_assets/Icons";
-import '@/styles/addEventModal.css';
+import '@/_styles/addEventModal.css';
 
 interface AddEventModalProps {
     onClose: () => void;
@@ -55,7 +55,12 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
     return (
         <div
             className="absolute top-[38px] right-[-118px] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[309px] h-[373px]">
-
+            <style jsx global>{`
+                .react-datepicker__input-container {
+                    width: 0%;
+                }
+            
+            `}</style>
             <div className="flex justify-between items-center">
                 <h1 className="text-sm font-semibold">일정 추가</h1>
                 <button onClick={onClose} className="ml-auto">
@@ -78,11 +83,26 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
                                     className="text-xs bg-white w-[115px] h-[28px] border border-gray-300 rounded-full mx-2 pl-3.5"
                                     formatWeekDay={nameOfDay => nameOfDay.substr(0,3)}
                                 />
-                                <Image src={ViewCalendarBtn} alt={'error'}
-                                       className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-[-7px]"/>
+                                <button
+                                    onClick={() => {
+                                        const datePickerInput = document.querySelector('.react-datepicker-wrapper input');
+                                        if (datePickerInput) {
+                                            const event = new MouseEvent('click', {
+                                                bubbles: true,
+                                                cancelable: true,
+                                                view: window
+                                            });
+                                            datePickerInput.dispatchEvent(event);
+                                        }
+                                    }}
+                                    className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-[-7px] border-none bg-none cursor-pointer"
+                                >
+                                    <Image src={ViewCalendarBtn} alt={'error'}/>
+                                </button>
                             </label>
                         </div>
                     </div>
+
 
                     <div className="w-2/5">
                         <DatePicker
@@ -108,9 +128,24 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
                                 dateFormat="MM월 dd일"
                                 className="text-xs bg-white w-[115px] h-[28px] border border-gray-300 rounded-full mx-2 pl-3.5"
                                 formatWeekDay={nameOfDay => nameOfDay.substr(0,3)}
+                                wrapperClassName="react-datepicker-wrapper-end"
                             />
-                            <Image src={ViewCalendarBtn} alt={'error'}
-                                   className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-[-7px]"/>
+                            <button
+                                onClick={() => {
+                                    const datePickerInput = document.querySelector('.react-datepicker-wrapper-end input');
+                                    if (datePickerInput) {
+                                        const event = new MouseEvent('click', {
+                                            bubbles: true,
+                                            cancelable: true,
+                                            view: window
+                                        });
+                                        datePickerInput.dispatchEvent(event);
+                                    }
+                                }}
+                                className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-[-7px] border-none bg-none cursor-pointer"
+                            >
+                                <Image src={ViewCalendarBtn} alt={'error'} />
+                            </button>
                         </div>
                     </div>
 
@@ -126,6 +161,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({onClose, onSave}) => {
                         />
                     </div>
                 </div>
+
 
                 <div className="flex mb-[10px] mt-3.5">
                     <div className="w-1/4 mr-[10px] text-[10px] text-[#636363] ml-[2px]"><p className="mt-[3px]">내용</p>
