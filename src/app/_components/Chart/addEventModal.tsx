@@ -49,7 +49,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ onClose, onSave }) => {
   }
 
   return (
-    <div className="absolute top-[38px] right-[-118px] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[309px] h-[373px]">
+    <div className="absolute top-[11%] right-[15%] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[320px] h-[373px]">
       <style jsx global>{`
         .react-datepicker__input-container {
           width: 0%;
@@ -66,7 +66,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ onClose, onSave }) => {
       <div className="h-[210px]">
         {/* 시작 날짜 시간 선택 */}
         <div className="flex items-center mb-[10px]">
-          <div className="w-1/5 mr-[10px] text-[10px] text-[#636363] text-center ">
+          <div className="w-1/5 mr-[6px] text-[10px] text-[#636363] text-center ">
             시작 날짜
           </div>
           <div className="w-2/5">
@@ -116,7 +116,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ onClose, onSave }) => {
 
         {/* 종료 날짜 시간 선택 */}
         <div className="flex items-center mb-[10px]">
-          <div className="w-1/5 mr-[10px] text-[10px] text-[#636363] text-center">
+          <div className="w-1/5 mr-[6px] text-[10px] text-[#636363] text-center">
             종료 날짜
           </div>
           <div className="w-2/5">
