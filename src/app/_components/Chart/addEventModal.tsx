@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -8,9 +8,14 @@ import '@/_styles/addEventModal.css'
 interface AddEventModalProps {
   onClose: () => void
   onSave: (event: any) => void
+  selectedEvent: any
 }
 
-const AddEventModal: React.FC<AddEventModalProps> = ({ onClose, onSave }) => {
+const AddEventModal: React.FC<AddEventModalProps> = ({
+  onClose,
+  onSave,
+  selectedEvent,
+}) => {
   const [title, setTitle] = useState<string>('')
   const defaultTime = new Date()
   defaultTime.setHours(9, 0, 0, 0) // 오전 9시
@@ -19,6 +24,16 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ onClose, onSave }) => {
   const [startTime, setStartTime] = useState<Date | null>(defaultTime)
   const [endDate, setEndDate] = useState<Date | null>(new Date())
   const [endTime, setEndTime] = useState<Date | null>(defaultTime)
+
+  useEffect(() => {
+    if (selectedEvent) {
+      setTitle(selectedEvent.title)
+      setStartDate(selectedEvent.start)
+      setStartTime(selectedEvent.start)
+      setEndDate(selectedEvent.end)
+      setEndTime(selectedEvent.end)
+    }
+  }, [selectedEvent])
 
   const handleSave = () => {
     if (!startDate && !startTime && !endDate && !endTime) {
@@ -43,7 +58,22 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ onClose, onSave }) => {
         endTime.getHours(),
         endTime.getMinutes(),
       )
-      onSave({ title, start: startDateTime, end: endDateTime })
+
+      let newEvent
+      if (selectedEvent) {
+        // 수정
+        newEvent = {
+          ...selectedEvent,
+          title,
+          start: startDateTime,
+          end: endDateTime,
+        }
+      } else {
+        // 새로운 이벤트 추가
+        newEvent = { title, start: startDateTime, end: endDateTime }
+      }
+
+      onSave(newEvent)
       onClose()
     }
   }
@@ -56,7 +86,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ onClose, onSave }) => {
         }
       `}</style>
       <div className="flex justify-between items-center">
-        <h1 className="text-sm font-semibold">일정 추가</h1>
+        <h1 className="text-sm font-semibold">
+          {selectedEvent ? '일정 수정' : '일정 추가'}
+        </h1>
         <button onClick={onClose} className="ml-auto">
           <Image src={Cancel} alt="cancel" />
         </button>
@@ -182,7 +214,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ onClose, onSave }) => {
           onClick={handleSave}
           className="items-center w-[87px] h-[32px] rounded-2xl bg-[#FFCD00] text-white text-[14px]"
         >
-          추가
+          {selectedEvent ? '수정' : '추가'}
         </button>
       </div>
     </div>
