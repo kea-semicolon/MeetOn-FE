@@ -100,13 +100,14 @@
 
 .calendar .fc-addEventButton-button {
     margin: 7px 13px 0 -5px !important;
-    background-color: transparent !important;
+    background-color: #ffcd00 !important;
+    opacity: 0.6;
     background-image: url('../_assets/Icons/plusEvent.svg');
     background-repeat : no-repeat;
-    background-size : cover;
+    background-position: center center !important;
     border: none !important;
     width: 32px !important;
-    height: 32px !important;
+    height: 34px !important;
     color: white !important;;
     font-size: 22px !important;
     border-radius: 50% !important;
