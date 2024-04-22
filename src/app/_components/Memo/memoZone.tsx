@@ -12,6 +12,7 @@ export default function MemoZone() {
   }
   const renderMemos = () => {
     const memos = []
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < memoCount; i++) {
       memos.push(<StickerMemo key={i} />)
     }
