@@ -18,7 +18,7 @@ const Table = () => {
 
     return (
         <div className="rounded-[6px] overflow-hidden border border-[#959595]">
-            <table className="table-fixed w-full bg-[#D9D9D9]">
+            <table className="table-fixed w-full bg-[#D9D9D9] bg-opacity-30">
                 <thead>
                 <tr>
                     <th className="w-1/5 text-center font-normal text-[14px] border-b border-r border-[#959595] tracking-wider">회의 날짜</th>
@@ -34,7 +34,7 @@ const Table = () => {
                                     type="text"
                                     value={cell}
                                     onChange={(e) => handleChangeCell(rowIndex, columnIndex, e.target.value)}
-                                    style={{ width : '100%',backgroundColor: '#d9d9d9' }}
+                                    style={{ width : '100%',backgroundColor: 'transparent'}}
                                 />
                             </td>
                         ))}
