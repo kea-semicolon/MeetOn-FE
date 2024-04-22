@@ -7,14 +7,14 @@ interface ToggleProps {
 }
 
 const Toggle: React.FC<ToggleProps> = ({ onToggle }) => {
-    const [isToggled, setIsToggled] = useState(false);
+    const [isToggled, setIsToggled] = useState(true);
     const [imageSrc, setImageSrc] = useState(CalendarImg);
 
     const handleToggle = () => {
         setIsToggled(!isToggled);
         onToggle();
 
-        setImageSrc(isToggled ? CalendarImg : Table);   // 디자인 업데이트 후 이미지 변경 필요
+        setImageSrc(isToggled ? Table : CalendarImg);   // 디자인 업데이트 후 이미지 변경 필요
     };
 
     return (
