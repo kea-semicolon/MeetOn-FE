@@ -79,7 +79,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   }
 
   return (
-    <div className="absolute top-[11%] right-[15%] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[320px] h-[373px]">
+    <div className="absolute top-[12%] right-[14%] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[315px] h-[390px]">
       <style jsx global>{`
         .react-datepicker__input-container {
           width: 0%;
@@ -103,12 +103,13 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
           </div>
           <div className="w-2/5">
             <div className="relative">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label>
                 <DatePicker
                   selected={startDate}
                   onChange={(date: Date | null) => setStartDate(date)}
                   dateFormat="MM월 dd일"
-                  className="text-xs bg-white w-[115px] h-[28px] border border-gray-300 rounded-full mx-2 pl-3.5"
+                  className="text-xs bg-white w-[112px] h-[28px] border border-gray-300 rounded-full mx-1.5 pl-3"
                   formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
                 />
                 <button
@@ -125,7 +126,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                       datePickerInput.dispatchEvent(event)
                     }
                   }}
-                  className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-[-7px] border-none bg-none cursor-pointer"
+                  className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-[-5px] border-none bg-none cursor-pointer"
                 >
                   <Image src={ViewCalendarBtn} alt="error" />
                 </button>
@@ -141,7 +142,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
               showTimeSelectOnly
               timeIntervals={15}
               dateFormat="HH:mm"
-              className="text-xs bg-white w-[60px] h-[28px] border border-gray-300 rounded-full mx-7 px-3"
+              className="text-xs bg-white w-[70px] h-[28px] border border-gray-300 rounded-full mx-5 px-3"
             />
           </div>
         </div>
@@ -157,7 +158,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                 selected={endDate}
                 onChange={(date: Date | null) => setEndDate(date)}
                 dateFormat="MM월 dd일"
-                className="text-xs bg-white w-[115px] h-[28px] border border-gray-300 rounded-full mx-2 pl-3.5"
+                className="text-xs bg-white w-[112px] h-[28px] border border-gray-300 rounded-full mx-1.5 pl-3"
                 formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
                 wrapperClassName="react-datepicker-wrapper-end"
               />
@@ -175,7 +176,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                     datePickerInput.dispatchEvent(event)
                   }
                 }}
-                className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-[-7px] border-none bg-none cursor-pointer"
+                className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-[-5px] border-none bg-none cursor-pointer"
               >
                 <Image src={ViewCalendarBtn} alt="error" />
               </button>
@@ -190,29 +191,29 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
               showTimeSelectOnly
               timeIntervals={15}
               dateFormat="HH:mm"
-              className="text-xs bg-white w-[60px] h-[28px] border border-gray-300 rounded-full mx-7 px-3"
+              className="text-xs bg-white w-[70px] h-[28px] border border-gray-300 rounded-full mx-5 px-3"
             />
           </div>
         </div>
 
-        <div className="flex mb-[10px] mt-3.5">
+        <div className="flex mb-[10px] mt-3">
           <div className="w-1/4 mr-[10px] text-[10px] text-[#636363] ml-[2px]">
             <p className="mt-[3px]">내용</p>
           </div>
           <div className="w-3/4">
             <textarea
               value={title}
-              className="w-[182px] h-[116px] text-[12px] rounded-md border border-gray-300 mt-[5px] ml-[-13px] inline-block align-top resize-none"
+              className="w-[188px] h-[116px] text-[12px] rounded-md border border-gray-300 mt-[5px] ml-[-13px] inline-block align-top resize-none"
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
         </div>
       </div>
-      <hr className="my-4 border-gray-300" />
-      <div className="flex justify-center">
+      <hr className="mt-4 border-gray-300" />
+      <div className="flex justify-center pt-3">
         <button
           onClick={handleSave}
-          className="items-center w-[87px] h-[32px] rounded-2xl bg-[#FFCD00] text-white text-[14px]"
+          className="pl-6 pr-6 pt-1 pb-1 rounded-2xl bg-[#FFCD00] text-white text-[14px]"
         >
           {selectedEvent ? '수정' : '추가'}
         </button>

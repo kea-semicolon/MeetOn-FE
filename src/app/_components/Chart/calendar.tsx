@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { NextPage } from 'next'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import koLocale from '@fullcalendar/core/locales/ko'
 import AddEventModal from './addEventModal'
 import '@/_styles/calendar.css'
 
@@ -15,6 +16,7 @@ interface CalendarProps {
 const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [events, setEvents] = useState<any[]>([])
+  const calendarRef = useRef<any>(null)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
 
   const handleSaveEvent = (newEvent: any) => {
@@ -61,13 +63,27 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         aspectRatio={2}
         headerToolbar={{
           left: 'prev,title,next',
-          end: `today${showAddButton ? ',addEventButton' : ''}`,
+          end: `todayButton${showAddButton ? ',addEventButton' : ''}`,
         }}
+        locale={koLocale}
         customButtons={{
           addEventButton: {
             text: '',
-            click: handleAddEventButtonClick,
+            click: () => setShowModal(true),
           },
+          todayButton: {
+            text: 'Today',
+            click: () => {
+              const calendarApi = calendarRef.current?.getApi()
+              if (calendarApi) {
+                calendarApi.today()
+              }
+            },
+          },
+        }}
+        titleFormat={{
+          year: 'numeric',
+          month: 'long',
         }}
         eventBackgroundColor="#FF7236"
         eventBorderColor="#FF7236"
@@ -82,9 +98,16 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         events={events}
         dayMaxEvents={2} // = eventLimit
         moreLinkClassNames={['more-events-link']}
-        moreLinkText={function (n) {
-          return `그 외 ${n}개`
+        moreLinkText={(n) => `그 외 ${n}개`}
+        dayHeaderContent={(arg) => {
+          const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+          return daysOfWeek[arg.date.getDay()]
         }}
+        dayHeaderFormat={{ weekday: 'short' }}
+        dayCellContent={(arg) => {
+          return arg.date.getDate().toString()
+        }}
+        ref={calendarRef}
         eventClick={handleEventClick}
       />
       {showModal && (
