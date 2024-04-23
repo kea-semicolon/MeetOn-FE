@@ -79,7 +79,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   }
 
   return (
-    <div className="absolute top-[14%] right-[14%] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[280px] h-[340px]">
+    <div className="absolute top-[7%] -right-[13%] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[280px] h-[340px]">
       <style jsx global>{`
         .react-datepicker__input-container {
           width: 0%;
