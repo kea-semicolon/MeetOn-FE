@@ -22,8 +22,10 @@
 .calendar .fc-toolbar-chunk {
     white-space: nowrap !important;
 
+}
 
-
+.calendar .fc-next-button:focus, .fc-next-button:active {
+    outline : 1px solid red !important;
 }
 
 .calendar .fc-todayButton-button {
@@ -42,6 +44,7 @@
 }
 
 .calendar .fc-prev-button {
+    outline: none !important;
     margin: 0 6px 9px 0 !important;
     width: 26px !important;
     height: 26px !important;
@@ -55,7 +58,6 @@
     justify-content: center !important;
     align-items: center !important;
 
-
 }
 
 .calendar .fc-toolbar-title {
@@ -65,16 +67,21 @@
 }
 
 .calendar .fc-event-main {
-    height : 20px !important;
+    height : 15px !important;
+    display: flex !important;
+    padding-left: 3px !important;
 }
 
 .calendar .fc-event-time {
     font-weight: normal !important;
-    font-size: 12px !important;
+    margin : auto !important;
+    font-size: 10px !important;
 }
 
 .calendar .fc-event-title {
-    font-size : 12px !important;
+    padding-left: 4px !important;
+    margin : auto !important;
+    font-size : 10px !important;
 }
 
 
@@ -95,10 +102,8 @@
 }
 
 
-
-
-
 .calendar .fc-addEventButton-button {
+
     margin: 2px 13px 0 -5px !important;
     background-color: #ffcd00 !important;
     opacity: 0.6;
@@ -157,9 +162,12 @@
     box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
+{/* 그 외 n개 */}
 .calendar .fc .fc-daygrid-more-link {
     border-radius: 6px !important;
+    font-size: 10px;
     color: #848484;
+    margin : 3px 0 -1px 0;
 }
 
 .calendar .more-events-link::before {
@@ -169,7 +177,7 @@
     height: 5px;
     border-radius: 50%;
     background-color: #ffcd00;
-    margin: 0 5px 3px 3px;
+    margin: 0 5px 3px 4px;
     vertical-align: middle;
 }
 
