@@ -31,7 +31,7 @@ const LoginHandler = () => {
             Cookies.set('refreshToken', response.data.refreshToken, {
               expires: refreshTokenExpiry,
             })
-            router.push('/main')
+            router.push('/signup')
           })
           .catch((error) => {
             console.error('Error fetching token:', error)
