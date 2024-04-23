@@ -14,6 +14,8 @@ const LoginHandler = () => {
         axios
           .post(
             `${process.env.NEXT_PUBLIC_SERVER_URL}/oauth/callback/kakao?code=${codeURL}`,
+            {},
+            { withCredentials: true },
           )
           .then((response) => {
             // 요청이 성공할 경우 토큰을 받아옴
