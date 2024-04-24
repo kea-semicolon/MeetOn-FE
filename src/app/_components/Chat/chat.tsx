@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import blank from '@/_assets/Icons/blank.svg'
+import OpenViduFile from '@/_components/OpenVidu/OpenViduFile'
 
 export default function Chat() {
   return (
@@ -57,6 +58,7 @@ export default function Chat() {
           className="outline-0 items-center px-3 bg-[#414751]"
           placeholder="내용을 입력하세요."
         />
+        <OpenViduFile />
       </div>
     </div>
   )
