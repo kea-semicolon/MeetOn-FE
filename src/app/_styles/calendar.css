@@ -24,10 +24,6 @@
 
 }
 
-.calendar .fc-next-button:focus, .fc-next-button:active {
-    outline : 1px solid red !important;
-}
-
 .calendar .fc-todayButton-button {
     background-color: #ffffff !important;
     border-color: #d9d9d9 !important;
@@ -61,13 +57,12 @@
 }
 
 .calendar .fc-toolbar-title {
-
     font-size: 22px !important;
     margin: 2% !important;
 }
 
 .calendar .fc-event-main {
-    height : 15px !important;
+    height : 12px !important;
     display: flex !important;
     padding-left: 3px !important;
 }
@@ -75,13 +70,13 @@
 .calendar .fc-event-time {
     font-weight: normal !important;
     margin : auto !important;
-    font-size: 10px !important;
+    font-size: 8px !important;
 }
 
 .calendar .fc-event-title {
     padding-left: 4px !important;
     margin : auto !important;
-    font-size : 10px !important;
+    font-size : 8px !important;
 }
 
 
