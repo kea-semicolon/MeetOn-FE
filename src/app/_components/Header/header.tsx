@@ -36,10 +36,10 @@ export default function Header() {
 
   return (
     <div className="flex items-center">
-      <div className="flex" style={headerStyles}>
+      <a href="/main" className="flex" style={headerStyles}>
         <p className="text-[28px] font-bold text-[#FFCD00]">Meet;</p>
         <p className="text-[28px] font-bold text-[#4D4D4D]">ON</p>
-      </div>
+      </a>
       <div className="flex gap-24 text-[16px] font-medium mt-2">
         {menuItems.map((item) => (
           <div key={item.href} className="flex flex-col items-center gap-0.5">
