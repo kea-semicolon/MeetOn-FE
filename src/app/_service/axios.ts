@@ -28,7 +28,9 @@ api.interceptors.response.use(
     const originalRequest = error.config
     if (error.response.status === 400) {
       try {
-        Cookies.remove('refreshToken', { domain: 'leets.moodmate.site' })
+        Cookies.remove('refreshToken', {
+          domain: process.env.NEXT_PUBLIC_SERVER_URL,
+        })
         const refresh = Cookies.get('refreshToken')
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}users/refresh`,
