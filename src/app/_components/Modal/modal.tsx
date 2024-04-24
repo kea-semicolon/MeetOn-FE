@@ -1,12 +1,18 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 interface ModalProps {
   onClose: () => void
   onCreate: () => void
+  channelName: string
+  setChannelName: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function Modal({ onClose, onCreate }: ModalProps) {
-  const [channelName, setChannelName] = useState<string>('')
+export default function Modal({
+  onClose,
+  onCreate,
+  channelName,
+  setChannelName,
+}: ModalProps) {
   const handleCreateClick = () => {
     onCreate()
   }

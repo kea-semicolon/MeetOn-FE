@@ -72,7 +72,12 @@ export default function Signup() {
       </div>
       {isModalOpen && (
         <div className="absolute">
-          <Modal onClose={closeModal} onCreate={handleCreateChannel} />
+          <Modal
+            onClose={closeModal}
+            onCreate={handleCreateChannel}
+            channelName={channelName}
+            setChannelName={setChannelName}
+          />
         </div>
       )}
     </div>
