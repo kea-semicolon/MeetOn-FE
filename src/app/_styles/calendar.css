@@ -22,19 +22,17 @@
 .calendar .fc-toolbar-chunk {
     white-space: nowrap !important;
 
-
-
 }
 
-.calendar .fc-today-button {
+.calendar .fc-todayButton-button {
     background-color: #ffffff !important;
     border-color: #d9d9d9 !important;
     border-radius: 3px !important;
-    width: 72px !important;
-    height: 32px !important;
+    width: 66px !important;
+    height: 28px !important;
     color: black !important;;
     font-size: small !important;
-    margin: 8px 15px 7px 0 !important;
+    margin: 2px 15px 7px 0 !important;
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
     display: inline-flex !important;
     justify-content: center !important;
@@ -42,6 +40,7 @@
 }
 
 .calendar .fc-prev-button {
+    outline: none !important;
     margin: 0 6px 9px 0 !important;
     width: 26px !important;
     height: 26px !important;
@@ -55,26 +54,29 @@
     justify-content: center !important;
     align-items: center !important;
 
-
 }
 
 .calendar .fc-toolbar-title {
-
     font-size: 22px !important;
     margin: 2% !important;
 }
 
 .calendar .fc-event-main {
-    height : 20px !important;
+    height : 12px !important;
+    display: flex !important;
+    padding-left: 3px !important;
 }
 
 .calendar .fc-event-time {
     font-weight: normal !important;
-    font-size: 12px !important;
+    margin : auto !important;
+    font-size: 8px !important;
 }
 
 .calendar .fc-event-title {
-    font-size : 12px !important;
+    padding-left: 4px !important;
+    margin : auto !important;
+    font-size : 8px !important;
 }
 
 
@@ -95,19 +97,17 @@
 }
 
 
-
-
-
 .calendar .fc-addEventButton-button {
-    margin: 7px 13px 0 -5px !important;
+
+    margin: 2px 13px 0 -5px !important;
     background-color: #ffcd00 !important;
     opacity: 0.6;
     background-image: url('../_assets/Icons/plusEvent.svg');
     background-repeat : no-repeat;
     background-position: center center !important;
     border: none !important;
-    width: 32px !important;
-    height: 34px !important;
+    width: 26px !important;
+    height: 28px !important;
     color: white !important;;
     font-size: 22px !important;
     border-radius: 50% !important;
@@ -157,9 +157,12 @@
     box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
+{/* 그 외 n개 */}
 .calendar .fc .fc-daygrid-more-link {
     border-radius: 6px !important;
+    font-size: 10px;
     color: #848484;
+    margin : 3px 0 -1px 0;
 }
 
 .calendar .more-events-link::before {
@@ -169,7 +172,7 @@
     height: 5px;
     border-radius: 50%;
     background-color: #ffcd00;
-    margin: 0 5px 3px 3px;
+    margin: 0 5px 3px 4px;
     vertical-align: middle;
 }
 

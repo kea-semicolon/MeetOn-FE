@@ -24,8 +24,8 @@ export default function MainPage() {
   return (
     <div className="flex w-full">
       <Fix />
-      <div style={mainStyles} className="my-[70px] w-3/5">
-        <Calendar />
+      <div style={mainStyles} className="my-[70px] w-3/5 relative">
+        <Calendar showAddButton />
       </div>
     </div>
   )
