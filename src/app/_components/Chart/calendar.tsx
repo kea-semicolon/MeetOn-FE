@@ -44,14 +44,12 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
 
   const handleDeleteEvent = () => {
     if (selectedEvent) {
-      // 선택된 이벤트와 ID가 같은 이벤트를 제외한 새로운 배열을 만듭니다.
+      // 선택된 이벤트와 ID가 같은 이벤트를 제외한 새로운 이벤트 배열 생성
       const updatedEvents = events.filter(
         (event) => event.id !== selectedEvent.id,
       )
-      // 새로운 배열로 events 상태를 업데이트합니다.
       setEvents(updatedEvents)
     }
-    // 삭제 모달을 닫습니다.
     setShowModal(false)
   }
 

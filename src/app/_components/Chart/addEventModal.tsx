@@ -8,7 +8,7 @@ import '@/_styles/addEventModal.css'
 interface AddEventModalProps {
   onClose: () => void
   onSave: (event: any) => void
-  onDelete: () => void // 삭제 핸들러 추가
+  onDelete: () => void
   selectedEvent: any
 }
 
