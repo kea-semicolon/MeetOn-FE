@@ -78,8 +78,12 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
     }
   }
 
+  const onDelete = () => {
+    onClose()
+  }
+
   return (
-    <div className="absolute top-[7%] -right-[13%] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[280px] h-[340px]">
+    <div className="absolute top-[7%] -right-[13%] transform -translate-x-1/2 bg-white p-6 rounded-md border border-gray-200 z-10 w-[280px] h-[346px]">
       <style jsx global>{`
         .react-datepicker__input-container {
           width: 0%;
@@ -210,12 +214,18 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         </div>
       </div>
       <hr className="border-gray-300" />
-      <div className="flex justify-center pt-3 ">
+      <div className="flex justify-center align-center pt-3">
+        <button
+          className={`pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] border border-[#D9D9D9] text-[12px] ${selectedEvent ? 'text-[#ff0000]' : 'text-black'} mx-0.5`}
+        >
+          {selectedEvent ? '삭제' : '취소'}
+        </button>
+
         <button
           onClick={handleSave}
-          className="pl-6 pr-6 pt-1 pb-1 rounded-2xl bg-[#FFCD00] text-white text-[12px]"
+          className="pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] bg-[#FFCD00] text-white text-[12px] mx-0.5"
         >
-          {selectedEvent ? '수정' : '추가'}
+          저장
         </button>
       </div>
     </div>

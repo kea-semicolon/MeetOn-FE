@@ -39,8 +39,15 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
 
   const handleEventClick = (clickInfo: any) => {
     const clickedEvent = clickInfo.event
-    setSelectedEvent(clickedEvent)
-    setShowModal(true)
+    const isHomePage = window.location.pathname === '/main'
+    if (isHomePage) {
+      setSelectedEvent(clickedEvent)
+      setShowModal(true)
+    } else {
+      const eventTitle = clickedEvent.title
+      // 회의록 페이지로 이동
+      window.location.href = `/meeting-notes/${eventTitle}` // 예시 URL
+    }
   }
 
   const handleAddEventButtonClick = () => {
@@ -53,6 +60,18 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
     setSelectedEvent(null) // 선택된 이벤트 초기화
     setShowModal(false)
   }
+
+  // 일정 수정 test용
+  React.useEffect(() => {
+    setEvents((prevEvents) => [
+      ...prevEvents,
+      {
+        title: '주제 회의',
+        start: '2024-05-08',
+        end: '2024-05-08',
+      },
+    ])
+  }, [])
 
   return (
     <div className="calendar w-full">
