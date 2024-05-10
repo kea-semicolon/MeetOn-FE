@@ -8,12 +8,14 @@ import '@/_styles/addEventModal.css'
 interface AddEventModalProps {
   onClose: () => void
   onSave: (event: any) => void
+  onDelete: () => void // 삭제 핸들러 추가
   selectedEvent: any
 }
 
 const AddEventModal: React.FC<AddEventModalProps> = ({
   onClose,
   onSave,
+  onDelete,
   selectedEvent,
 }) => {
   const [title, setTitle] = useState<string>('')
@@ -76,10 +78,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       onSave(newEvent)
       onClose()
     }
-  }
-
-  const onDelete = () => {
-    onClose()
   }
 
   return (
@@ -216,6 +214,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       <hr className="border-gray-300" />
       <div className="flex justify-center align-center pt-3">
         <button
+          onClick={selectedEvent ? onDelete : onClose}
           className={`pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] border border-[#D9D9D9] text-[12px] ${selectedEvent ? 'text-[#ff0000]' : 'text-black'} mx-0.5`}
         >
           {selectedEvent ? '삭제' : '취소'}
