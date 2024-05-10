@@ -1,34 +1,37 @@
 import React, { useState } from 'react'
-import { CalendarImg, Table } from '@/_assets/Icons'
-import Image from 'next/image'
 
 interface ToggleProps {
   onToggle: () => void
 }
 
 const Toggle: React.FC<ToggleProps> = ({ onToggle }) => {
-  const [isToggled, setIsToggled] = useState(true)
-  const [imageSrc, setImageSrc] = useState(CalendarImg)
+  const [isToggled, setIsToggled] = useState(false)
+  const [toggleText, setToggleText] = useState('캘린더')
 
   const handleToggle = () => {
     setIsToggled(!isToggled)
     onToggle()
-
-    setImageSrc(isToggled ? Table : CalendarImg) // 디자인 업데이트 후 이미지 변경 필요
+    setToggleText(isToggled ? '캘린더' : '표')
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex">
       <button
         onClick={handleToggle}
-        className={`w-[72px] h-[38px] rounded-full ${isToggled ? 'bg-[#ffcd00]' : 'bg-[#ffcd00]'} focus:outline-none relative`}
+        className={`w-[103px] h-[39px] rounded-full ${isToggled ? 'bg-[#ffcd00]' : 'bg-[#ffcd00]'} focus:outline-none relative`}
       >
         <div
-          className={`w-[32px] h-[32px] rounded-full shadow-md transform duration-300 
-                    ${isToggled ? 'translate-x-[34px]' : 'translate-x-[5px]'}`}
+          className={`h-[34px] rounded-full transform duration-300 text-[12px] text-[#FFCD00]
+            ${isToggled ? 'translate-x-[47px] bg-white w-[53px]' : 'translate-x-[3px] bg-white w-[63px]'} 
+            flex justify-center items-center`}
         >
-          <Image src={imageSrc} alt="" />
+          <span>{toggleText}</span>
         </div>
+        <span
+          className={`absolute top-1/2 transform -translate-y-1/2 text-[12px] text-[#FFF2BE] ${isToggled ? 'left-2.5' : 'right-4'}`}
+        >
+          {isToggled ? '캘린더' : '표'}
+        </span>
       </button>
     </div>
   )
