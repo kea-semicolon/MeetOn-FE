@@ -1,10 +1,9 @@
-'use client'
-
 import React, { useRef, useState } from 'react'
 import { NextPage } from 'next'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import koLocale from '@fullcalendar/core/locales/ko'
 import AddEventModal from './addEventModal'
 import '@/_styles/calendar.css'
@@ -20,11 +19,17 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
 
   const handleSaveEvent = (newEvent: any) => {
+    // 이벤트 생성 시 ID 부여
+    const eventId = Date.now().toString()
+
+    // eslint-disable-next-line no-param-reassign
+    newEvent.id = eventId
+
     if (selectedEvent) {
       // 선택된 이벤트가 있다면 해당 이벤트를 수정
       setEvents((prevEvents) => {
         const updatedEvents = prevEvents.map((event) => {
-          if (event.title === selectedEvent.title) {
+          if (event.id === selectedEvent.id) {
             return { ...event, ...newEvent }
           }
           return event
@@ -37,10 +42,28 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
     }
   }
 
+  const handleDeleteEvent = () => {
+    if (selectedEvent) {
+      // 선택된 이벤트와 ID가 같은 이벤트를 제외한 새로운 이벤트 배열 생성
+      const updatedEvents = events.filter(
+        (event) => event.id !== selectedEvent.id,
+      )
+      setEvents(updatedEvents)
+    }
+    setShowModal(false)
+  }
+
   const handleEventClick = (clickInfo: any) => {
     const clickedEvent = clickInfo.event
-    setSelectedEvent(clickedEvent)
-    setShowModal(true)
+    const isHomePage = window.location.pathname === '/main'
+    if (isHomePage) {
+      setSelectedEvent(clickedEvent)
+      setShowModal(true)
+    } else {
+      const eventTitle = clickedEvent.title
+      // 회의록 페이지로 이동
+      window.location.href = `/meeting-notes/${eventTitle}` // 예시 URL
+    }
   }
 
   const handleAddEventButtonClick = () => {
@@ -53,6 +76,18 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
     setSelectedEvent(null) // 선택된 이벤트 초기화
     setShowModal(false)
   }
+
+  // 일정 수정 test용
+  React.useEffect(() => {
+    setEvents((prevEvents) => [
+      ...prevEvents,
+      {
+        title: '주제 회의',
+        start: '2024-05-08',
+        end: '2024-05-08',
+      },
+    ])
+  }, [])
 
   return (
     <div className="calendar w-full">
@@ -115,6 +150,7 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
           onClose={handleCloseModal}
           selectedEvent={selectedEvent}
           onSave={handleSaveEvent}
+          onDelete={handleDeleteEvent}
         />
       )}
     </div>
