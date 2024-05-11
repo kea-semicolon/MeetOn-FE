@@ -1,0 +1,7 @@
+select {
+    -webkit-appearance: none; /* Safari 및 Chrome */
+    -moz-appearance: none; /* Firefox */
+    -ms-appearance: none; /* IE/Edge */
+    appearance: none; /* 표준 */
+    background: url('../_assets/Icons/searchDownArrow.svg') no-repeat right 9px center;
+}

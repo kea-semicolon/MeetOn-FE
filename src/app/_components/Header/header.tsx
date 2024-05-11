@@ -12,7 +12,7 @@ export default function Header() {
   const menuItems = [
     { href: '/main', text: '홈' },
     { href: '/minutes', text: '일정 공유' },
-    { href: '/게시판', text: '게시판' },
+    { href: '/board', text: '게시판' },
     { href: '/메모장', text: '메모장' },
     { href: '/admin', text: '회의 관리' },
   ]
