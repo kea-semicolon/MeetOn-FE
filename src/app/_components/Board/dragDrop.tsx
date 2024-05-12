@@ -124,9 +124,9 @@ const DragDrop = () => {
 
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label
-          className={`w-full flex-col gap-3 h-32 border border-dashed rounded-md flex items-center justify-center cursor-pointer ${
+          className={`w-full flex-col gap-3 h-32 border border-dashed rounded-[4px] flex items-center justify-center cursor-pointer ${
             isDragging
-              ? 'border-blue-500 bg-blue-100 text-blue-500 font-semibold'
+              ? 'border-blue-500 bg-blue-100 font-semibold'
               : 'border-[#959595]'
           }`}
           htmlFor="fileUpload"
@@ -151,7 +151,7 @@ const DragDrop = () => {
               return (
                 <div key={id} className="flex">
                   <div>{name}</div>
-                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
                   <div className="" onClick={() => handleFilterFile(id)}>
                     X
                   </div>
