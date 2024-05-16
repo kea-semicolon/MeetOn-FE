@@ -33,6 +33,8 @@ const LoginHandler = () => {
             Cookies.set('refreshToken', response.data.refreshToken, {
               expires: refreshTokenExpiry,
             })
+            Cookies.set('memberId', response.data.memberId)
+            Cookies.set('channelId', response.data.channelId)
             router.push('/signup')
           })
           .catch((error) => {
