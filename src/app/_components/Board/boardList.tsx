@@ -1,29 +1,51 @@
-import Search from '@/_components/Board/search'
-import Image from 'next/image'
-import { Write } from '@/_assets/Icons'
-import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import api from '@/_service/axios'
 
-const BoardList = () => {
-  const router = useRouter()
-  const moveToWrite = () => {
-    router.push('/board/write')
-  }
+interface Board {
+  boardId: number
+  boardTitle: string
+  createdDate: string
+}
+
+const BoardPage = () => {
+  const [boardList, setList] = useState<Board[] | null>(null) // Board 배열 또는 null로 초기화
+
+  useEffect(() => {
+    api
+      .get('/board')
+      .then((res) => {
+        setList(res.data.content) // content 배열을 설정
+        console.log('Board list data :', res.data.content) // 데이터 확인을 위해 content 로그
+      })
+      .catch((error) => console.log(error))
+  }, [])
+
   return (
-    <div className="ml-4 mr-4 pl-4 pr-4 pt-7 bg-white rounded-[12px]">
-      <div className="flex justify-between items-center">
-        <button
-          onClick={moveToWrite}
-          className="pt-1.5 pb-1.5 pl-5 pr-5 border border-[#FFCD00] rounded-[4px] flex justify-center items-center text-[#FFCD00] text-[14px]"
-        >
-          <Image src={Write} alt="" className="mr-1" />
-          글쓰기
-        </button>
-        <Search />
+    <div className="container">
+      <div className="boardList">
+        <table className="boardTable">
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>제목</th>
+              <th>작성일자</th>
+            </tr>
+          </thead>
+          <tbody>
+            {boardList && // boardList가 null이 아닐 때만 매핑
+              boardList.map((board, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <tr key={index}>
+                  <td>{board.boardId}</td>
+                  <td>{board.boardTitle}</td>
+                  <td>{board.createdDate}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
-      <div>게시판 글 출력</div>
-      <div>페이징</div>
     </div>
   )
 }
 
-export default BoardList
+export default BoardPage

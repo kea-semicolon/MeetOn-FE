@@ -55,12 +55,11 @@ const BoardWrite = () => {
           </div>
         </div>
         <div className="mb-4">
-          {/* DragDrop 컴포넌트를 추가합니다. */}
           <DragDrop />
         </div>
         <div>
           <textarea
-            className="mb-4 w-full h-72 px-3 py-2 border border-[#959595] rounded-[3px] text-[14px]"
+            className="mb-4 w-full h-96 px-3 py-2 border border-[#959595] rounded-[3px] text-[14px]"
             placeholder="내용을 입력하세요"
             value={content}
             onChange={handleContentChange}
@@ -69,7 +68,7 @@ const BoardWrite = () => {
         <div className="pb-4 flex justify-end">
           <button
             className="bg-white text-[14px] text-black px-5 py-1.5 rounded-[4px] border border-[#959595]"
-            onClick={handleSubmit} // handleSubmit 함수로 변경
+            onClick={handleSubmit}
           >
             저장
           </button>

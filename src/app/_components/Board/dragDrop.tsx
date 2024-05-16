@@ -6,7 +6,7 @@ import React, {
   useEffect,
 } from 'react'
 import Image from 'next/image'
-import { AddFile } from '@/_assets/Icons'
+import { Cancel, AddFile } from '@/_assets/Icons'
 
 interface IFileTypes {
   id: number
@@ -140,24 +140,35 @@ const DragDrop = () => {
           </p>
         </label>
 
-        <div className="">
-          {files.length > 0 &&
-            files.map((file: IFileTypes) => {
-              const {
-                id,
-                object: { name },
-              } = file
+        <div className="flex flex-wrap">
+          {files.map((file: IFileTypes, index: number) => {
+            const {
+              id,
+              object: { name },
+            } = file
 
-              return (
-                <div key={id} className="flex">
-                  <div>{name}</div>
-                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-                  <div className="" onClick={() => handleFilterFile(id)}>
-                    X
+            return (
+              <div key={id} className="flex pt-2">
+                <div className="flex bg-[#FFFFFF] border border-[#959595] px-4 py-1.5 rounded-full text-[12px] mr-4">
+                  {name}
+                  <div className="flex content-center pl-2">
+                    <Image
+                      src={Cancel}
+                      alt="x"
+                      onClick={() => handleFilterFile(id)}
+                    />
                   </div>
                 </div>
-              )
-            })}
+              </div>
+            )
+
+            // 다음 줄로 넘어감
+            if ((index + 1) % 2 === 0) {
+              return <div className="w-full" key={id} />
+            }
+
+            return null
+          })}
         </div>
       </div>
     </div>
