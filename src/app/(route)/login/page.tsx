@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function Login() {
   const handleLogin = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KEY}&redirect_uri=http://front.oguogu.store:3000`
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}`
   }
   return (
     <div className="bg-white flex flex-col px-6 py-5 h-screen items-center">
