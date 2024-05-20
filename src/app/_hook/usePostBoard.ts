@@ -6,7 +6,7 @@ interface PostBoardProps {
   title: string
   content: string
   isNotice: boolean
-  fileList: File[]
+  fileList: string[]
 }
 
 const usePostBoard = () => {

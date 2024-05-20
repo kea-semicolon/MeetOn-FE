@@ -5,7 +5,7 @@ import DragDrop from './dragDrop'
 const BoardWrite = () => {
   const [title, setTitle] = useState('')
   const [isNotice, setIsNotice] = useState(false)
-  const [fileList, setFileList] = useState<File[]>([])
+  const [fileList, setFileList] = useState<string[]>([])
   const [content, setContent] = useState('')
 
   const { mutate: createPost } = usePostBoard() // usePostBoard 훅을 사용합니다.
