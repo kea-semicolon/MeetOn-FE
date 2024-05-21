@@ -1,3 +1,4 @@
+// DragDrop.tsx
 import React, {
   ChangeEvent,
   useCallback,
@@ -8,12 +9,16 @@ import React, {
 import Image from 'next/image'
 import { Cancel, AddFile } from '@/_assets/Icons'
 
-interface IFileTypes {
+export interface IFileTypes {
   id: number
   object: File
 }
 
-const DragDrop = () => {
+interface DragDropProps {
+  onFilesAdded: (files: IFileTypes[]) => void
+}
+
+const DragDrop = ({ onFilesAdded }: DragDropProps) => {
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const [files, setFiles] = useState<IFileTypes[]>([])
 
@@ -23,36 +28,40 @@ const DragDrop = () => {
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | any): void => {
       let selectFiles: File[] = []
-      let tempFiles: IFileTypes[] = files
+      const tempFiles: IFileTypes[] = [...files]
 
       if (e.type === 'drop') {
-        selectFiles = e.dataTransfer.files
+        selectFiles = Array.from(e.dataTransfer.files)
       } else {
-        selectFiles = e.target.files
+        selectFiles = Array.from(e.target.files)
       }
 
       // eslint-disable-next-line no-restricted-syntax
       for (const file of selectFiles) {
-        tempFiles = [
-          ...tempFiles,
-          {
-            // eslint-disable-next-line no-plusplus
-            id: fileId.current++,
-            object: file,
-          },
-        ]
+        tempFiles.push({
+          // eslint-disable-next-line no-plusplus
+          id: fileId.current++,
+          object: file,
+        })
       }
 
       setFiles(tempFiles)
+      onFilesAdded(tempFiles) // Notify parent component
+
+      // Debugging logs
+      console.log('Selected Files:', selectFiles)
+      console.log('Temporary Files:', tempFiles)
     },
-    [files],
+    [files, onFilesAdded],
   )
 
   const handleFilterFile = useCallback(
     (id: number): void => {
-      setFiles(files.filter((file: IFileTypes) => file.id !== id))
+      const newFiles = files.filter((file: IFileTypes) => file.id !== id)
+      setFiles(newFiles)
+      onFilesAdded(newFiles) // Notify parent component
     },
-    [files],
+    [files, onFilesAdded],
   )
 
   const handleDragIn = useCallback((e: DragEvent): void => {
@@ -63,14 +72,12 @@ const DragDrop = () => {
   const handleDragOut = useCallback((e: DragEvent): void => {
     e.preventDefault()
     e.stopPropagation()
-
     setIsDragging(false)
   }, [])
 
   const handleDragOver = useCallback((e: DragEvent): void => {
     e.preventDefault()
     e.stopPropagation()
-
     if (e.dataTransfer!.files) {
       setIsDragging(true)
     }
@@ -80,7 +87,6 @@ const DragDrop = () => {
     (e: DragEvent): void => {
       e.preventDefault()
       e.stopPropagation()
-
       onChangeFiles(e)
       setIsDragging(false)
     },
@@ -107,7 +113,6 @@ const DragDrop = () => {
 
   useEffect(() => {
     initDragEvents()
-
     return () => resetDragEvents()
   }, [initDragEvents, resetDragEvents])
 
@@ -121,7 +126,6 @@ const DragDrop = () => {
           onChange={onChangeFiles}
           className="hidden"
         />
-
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label
           className={`w-full flex-col gap-3 h-32 border border-dashed rounded-[4px] flex items-center justify-center cursor-pointer ${
@@ -139,14 +143,12 @@ const DragDrop = () => {
             첨부할 파일을 드래그하여 해당 위치에 놓아주세요
           </p>
         </label>
-
         <div className="flex flex-wrap">
-          {files.map((file: IFileTypes, index: number) => {
+          {files.map((file: IFileTypes) => {
             const {
               id,
               object: { name },
             } = file
-
             return (
               <div key={id} className="flex pt-2">
                 <div className="flex bg-[#FFFFFF] border border-[#959595] px-4 py-1.5 rounded-full text-[12px] mr-4">
@@ -161,13 +163,6 @@ const DragDrop = () => {
                 </div>
               </div>
             )
-
-            // 다음 줄로 넘어감
-            if ((index + 1) % 2 === 0) {
-              return <div className="w-full" key={id} />
-            }
-
-            return null
           })}
         </div>
       </div>

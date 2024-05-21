@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useEffect } from 'react'
 import usePostBoard from '@/_hook/usePostBoard'
-import DragDrop from './dragDrop'
+import DragDrop, { IFileTypes } from './dragDrop'
 
 const BoardWrite = () => {
   const [title, setTitle] = useState('')
@@ -10,11 +10,9 @@ const BoardWrite = () => {
 
   const { mutate: createPost } = usePostBoard()
 
-  const handleAttachmentChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target
-    if (files) {
-      setFileList(Array.from(files))
-    }
+  const handleFilesAdded = (files: IFileTypes[]) => {
+    setFileList(files.map((file) => file.object))
+    console.log('Files Added:', files)
   }
 
   const handleIsNoticeChange = () => {
@@ -34,11 +32,15 @@ const BoardWrite = () => {
       title,
       isNotice,
       content,
-      fileList,
     }
 
     const formData = new FormData()
     formData.append('createRequestDtoString', JSON.stringify(createRequestDto))
+
+    // Adding files to FormData
+    fileList.forEach((file) => {
+      formData.append('files', file)
+    })
     return formData
   }
 
@@ -46,18 +48,18 @@ const BoardWrite = () => {
     try {
       const formData = createRequestFormData()
 
-      // Convert FormData to plain object
-      const formDataObject: { [key: string]: string } = {}
-      formData.forEach((value, key) => {
-        formDataObject[key] = value.toString()
-      })
-
-      // Log the formDataObject contents
-      console.log(formDataObject)
+      // Log FormData contents for debugging
+      // eslint-disable-next-line no-restricted-syntax,@typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`)
+      }
 
       await createPost(formData)
+      console.log('create post success')
     } catch (error) {
-      console.error('Error while posting board :', error)
+      console.error('Error while posting board:', error)
     }
   }
 
@@ -88,7 +90,7 @@ const BoardWrite = () => {
           </div>
         </div>
         <div className="mb-4">
-          <DragDrop />
+          <DragDrop onFilesAdded={handleFilesAdded} />
         </div>
         <div>
           <textarea
