@@ -77,18 +77,6 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
     setShowModal(false)
   }
 
-  // 일정 수정 test용
-  React.useEffect(() => {
-    setEvents((prevEvents) => [
-      ...prevEvents,
-      {
-        title: '주제 회의',
-        start: '2024-05-08',
-        end: '2024-05-08',
-      },
-    ])
-  }, [])
-
   return (
     <div className="calendar w-full">
       <FullCalendar
