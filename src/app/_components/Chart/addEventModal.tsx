@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Cancel, ViewCalendarBtn } from '@/_assets/Icons'
 import '@/_styles/addEventModal.css'
+import usePostSchedule from '@/_hook/usePostSchedule'
 
 interface AddEventModalProps {
   onClose: () => void
@@ -27,6 +28,8 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   const [endDate, setEndDate] = useState<Date | null>(new Date())
   const [endTime, setEndTime] = useState<Date | null>(defaultTime)
 
+  const postScheduleMutation = usePostSchedule()
+
   useEffect(() => {
     if (selectedEvent) {
       setTitle(selectedEvent.title)
@@ -47,18 +50,18 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
     } else {
       // 날짜 시간 모두 입력 (모든 조건 충족된 경우)
       const startDateTime = new Date(
-        startDate.getFullYear(),
-        startDate.getMonth(),
-        startDate.getDate(),
-        startTime.getHours(),
-        startTime.getMinutes(),
+        startDate!.getFullYear(),
+        startDate!.getMonth(),
+        startDate!.getDate(),
+        startTime!.getHours(),
+        startTime!.getMinutes(),
       )
       const endDateTime = new Date(
-        endDate.getFullYear(),
-        endDate.getMonth(),
-        endDate.getDate(),
-        endTime.getHours(),
-        endTime.getMinutes(),
+        endDate!.getFullYear(),
+        endDate!.getMonth(),
+        endDate!.getDate(),
+        endTime!.getHours(),
+        endTime!.getMinutes(),
       )
 
       let newEvent
@@ -75,8 +78,23 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         newEvent = { title, start: startDateTime, end: endDateTime }
       }
 
-      onSave(newEvent)
-      onClose()
+      try {
+        console.log(startDateTime.toJSON(), endDateTime.toJSON())
+        const startTimeString = `${String(startDateTime.getHours()).padStart(2, '0')}:${String(startDateTime.getMinutes()).padStart(2, '0')}:${String(startDateTime.getSeconds()).padStart(2, '0')}`
+        const endTimeString = `${String(endDateTime.getHours()).padStart(2, '0')}:${String(endDateTime.getMinutes()).padStart(2, '0')}:${String(endDateTime.getSeconds()).padStart(2, '0')}`
+        console.log(startTimeString, endTimeString)
+
+        postScheduleMutation.mutateAsync({
+          title,
+          startTime: startDateTime.toJSON(),
+          endTime: endDateTime.toJSON(),
+        })
+        onSave(newEvent)
+        onClose()
+      } catch (error) {
+        console.error('Error saving schedule:', error)
+        // Handle error
+      }
     }
   }
 

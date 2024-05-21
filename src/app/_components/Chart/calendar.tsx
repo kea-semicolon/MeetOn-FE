@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import koLocale from '@fullcalendar/core/locales/ko'
+import api from '@/_service/axios'
 import AddEventModal from './addEventModal'
 import '@/_styles/calendar.css'
 
@@ -76,18 +77,6 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
     setSelectedEvent(null) // 선택된 이벤트 초기화
     setShowModal(false)
   }
-
-  // 일정 수정 test용
-  React.useEffect(() => {
-    setEvents((prevEvents) => [
-      ...prevEvents,
-      {
-        title: '주제 회의',
-        start: '2024-05-08',
-        end: '2024-05-08',
-      },
-    ])
-  }, [])
 
   return (
     <div className="calendar w-full">
