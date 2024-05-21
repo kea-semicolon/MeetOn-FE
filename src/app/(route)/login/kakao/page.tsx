@@ -25,6 +25,8 @@ const LoginHandler = () => {
             )
             Cookies.set('accessToken', response.data.accessToken, {
               expires: accessTokenExpiry,
+              path: '/',
+              domain: 'oguogu.store',
             })
             const refreshTokenExpiry = new Date()
             refreshTokenExpiry.setTime(
@@ -32,9 +34,19 @@ const LoginHandler = () => {
             )
             Cookies.set('refreshToken', response.data.refreshToken, {
               expires: refreshTokenExpiry,
+              path: '/',
+              domain: 'oguogu.store',
             })
-            Cookies.set('memberId', response.data.memberId)
-            Cookies.set('channelId', response.data.channelId)
+            Cookies.set('memberId', response.data.memberId, {
+              expires: refreshTokenExpiry,
+              path: '/',
+              domain: 'oguogu.store',
+            })
+            Cookies.set('channelId', response.data.channelId, {
+              expires: refreshTokenExpiry,
+              path: '/',
+              domain: 'oguogu.store',
+            })
             router.push('/signup')
           })
           .catch((error) => {
