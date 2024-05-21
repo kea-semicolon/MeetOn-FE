@@ -2,21 +2,23 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import blank from '@/_assets/Icons/blank.svg'
 import usePostChannel from '@/_hook/usePostChannel'
 import Modal from '@/_components/Modal/modal'
 import useGetMemberInfo from '@/_hook/useGetMemberInfo'
 
 export default function Signup() {
-  const [userNickname, setUserNickname] = useState<string>('')
-  const [userImage, setUserImage] = useState<string>('')
+  const { data: memberInfo } = useGetMemberInfo()
+
+  const [userNickname, setUserNickname] = useState<string>(
+    memberInfo.userNickname,
+  )
+  const [userImage, setUserImage] = useState<string>(memberInfo.userImage)
   const [userAuth, setUserAuth] = useState<string>('')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false)
   const [channelName, setChannelName] = useState<string>('')
 
   const { mutate: createChannel } = usePostChannel()
-  const { data: memberInfo } = useGetMemberInfo()
 
   const openModal = () => {
     setUserAuth('host')
@@ -40,8 +42,10 @@ export default function Signup() {
         {memberInfo && (
           <Image
             className="w-[140px] mx-auto mb-6 mt-16"
-            src={memberInfo.userImage}
+            src={userImage}
             alt="blank"
+            width={140}
+            height={140}
           />
         )}
         <div className="w-[186px] mx-auto">
