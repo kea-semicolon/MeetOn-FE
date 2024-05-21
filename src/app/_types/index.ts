@@ -4,3 +4,9 @@ export interface CreateChannelInfo {
   userAuth: string
   channelName: string
 }
+
+export interface MemberInfo {
+  userNickname: string
+  userImage: string
+  isSignedUp: boolean
+}

@@ -5,18 +5,18 @@ import Image from 'next/image'
 import blank from '@/_assets/Icons/blank.svg'
 import usePostChannel from '@/_hook/usePostChannel'
 import Modal from '@/_components/Modal/modal'
+import useGetMemberInfo from '@/_hook/useGetMemberInfo'
 
 export default function Signup() {
   const [userNickname, setUserNickname] = useState<string>('')
-  const [userImage, setUserImage] = useState<string>(
-    'https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=',
-  )
+  const [userImage, setUserImage] = useState<string>('')
   const [userAuth, setUserAuth] = useState<string>('')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false)
   const [channelName, setChannelName] = useState<string>('')
 
   const { mutate: createChannel } = usePostChannel()
+  const { data: memberInfo } = useGetMemberInfo()
 
   const openModal = () => {
     setUserAuth('host')
@@ -37,11 +37,13 @@ export default function Signup() {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className=" w-[513px] h-[440px] shadow-md ">
-        <Image
-          className="w-[140px] mx-auto mb-6 mt-16"
-          src={blank}
-          alt="blank"
-        />
+        {memberInfo && (
+          <Image
+            className="w-[140px] mx-auto mb-6 mt-16"
+            src={memberInfo.userImage}
+            alt="blank"
+          />
+        )}
         <div className="w-[186px] mx-auto">
           <input
             className="outline-none flex text-center h-[31px] text-[16px]"
