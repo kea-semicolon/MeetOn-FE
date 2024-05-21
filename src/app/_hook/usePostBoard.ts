@@ -2,32 +2,18 @@ import api from '@/_service/axios'
 import { useRouter } from 'next/navigation'
 import { useMutation, MutationFunction } from '@tanstack/react-query'
 
-interface PostBoardProps {
-  title: string
-  content: string
-  isNotice: boolean
-  fileList: string[]
-}
-
 const usePostBoard = () => {
   const router = useRouter()
-  const createPost: MutationFunction<Response, PostBoardProps> = async ({
-    title,
-    content,
-    isNotice,
-    fileList,
-  }) => {
+  const createPost: MutationFunction<Response, FormData> = async (formData) => {
     try {
-      const response = await api.post<Response>('/board', {
-        title,
-        content,
-        isNotice,
-        fileList,
+      const response = await api.post<Response>('/board', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       })
-      console.log('create post success:', response.data)
       return response.data
     } catch (error: any) {
-      throw new Error(`Error creating post: ${error.message}`)
+      throw new Error(`Error creating post : ${error.message}`)
     }
   }
 

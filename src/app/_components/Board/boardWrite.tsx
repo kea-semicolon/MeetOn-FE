@@ -1,30 +1,63 @@
-import React, { useState, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent, useEffect } from 'react'
 import usePostBoard from '@/_hook/usePostBoard'
 import DragDrop from './dragDrop'
 
 const BoardWrite = () => {
   const [title, setTitle] = useState('')
   const [isNotice, setIsNotice] = useState(false)
-  const [fileList, setFileList] = useState<string[]>([])
+  const [fileList, setFileList] = useState<File[]>([])
   const [content, setContent] = useState('')
 
-  const { mutate: createPost } = usePostBoard() // usePostBoard 훅을 사용합니다.
+  const { mutate: createPost } = usePostBoard()
 
   const handleAttachmentChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target
-    // 파일 추가 로직 구현
+    if (files) {
+      setFileList(Array.from(files))
+    }
   }
+
+  const handleIsNoticeChange = () => {
+    setIsNotice((prevIsNotice) => !prevIsNotice)
+  }
+
+  useEffect(() => {
+    console.log(isNotice)
+  }, [isNotice])
 
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value)
   }
 
+  const createRequestFormData = () => {
+    const createRequestDto = {
+      title,
+      isNotice,
+      content,
+      fileList,
+    }
+
+    const formData = new FormData()
+    formData.append('createRequestDtoString', JSON.stringify(createRequestDto))
+    return formData
+  }
+
   const handleSubmit = async () => {
     try {
-      console.log(title, isNotice, fileList, content)
-      createPost({ title, isNotice, fileList, content })
+      const formData = createRequestFormData()
+
+      // Convert FormData to plain object
+      const formDataObject: { [key: string]: string } = {}
+      formData.forEach((value, key) => {
+        formDataObject[key] = value.toString()
+      })
+
+      // Log the formDataObject contents
+      console.log(formDataObject)
+
+      await createPost(formData)
     } catch (error) {
-      console.error('Error while posting board:', error)
+      console.error('Error while posting board :', error)
     }
   }
 
@@ -45,7 +78,7 @@ const BoardWrite = () => {
               type="checkbox"
               id="isNotice"
               checked={isNotice}
-              onChange={() => setIsNotice(!isNotice)}
+              onChange={handleIsNoticeChange}
               className="mr-2"
             />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
