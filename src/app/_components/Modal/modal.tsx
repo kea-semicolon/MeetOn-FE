@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface ModalProps {
   onClose: () => void
   onCreate: () => void
   channelName: string
+  hostStatus: string
   setChannelName: React.Dispatch<React.SetStateAction<string>>
 }
 
@@ -12,9 +14,12 @@ export default function Modal({
   onCreate,
   channelName,
   setChannelName,
+  hostStatus,
 }: ModalProps) {
+  const route = useRouter()
   const handleCreateClick = () => {
     onCreate()
+    route.push('/main')
   }
 
   const handleCancelClick = () => {
@@ -28,7 +33,7 @@ export default function Modal({
       </div>
       <input
         className="pl-2 outline-0 w-[308px] border-2 h-[48px] rounded-[6px]"
-        placeholder="방 이름을 입력하세요."
+        placeholder={hostStatus}
         value={channelName}
         onChange={(e) => setChannelName(e.target.value)}
       />
