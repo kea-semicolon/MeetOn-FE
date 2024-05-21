@@ -41,7 +41,7 @@ export default function Signup() {
       <div className=" w-[513px] h-[440px] shadow-md ">
         {memberInfo && (
           <Image
-            className="w-[140px] mx-auto mb-6 mt-16"
+            className="rounded-full mx-auto mb-6 mt-16"
             src={userImage}
             alt="blank"
             width={140}
