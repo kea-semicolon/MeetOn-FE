@@ -19,7 +19,6 @@ const Search: React.FC = () => {
     // search logic 추가
     console.log('검색어:', searchQuery)
     console.log('검색 옵션:', searchOption)
-    // after search
   }
 
   return (
@@ -41,7 +40,7 @@ const Search: React.FC = () => {
 
       <button
         onClick={handleSearch}
-        className="w-[43px] h-[36px] bg-[#FFCD00] flex justify-center items-center"
+        className="w-[43px] h-[36px] bg-[#000000] flex justify-center items-center"
       >
         <Image src={SearchImg} alt="검색" />
       </button>
