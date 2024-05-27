@@ -19,6 +19,24 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
   const calendarRef = useRef<any>(null)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get('/schedule')
+        const eventData = response.data.result.map((item: any) => ({
+          id: item.scheduleId.toString(),
+          title: item.title,
+          start: item.startTime,
+          end: item.endTime,
+        }))
+        setEvents(eventData)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    fetchData()
+  }, []) // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행되도록 함
+
   const handleSaveEvent = (newEvent: any) => {
     // 이벤트 생성 시 ID 부여
     const eventId = Date.now().toString()
@@ -42,6 +60,8 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
       setEvents((prevEvents) => [...prevEvents, newEvent])
     }
   }
+
+  // 나머지 코드는 그대로 유지됩니다.
 
   const handleDeleteEvent = () => {
     if (selectedEvent) {

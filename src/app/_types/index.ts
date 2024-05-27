@@ -5,7 +5,7 @@ export interface CreateChannelInfo {
   channelName: string
 }
 
-export interface CreateScheduleInfo {
+export interface ScheduleInfo {
   title: string
   startTime: string
   endTime: string
