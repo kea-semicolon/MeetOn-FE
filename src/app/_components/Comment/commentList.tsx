@@ -24,8 +24,7 @@ const formatDate = (dateString: string | number | Date) => {
 }
 
 const CommentList = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [commentList, setCommentList] = useState<Comment[]>([]) // 빈 배열로 초기화
+  const [commentList, setCommentList] = useState<Comment[]>([])
   const router = useRouter()
 
   const getBoardIdFromPath = (): string => {
@@ -33,18 +32,19 @@ const CommentList = () => {
     return queryParams.get('boardId') || ''
   }
 
-  const handleMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-  const handleEditClick = () => {
-    alert('수정 버튼을 클릭했습니다.')
-    setIsMenuOpen(false) // Close the menu after clicking Edit
-  }
-
-  const handleDeleteClick = () => {
-    alert('삭제 버튼을 클릭했습니다.')
-    setIsMenuOpen(false) // Close the menu after clicking Delete
+  const handleDeleteClick = async (replyId: number) => {
+    try {
+      await api.delete('/reply', { params: { replyId: Number(replyId) } })
+      // 삭제된 댓글을 제외하고 새로운 댓글 목록 세팅
+      const updatedCommentList = commentList.filter(
+        (comment) => comment.replyId !== replyId,
+      )
+      setCommentList(updatedCommentList)
+      alert('댓글이 성공적으로 삭제되었습니다.')
+    } catch (error) {
+      console.error('Error deleting comment : ', error)
+      alert('댓글 삭제에 실패했습니다.')
+    }
   }
 
   useEffect(() => {
@@ -87,27 +87,13 @@ const CommentList = () => {
                     <p className="text-[13px] text-[#959595]">
                       {formatDate(comment.createdDate)}
                     </p>
-                    {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-                    <button onClick={handleMenuToggle} className="pl-3 pr-1.5">
+                    <button
+                      onClick={() => handleDeleteClick(comment.replyId)}
+                      className="pl-2 pr-1.5"
+                    >
                       <Image src={DeleteComment} alt="" />
                     </button>
                   </div>
-                  {isMenuOpen && (
-                    <div className="absolute right-0 mt-1 w-24 bg-white border border-gray-300 shadow-lg">
-                      <button
-                        onClick={handleEditClick}
-                        className="block w-full px-4 py-2 text-left"
-                      >
-                        수정
-                      </button>
-                      <button
-                        onClick={handleDeleteClick}
-                        className="block w-full px-4 py-2 text-left"
-                      >
-                        삭제
-                      </button>
-                    </div>
-                  )}
                 </div>
                 <p className="text-[16px] pt-1.5 pr-1 pb-1">
                   {comment.content}
