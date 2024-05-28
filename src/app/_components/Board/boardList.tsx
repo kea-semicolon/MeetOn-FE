@@ -16,7 +16,7 @@ interface BoardItem {
 
 interface ApiResponse {
   content: BoardItem[]
-  totalElements: number // 추가: 총 게시물 수
+  totalElements: number // 추가
   totalPages: number
   size: number
   number: number
@@ -25,7 +25,7 @@ interface ApiResponse {
 const BoardList: React.FC = () => {
   const [boardList, setBoardList] = useState<BoardItem[]>([])
   const [page, setPage] = useState(0)
-  const [size, setSize] = useState(15)
+  const [size, setSize] = useState(0)
 
   const [curPage, setCurPage] = useState(0) // 현재 페이지
   const [prevBlock, setPrevBlock] = useState(0) // 이전 페이지 블록
@@ -53,7 +53,7 @@ const BoardList: React.FC = () => {
         const resp = await api.get<ApiResponse>('/board', {
           params: {
             page: currentPage,
-            size,
+            size: 100,
           },
         })
         const {
@@ -79,7 +79,7 @@ const BoardList: React.FC = () => {
         const sortedBoardList = [...notices, ...normalPosts]
 
         setBoardList(sortedBoardList)
-        console.log('총 게시물 개수:', fetchedTotalElements)
+        console.log('총 게시물 개수 :', fetchedTotalElements)
       } catch (error) {
         console.error('Error fetching board list:', error)
         setBoardList([])
@@ -135,7 +135,7 @@ const BoardList: React.FC = () => {
                 <td className="py-2 px-2.5 border-b border-l border-r text-[14px]">
                   <Link
                     href={{
-                      pathname: `/board/detail`,
+                      pathname: `/board/info`,
                       query: { boardId: item.boardId },
                     }}
                   >
