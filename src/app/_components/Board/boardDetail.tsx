@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import api from '@/_service/axios'
+import Comment from '@/_components/Comment/comment'
 
 interface BoardItem {
   boardId: number
@@ -16,7 +17,7 @@ const BoardDetail = () => {
   const router = useRouter()
   const [boardDetail, setBoardDetail] = useState<BoardItem | null>(null)
   const [loading, setLoading] = useState(true)
-  const [isEditing, setIsEditing] = useState(false) // 수정 모드 여부를 나타내는 상태
+  const [isEditing, setIsEditing] = useState(false)
 
   const getBoardIdFromPath = (): string => {
     const queryParams = new URLSearchParams(window.location.search)
@@ -32,7 +33,8 @@ const BoardDetail = () => {
           const response = await api.get<BoardItem>(`/board/info`, {
             params: { boardId: Number(boardId) },
           })
-          setBoardDetail(response.data)
+          const boardData = response.data
+          setBoardDetail(boardData)
         } catch (error) {
           console.error('Error fetching board detail:', error)
         } finally {
@@ -121,6 +123,9 @@ const BoardDetail = () => {
               </button>
             </>
           )}
+        </div>
+        <div>
+          <Comment />
         </div>
       </div>
     </div>

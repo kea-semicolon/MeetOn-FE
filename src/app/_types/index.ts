@@ -11,3 +11,7 @@ export interface CreateBoardInfo {
   isNotice: boolean
   fileList: string[]
 }
+
+export interface CreateCommentInfo {
+  content: string
+}
