@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import api from '@/_service/axios'
 import Comment from '@/_components/Comment/comment'
+import DeleteBoardModal from '@/_components/Board/deleteBoardModal'
 
 interface BoardItem {
   boardId: number
@@ -18,10 +19,33 @@ const BoardDetail = () => {
   const [boardDetail, setBoardDetail] = useState<BoardItem | null>(null)
   const [loading, setLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const getBoardIdFromPath = (): string => {
     const queryParams = new URLSearchParams(window.location.search)
     return queryParams.get('boardId') || ''
+  }
+
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    try {
+      const boardId = getBoardIdFromPath()
+      await api.delete('/board', { params: { boardId: Number(boardId) } })
+
+      router.push('/board')
+    } catch (error) {
+      console.error('Error deleting board:', error)
+      alert('게시글 삭제에 실패했습니다.')
+    } finally {
+      setShowDeleteModal(false) // 모달을 닫습니다.
+    }
+  }
+
+  const handleCloseModal = () => {
+    setShowDeleteModal(false)
   }
 
   useEffect(() => {
@@ -48,10 +72,6 @@ const BoardDetail = () => {
 
   const handleEditClick = () => {
     setIsEditing(true)
-  }
-
-  const handleDeleteClick = () => {
-    console.log('삭제 버튼 클릭함')
   }
 
   return (
@@ -122,6 +142,12 @@ const BoardDetail = () => {
                 취소
               </button>
             </>
+          )}
+          {showDeleteModal && (
+            <DeleteBoardModal
+              onClose={handleCloseModal}
+              onDelete={handleDeleteConfirm}
+            />
           )}
         </div>
         <div>
