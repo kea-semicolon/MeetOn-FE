@@ -14,8 +14,7 @@ const CommentForm = () => {
   const handleButtonClick = async () => {
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      createComment({ text: commentText }) // Pass comment data here
+      createComment({ content: commentText }) // Pass comment data here
       // Pass comment data here
       console.log(commentText)
       setCommentText('') // Reset comment text after posting
