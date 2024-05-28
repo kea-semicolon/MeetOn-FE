@@ -55,7 +55,7 @@ const BoardDetail = () => {
   return (
     <div className="w-3/5 h-full absolute bg-[#F8F9FB]">
       <p className="px-6 py-4 text-[20px] font-bold">게시판</p>
-      <div className="ml-4 mr-4 pl-4 pr-4 pt-4 bg-white rounded-[12px]">
+      <div className="pl-4 pr-4 pt-2">
         <div className="flex items-center mb-4">
           <input
             type="text"
