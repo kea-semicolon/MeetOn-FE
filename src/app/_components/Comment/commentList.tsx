@@ -3,6 +3,7 @@ import Image from 'next/image'
 import api from '@/_service/axios'
 import { DeleteComment } from '@/_assets/Icons'
 import { useRouter } from 'next/navigation'
+import DeleteCommentModal from '@/_components/Comment/deleteCommentModal'
 
 interface Comment {
   replyId: number
@@ -25,26 +26,46 @@ const formatDate = (dateString: string | number | Date) => {
 
 const CommentList = () => {
   const [commentList, setCommentList] = useState<Comment[]>([])
+  const [selectedCommentId, setSelectedCommentId] = useState<number | null>(
+    null,
+  ) // 선택된 댓글 ID 상태 추가
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // 모달 열림 상태 추가
+
   const router = useRouter()
+  const handleDeleteClick = (replyId: number) => {
+    // 모달 열기 및 선택된 댓글 ID 설정
+    setSelectedCommentId(replyId)
+    setIsModalOpen(true)
+  }
 
   const getBoardIdFromPath = (): string => {
     const queryParams = new URLSearchParams(window.location.search)
     return queryParams.get('boardId') || ''
   }
 
-  const handleDeleteClick = async (replyId: number) => {
+  const handleConfirmClick = async () => {
     try {
-      await api.delete('/reply', { params: { replyId: Number(replyId) } })
-      // 삭제된 댓글을 제외하고 새로운 댓글 목록 세팅
-      const updatedCommentList = commentList.filter(
-        (comment) => comment.replyId !== replyId,
-      )
-      setCommentList(updatedCommentList)
-      alert('댓글이 성공적으로 삭제되었습니다.')
+      if (selectedCommentId !== null) {
+        await api.delete('/reply', {
+          params: { replyId: Number(selectedCommentId) },
+        })
+        const updatedCommentList = commentList.filter(
+          (comment) => comment.replyId !== selectedCommentId,
+        )
+        setCommentList(updatedCommentList)
+      }
     } catch (error) {
       console.error('Error deleting comment : ', error)
       alert('댓글 삭제에 실패했습니다.')
+    } finally {
+      setIsModalOpen(false)
+      setSelectedCommentId(null)
     }
+  }
+
+  const handleCancelDelete = () => {
+    setIsModalOpen(false)
+    setSelectedCommentId(null)
   }
 
   useEffect(() => {
@@ -87,6 +108,7 @@ const CommentList = () => {
                     <p className="text-[13px] text-[#959595]">
                       {formatDate(comment.createdDate)}
                     </p>
+                    {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                     <button
                       onClick={() => handleDeleteClick(comment.replyId)}
                       className="pl-2 pr-1.5"
@@ -106,6 +128,12 @@ const CommentList = () => {
         <p className="flex justify-center pt-9 text-[#959595] text-[14px]">
           등록된 댓글이 없습니다.
         </p>
+      )}
+      {isModalOpen && (
+        <DeleteCommentModal
+          onClose={handleCancelDelete}
+          onDelete={handleConfirmClick}
+        />
       )}
     </div>
   )
