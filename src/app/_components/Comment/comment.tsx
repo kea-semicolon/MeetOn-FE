@@ -13,10 +13,10 @@ const Comment = () => {
     <div className="">
       <p className="px-3 py-2 text-[20px] font-bold">댓글</p>
       <hr className="h-0.5 bg-[#000000]" />
-      <div>
+      <div className="pb-5">
         <CommentList />
       </div>
-      <div className="pt-1">
+      <div className="pt-5">
         <CommentForm />
       </div>
     </div>

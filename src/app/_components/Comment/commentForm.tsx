@@ -32,10 +32,10 @@ const CommentForm = () => {
         onChange={handleInputChange}
       />
       <button
-        className="absolute bottom-3 right-1.5 bg-white text-[14px] text-black px-5 py-1.5 rounded-[4px] border border-[#D9D9D9]"
+        className="absolute bottom-3 right-1.5 bg-white text-[14px] text-black px-4 py-1.5 rounded-[4px] border border-[#D9D9D9]"
         onClick={handleButtonClick}
       >
-        Submit
+        등록
       </button>
     </div>
   )
