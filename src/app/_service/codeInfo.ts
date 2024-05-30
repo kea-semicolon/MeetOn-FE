@@ -3,7 +3,7 @@ import { NextApiResponse } from 'next'
 
 const codeInfo = async () => {
   try {
-    const response = await api.get<NextApiResponse>('/channel/code')
+    const response = await api.get('/channel/code')
     return response.data
   } catch (error) {
     console.log(error)
