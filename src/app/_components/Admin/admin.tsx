@@ -1,5 +1,9 @@
+'use client'
+
 import RoomCode from '@/_components/Admin/roomcode'
 import Userlist from '@/_components/Admin/userlist'
+import useGetCodeInfo from '@/_hook/useGetCodeInfo'
+import { useCallback } from 'react'
 
 const Admin = () => {
   return (

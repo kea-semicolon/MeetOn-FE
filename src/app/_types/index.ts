@@ -9,3 +9,7 @@ export interface MemberInfo {
   userImage: string
   isSignedUp: boolean
 }
+
+export interface CodeInfo {
+  code: string
+}
