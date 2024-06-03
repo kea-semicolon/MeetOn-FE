@@ -1,40 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import api from '@/_service/axios'
 import Image from 'next/image'
 import Search from '@/_components/Board/search'
 import { Write } from '@/_assets/Icons'
 import { useRouter } from 'next/navigation'
-
-interface BoardItem {
-  boardId: number
-  boardTitle: string
-  username: string
-  createdDate: string
-  notice: boolean
-}
-
-interface ApiResponse {
-  content: BoardItem[]
-  totalElements: number // 추가
-  totalPages: number
-  size: number
-  number: number
-}
+import useGetBoard from '@/_hook/useGetBoard'
 
 const BoardList: React.FC = () => {
-  const [boardList, setBoardList] = useState<BoardItem[]>([])
-  const [page, setPage] = useState(0)
-  const [size, setSize] = useState(0)
-
-  const [curPage, setCurPage] = useState(0) // 현재 페이지
-  const [prevBlock, setPrevBlock] = useState(0) // 이전 페이지 블록
-  const [nextBlock, setNextBlock] = useState(0) // 다음 페이지 블록
-  const [lastPage, setLastPage] = useState(0) // 마지막 페이지
-
-  const [search, setSearch] = useState({ page: 1, sk: '', sv: '' })
-
   const router = useRouter()
+  const { data, error, isLoading } = useGetBoard(0, 100) // Updated usage
+
   const moveToWrite = () => {
     router.push('/board/write')
   }
@@ -47,50 +22,16 @@ const BoardList: React.FC = () => {
     return `${year}.${month}.${day}`
   }
 
-  useEffect(() => {
-    const getBoardList = async (currentPage: number) => {
-      try {
-        const resp = await api.get<ApiResponse>('/board', {
-          params: {
-            page: currentPage,
-            size: 100,
-          },
-        })
-        const {
-          content,
-          totalElements: fetchedTotalElements,
-          totalPages: fetchedTotalPages,
-        } = resp.data
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
-        const notices = content.filter((item) => item.notice)
-        const normalPosts = content.filter((item) => !item.notice)
+  if (error) {
+    return <div>Error: {error.message}</div>
+  }
 
-        notices.sort(
-          (a, b) =>
-            new Date(b.createdDate).getTime() -
-            new Date(a.createdDate).getTime(),
-        )
-        normalPosts.sort(
-          (a, b) =>
-            new Date(b.createdDate).getTime() -
-            new Date(a.createdDate).getTime(),
-        )
-
-        const sortedBoardList = [...notices, ...normalPosts]
-
-        setBoardList(sortedBoardList)
-        console.log('총 게시물 개수 :', fetchedTotalElements)
-      } catch (error) {
-        console.error('Error fetching board list:', error)
-        setBoardList([])
-      }
-    }
-
-    getBoardList(page)
-  }, [page, size])
-
-  const handlePageChange = (pageNumber: number) => {
-    setPage(pageNumber)
+  if (!data) {
+    return <div>Data is undefined</div>
   }
 
   return (
@@ -121,49 +62,49 @@ const BoardList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {boardList.map((item) => (
-              <tr key={item.boardId} className="hover:bg-gray-100">
-                {/* 게시 날짜 */}
-                <td
-                  className={`flex align-middle justify-center py-2 px-4 border-b text-[14px] ${
-                    item.notice ? 'font-bold' : ''
-                  }`}
-                >
-                  {formatDate(item.createdDate)}
-                </td>
-                {/* 제목 */}
-                <td className="py-2 px-2.5 border-b border-l border-r text-[14px]">
-                  <Link
-                    href={{
-                      pathname: `/board/info`,
-                      query: { boardId: item.boardId },
-                    }}
+            {data.content.map(
+              (
+                item, // Updated to access data.content
+              ) => (
+                <tr key={item.boardId} className="hover:bg-gray-100">
+                  <td
+                    className={`flex align-middle justify-center py-2 px-4 border-b text-[14px] ${
+                      item.notice ? 'font-bold' : ''
+                    }`}
                   >
-                    {item.notice && (
-                      <span className="text-[10px] bg-[#D2FA64] px-2 py-1 rounded-[10px]">
-                        공지
-                      </span>
-                    )}
-                    <span
-                      className={`pl-1 cursor-pointer ${
-                        item.notice ? 'font-bold' : ''
-                      }`}
+                    {formatDate(item.createdDate)}
+                  </td>
+                  <td className="py-2 px-2.5 border-b border-l border-r text-[14px]">
+                    <Link
+                      href={{
+                        pathname: `/board/info`,
+                        query: { boardId: item.boardId },
+                      }}
                     >
-                      {item.boardTitle}
-                    </span>
-                  </Link>
-                </td>
-
-                {/* 작성자 */}
-                <td className="flex align-middle justify-center py-2 px-4 border-b text-[14px]">
-                  {item.username}
-                </td>
-              </tr>
-            ))}
+                      <div className="flex items-center">
+                        {item.notice && (
+                          <span className="bg-[#D2FA64] rounded-[10px] mr-0.5 px-2 py-0.5 text-[10px]">
+                            공지
+                          </span>
+                        )}
+                        <span
+                          className={`pl-1 cursor-pointer ${
+                            item.notice ? 'font-bold' : ''
+                          }`}
+                        >
+                          {item.boardTitle}
+                        </span>
+                      </div>
+                    </Link>
+                  </td>
+                  <td className="flex align-middle justify-center py-2 px-4 border-b text-[14px]">
+                    {item.username}
+                  </td>
+                </tr>
+              ),
+            )}
           </tbody>
         </table>
-        {/* Pagination */}
-        <div />
       </div>
     </div>
   )

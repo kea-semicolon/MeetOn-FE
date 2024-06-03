@@ -26,6 +26,7 @@ const LoginHandler = () => {
             Cookies.set('accessToken', response.data.accessToken, {
               expires: accessTokenExpiry,
               path: '/',
+              domain: 'oguogu.store',
             })
             const refreshTokenExpiry = new Date()
             refreshTokenExpiry.setTime(

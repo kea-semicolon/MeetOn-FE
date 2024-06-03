@@ -1,47 +1,69 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import blank from '@/_assets/Icons/blank.svg'
 import usePostChannel from '@/_hook/usePostChannel'
 import Modal from '@/_components/Modal/modal'
+import useGetMemberInfo from '@/_hook/useGetMemberInfo'
+import usePatchMember from '@/_hook/usePatchMember'
 
 export default function Signup() {
-  const [userNickname, setUserNickname] = useState<string>('')
-  const [userImage, setUserImage] = useState<string>(
-    'https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=',
+  const { data: memberInfo } = useGetMemberInfo()
+
+  const [userNickname, setUserNickname] = useState<string>(
+    memberInfo.userNickname,
   )
   const [userAuth, setUserAuth] = useState<string>('')
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false)
   const [channelName, setChannelName] = useState<string>('')
+  const [channelCode, setChannelCode] = useState<string>('')
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isModalOpen2, setIsModalOpen2] = useState<boolean>(false)
+  const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false)
 
   const { mutate: createChannel } = usePostChannel()
+  const { mutate: joinChannel } = usePatchMember()
 
   const openModal = () => {
     setUserAuth('host')
     setIsModalOpen(true)
     setIsOverlayVisible(true)
   }
-
+  const openModal2 = () => {
+    setUserAuth('client')
+    setIsModalOpen2(true)
+    setIsOverlayVisible(true)
+  }
   const closeModal = () => {
     setIsModalOpen(false)
+    setIsModalOpen2(false)
     setIsOverlayVisible(false)
   }
 
   const handleCreateChannel = () => {
-    // 채널생성 api 호출
-    createChannel({ userNickname, channelName, userAuth, userImage })
+    if (userAuth === 'host') {
+      createChannel({ userNickname, channelName, userAuth })
+    } else if (userAuth === 'client') {
+      joinChannel({
+        userNickname,
+        userAuth: 'member',
+        channelCode: channelName,
+      })
+    }
     closeModal()
   }
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className=" w-[513px] h-[440px] shadow-md ">
-        <Image
-          className="w-[140px] mx-auto mb-6 mt-16"
-          src={blank}
-          alt="blank"
-        />
+        {memberInfo && (
+          <Image
+            className="rounded-full mx-auto mb-6 mt-16"
+            src={memberInfo.userImage}
+            alt="blank"
+            width={140}
+            height={140}
+          />
+        )}
         <div className="w-[186px] mx-auto">
           <input
             className="outline-none flex text-center h-[31px] text-[16px]"
@@ -62,6 +84,7 @@ export default function Signup() {
           <button
             type="button"
             className="rounded-[6px] text-[#FFFFFF] text-center bg-[#FFCD00] w-[148px] h-[50px]"
+            onClick={openModal2}
           >
             참여하기
           </button>
@@ -73,10 +96,22 @@ export default function Signup() {
       {isModalOpen && (
         <div className="absolute">
           <Modal
+            hostStatus="방 이름을 입력하세요"
             onClose={closeModal}
             onCreate={handleCreateChannel}
             channelName={channelName}
             setChannelName={setChannelName}
+          />
+        </div>
+      )}
+      {isModalOpen2 && (
+        <div className="absolute">
+          <Modal
+            hostStatus="방 코드를 입력하세요"
+            onClose={closeModal}
+            onCreate={handleCreateChannel}
+            channelName={channelCode}
+            setChannelName={setChannelCode}
           />
         </div>
       )}

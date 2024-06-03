@@ -13,6 +13,10 @@ const CommentForm = () => {
 
   const handleButtonClick = async () => {
     try {
+      if (!commentText.trim()) {
+        alert('댓글을 입력하세요.')
+        return
+      }
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       createComment({ content: commentText }) // Pass comment data here
       // Pass comment data here

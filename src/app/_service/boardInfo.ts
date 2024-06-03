@@ -1,12 +1,35 @@
+/*
 import api from '@/_service/axios'
+import { ApiResponse } from '@/_types'
 
-const boardInfo = async () => {
+export const getBoardList = async (page: number, size: number) => {
   try {
-    return await api.get('/board').then((res) => res.data)
+    const resp = await api.get<ApiResponse>('/board', {
+      params: { page, size },
+    })
+    return {
+      content: resp.data.content,
+      totalElements: resp.data.totalElements,
+    }
   } catch (error) {
-    console.log(error)
-    return error
+    throw error
   }
 }
+*/
 
-export default boardInfo
+import api from '@/_service/axios'
+import { ApiResponse } from '@/_types'
+
+export const getBoardList = async (page: number, size: number) => {
+  try {
+    const resp = await api.get<ApiResponse>('/board', {
+      params: { page, size },
+    })
+    return {
+      content: resp.data.content,
+      totalElements: resp.data.totalElements,
+    }
+  } catch (error) {
+    throw error
+  }
+}
