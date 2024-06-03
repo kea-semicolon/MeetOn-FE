@@ -1,74 +1,30 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import api from '@/_service/axios'
-import Comment from '@/_components/Comment/comment'
+import { useState, useEffect } from 'react'
 import DeleteBoardModal from '@/_components/Board/deleteBoardModal'
-
-interface BoardItem {
-  boardId: number
-  title: string
-  username: string
-  createdDate: string
-  content: string
-}
+import useDeleteBoard from '@/_hook/useDeleteBoard'
+import useGetBoardDetail from '@/_hook/useGetBoardDetail'
+import Comment from '@/_components/Comment/comment'
 
 const BoardDetail = () => {
-  const router = useRouter()
-  const [boardDetail, setBoardDetail] = useState<BoardItem | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [isEditing, setIsEditing] = useState(false)
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
-
-  const getBoardIdFromPath = (): string => {
-    const queryParams = new URLSearchParams(window.location.search)
-    return queryParams.get('boardId') || ''
-  }
-
-  const handleDeleteClick = () => {
-    setShowDeleteModal(true)
-  }
-
-  const handleDeleteConfirm = async () => {
-    try {
-      const boardId = getBoardIdFromPath()
-      await api.delete('/board', { params: { boardId: Number(boardId) } })
-
-      router.push('/board')
-    } catch (error) {
-      console.error('Error deleting board:', error)
-      alert('게시글 삭제에 실패했습니다.')
-    } finally {
-      setShowDeleteModal(false) // 모달을 닫습니다.
-    }
-  }
-
-  const handleCloseModal = () => {
-    setShowDeleteModal(false)
-  }
+  const { handleDelete, handleDeleteClick, handleCloseModal, showDeleteModal } =
+    useDeleteBoard()
+  const [boardId, setBoardId] = useState<number | null>(null)
 
   useEffect(() => {
-    const boardId = getBoardIdFromPath()
-
-    if (boardId) {
-      const fetchBoardDetail = async () => {
-        try {
-          const response = await api.get<BoardItem>(`/board/info`, {
-            params: { boardId: Number(boardId) },
-          })
-          const boardData = response.data
-          setBoardDetail(boardData)
-        } catch (error) {
-          console.error('Error fetching board detail:', error)
-        } finally {
-          setLoading(false)
-        }
-      }
-
-      fetchBoardDetail()
+    const id = Number(
+      new URLSearchParams(window.location.search).get('boardId'),
+    )
+    if (!Number.isNaN(id)) {
+      setBoardId(id)
     }
-  }, [])
+  }, [boardId])
+
+  const {
+    data: boardDetail,
+    isLoading,
+    isError,
+  } = useGetBoardDetail(Number(boardId))
+
+  const [isEditing, setIsEditing] = useState(false)
 
   const handleEditClick = () => {
     setIsEditing(true)
@@ -110,7 +66,7 @@ const BoardDetail = () => {
             className="mb-4 w-full h-96 px-3 py-2 border border-[#959595] rounded-[3px] text-[14px] focus:outline-none"
             placeholder="내용을 입력하세요"
             value={boardDetail?.content || ''}
-            readOnly={!isEditing} // 수정 모드일 때만 입력 가능
+            readOnly={!isEditing}
           />
         </div>
         <div className="pb-4 flex justify-end">
@@ -146,7 +102,7 @@ const BoardDetail = () => {
           {showDeleteModal && (
             <DeleteBoardModal
               onClose={handleCloseModal}
-              onDelete={handleDeleteConfirm}
+              onDelete={() => handleDelete(Number(boardId))}
             />
           )}
         </div>
