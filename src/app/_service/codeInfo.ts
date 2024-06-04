@@ -1,4 +1,5 @@
 import api from '@/_service/axios'
+import { NextApiResponse } from 'next'
 
 const codeInfo = async () => {
   try {
