@@ -3,6 +3,7 @@ import { NextPage } from 'next'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import useGetSchedule from '@/_hook/useGetSchedule'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import koLocale from '@fullcalendar/core/locales/ko'
 import api from '@/_service/axios'
@@ -19,24 +20,20 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
   const calendarRef = useRef<any>(null)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get('/schedule')
-        const eventData = response.data.result.map((item: any) => ({
-          id: item.scheduleId.toString(),
-          title: item.title,
-          start: item.startTime,
-          end: item.endTime,
-        }))
-        setEvents(eventData)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-    fetchData()
-  }, []) // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행되도록 함
+  // 스케줄 정보를 가져와서 events 상태로 설정
+  const { data: scheduleInfo, isLoading } = useGetSchedule()
 
+  useEffect(() => {
+    if (scheduleInfo) {
+      setEvents(
+        scheduleInfo.map((info: any) => ({
+          title: info.title,
+          start: info.startTime,
+          end: info.endTime,
+        })),
+      )
+    }
+  }, [scheduleInfo])
   const handleSaveEvent = (newEvent: any) => {
     // 이벤트 생성 시 ID 부여
     const eventId = Date.now().toString()

@@ -6,6 +6,9 @@ export interface CreateChannelInfo {
 }
 
 export interface ScheduleInfo {
+  map(
+    arg0: (info: any) => { title: any; start: any; end: any },
+  ): import('react').SetStateAction<any[]>
   title: string
   startTime: string
   endTime: string
