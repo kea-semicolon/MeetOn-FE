@@ -47,7 +47,7 @@ const LoginHandler = () => {
               path: '/',
               domain: 'oguogu.store',
             })
-            router.push('/admin')
+            router.push('/main')
           })
           .catch((error) => {
             console.error('Error fetching token:', error)
