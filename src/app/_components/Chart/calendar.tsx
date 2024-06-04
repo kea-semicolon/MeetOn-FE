@@ -11,9 +11,13 @@ import '@/_styles/calendar.css'
 
 interface CalendarProps {
   showAddButton?: boolean
+  onTodayEventsChange: (events: any[]) => void
 }
 
-const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
+const Calendar: NextPage<CalendarProps> = ({
+  showAddButton = true,
+  onTodayEventsChange,
+}) => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [events, setEvents] = useState<any[]>([])
   const calendarRef = useRef<any>(null)
@@ -35,6 +39,19 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
       setEvents(schedules)
     }
   }, [data])
+
+  useEffect(() => {
+    const today = new Date()
+    const filteredEvents = events.filter((event) => {
+      const eventStart = new Date(event.start)
+      return (
+        eventStart.getFullYear() === today.getFullYear() &&
+        eventStart.getMonth() === today.getMonth() &&
+        eventStart.getDate() === today.getDate()
+      )
+    })
+    onTodayEventsChange(filteredEvents)
+  }, [events, onTodayEventsChange])
 
   const handleSaveEvent = (newEvent: any) => {
     const eventId = Date.now().toString()
@@ -129,6 +146,7 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         }}
         editable
         displayEventTime
+        eventDisplay="block"
         fixedWeekCount={false}
         events={events}
         dayMaxEvents={2}
