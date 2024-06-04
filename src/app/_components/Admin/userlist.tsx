@@ -1,16 +1,28 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DeleteUser } from '@/_assets/Icons'
 import Image from 'next/image'
+import useGetMember from '@/_hook/useGetMember'
 
-const Userlist = () => {
+const UserList = () => {
   const [selectAll, setSelectAll] = useState<boolean>(false)
-  const [checkboxes, setCheckboxes] = useState([
-    { id: 1, checked: false },
-    { id: 2, checked: false },
-    // 추가적인 체크박스가 있다면 여기에 계속 추가할 수 있습니다.
-  ])
+  const { data } = useGetMember()
+
+  const [checkboxes, setCheckboxes] = useState<
+    { id: number; checked: boolean }[]
+  >([])
+
+  useEffect(() => {
+    if (data?.userList) {
+      console.log('Fetched user list:', data.userList)
+      const initialCheckboxes = data.userList.map((user) => ({
+        id: user.userId,
+        checked: false,
+      }))
+      setCheckboxes(initialCheckboxes)
+    }
+  }, [data])
 
   // 전체 선택/해제 체크박스 이벤트 핸들러
   const handleSelectAll = () => {
@@ -59,22 +71,26 @@ const Userlist = () => {
             </tr>
           </thead>
           <tbody>
-            {checkboxes.map((checkbox) => (
-              <tr key={checkbox.id} className="border bg-[#FFFFFF]">
+            {data?.userList?.map((user) => (
+              <tr key={user.userId} className="border bg-[#FFFFFF]">
                 {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                 <td className="py-4">
                   <div>
                     <input
                       className="py-1.5 mt-1.5"
                       type="checkbox"
-                      checked={checkbox.checked}
-                      onChange={() => handleCheckboxChange(checkbox.id)}
+                      checked={
+                        checkboxes.find(
+                          (checkbox) => checkbox.id === user.userId,
+                        )?.checked || false
+                      }
+                      onChange={() => handleCheckboxChange(user.userId)}
                     />
                   </div>
                 </td>
-                <td className="py-4">박미자</td>
-                <td className="py-4">abcde123@gmail.com</td>
-                <td className="py-4">2024.04.08</td>
+                <td className="py-4">{user.userNickname}</td>
+                <td className="py-4">{user.userEmail}</td>
+                <td className="py-4">{user.createdAt.slice(0, 10)}</td>
                 <td className="py-4 flex justify-center">
                   <div className="">
                     <Image src={DeleteUser} alt="deleteuser" />
@@ -103,4 +119,4 @@ const Userlist = () => {
   )
 }
 
-export default Userlist
+export default UserList

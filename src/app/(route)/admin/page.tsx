@@ -3,6 +3,9 @@
 import Fix from '@/_components/Fix/fix'
 import Admin from '@/_components/Admin/admin'
 import { useEffect, useState } from 'react'
+import usePostChannel from '@/_hook/usePostChannel'
+import useGetMemberInfo from '@/_hook/useGetMemberInfo'
+import useGetCodeInfo from '@/_hook/useGetCodeInfo'
 
 export default function AdminPage() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)

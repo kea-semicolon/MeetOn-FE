@@ -1,3 +1,5 @@
+'use client'
+
 import RoomCode from '@/_components/Admin/roomcode'
 import Userlist from '@/_components/Admin/userlist'
 

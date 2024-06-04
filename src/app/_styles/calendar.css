@@ -21,16 +21,15 @@
 
 .calendar .fc-toolbar-chunk {
     white-space: nowrap !important;
-
 }
 
 .calendar .fc-todayButton-button {
-    background-color: #ffffff !important;
-    border-color: #d9d9d9 !important;
+    background-color: #000000 !important;
+    border-color: #000000 !important;
     border-radius: 3px !important;
-    width: 66px !important;
-    height: 28px !important;
-    color: black !important;;
+    width: 72px !important;
+    height: 30px !important;
+    color: #ffffff !important;;
     font-size: small !important;
     margin: 2px 15px 7px 0 !important;
     box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
@@ -62,7 +61,7 @@
 }
 
 .calendar .fc-event-main {
-    height : 12px !important;
+    height : 15px !important;
     display: flex !important;
     padding-left: 3px !important;
 }
@@ -100,17 +99,13 @@
 .calendar .fc-addEventButton-button {
 
     margin: 2px 13px 0 -5px !important;
-    background-color: #ffcd00 !important;
-    opacity: 0.6;
-    background-image: url('../_assets/Icons/plusEvent.svg');
-    background-repeat : no-repeat;
-    background-position: center center !important;
-    border: none !important;
-    width: 26px !important;
-    height: 28px !important;
-    color: white !important;;
-    font-size: 22px !important;
-    border-radius: 50% !important;
+    background-color: #D2FA64 !important;
+    border: #D2FA64 !important;
+    border-radius: 3px !important;
+    width: 86px !important;
+    height: 30px !important;
+    color: #000000 !important;;
+    font-size: 12px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -171,7 +166,7 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background-color: #ffcd00;
+    background-color: #AEE516;
     margin: 0 5px 3px 4px;
     vertical-align: middle;
 }

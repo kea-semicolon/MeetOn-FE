@@ -240,7 +240,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
 
         <button
           onClick={handleSave}
-          className="pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] bg-[#FFCD00] text-white text-[12px] mx-0.5"
+          className="pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] bg-[#000000] text-white text-[12px] mx-0.5"
         >
           저장
         </button>

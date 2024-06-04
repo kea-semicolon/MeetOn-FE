@@ -1,15 +1,37 @@
 export interface CreateChannelInfo {
-  userImage: string
   userNickname: string
   userAuth: string
   channelName: string
 }
 
 export interface ScheduleInfo {
-  map(
-    arg0: (info: any) => { title: any; start: any; end: any },
-  ): import('react').SetStateAction<any[]>
   title: string
   startTime: string
   endTime: string
+}
+
+export interface Schedule {
+  result: ScheduleInfo[]
+}
+export interface MemberInfo {
+  userNickname: string
+  userImage: string
+  isSignedUp: boolean
+}
+
+export interface CodeInfo {
+  code: string
+}
+
+export interface User {
+  userId: number
+  userImage: string
+  userNickname: string
+  authority: string
+  userEmail: string
+  createdAt: string
+}
+
+export interface Member {
+  userList: User[]
 }

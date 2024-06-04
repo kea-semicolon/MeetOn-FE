@@ -6,7 +6,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import useGetSchedule from '@/_hook/useGetSchedule'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import koLocale from '@fullcalendar/core/locales/ko'
-import api from '@/_service/axios'
 import AddEventModal from './addEventModal'
 import '@/_styles/calendar.css'
 
@@ -20,29 +19,29 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
   const calendarRef = useRef<any>(null)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
 
-  // 스케줄 정보를 가져와서 events 상태로 설정
-  const { data: scheduleInfo, isLoading } = useGetSchedule()
+  const currentYear = new Date().getFullYear()
+  const currentMonth = new Date().getMonth() + 1
+
+  const { data } = useGetSchedule(currentYear, currentMonth)
 
   useEffect(() => {
-    if (scheduleInfo) {
-      setEvents(
-        scheduleInfo.map((info: any) => ({
-          title: info.title,
-          start: info.startTime,
-          end: info.endTime,
-        })),
-      )
+    if (data?.result) {
+      console.log('Fetched user list:', data.result)
+      const schedules = data.result.map((schedule) => ({
+        title: schedule.title,
+        start: schedule.startTime,
+        end: schedule.endTime,
+      }))
+      setEvents(schedules)
     }
-  }, [scheduleInfo])
-  const handleSaveEvent = (newEvent: any) => {
-    // 이벤트 생성 시 ID 부여
-    const eventId = Date.now().toString()
+  }, [data])
 
+  const handleSaveEvent = (newEvent: any) => {
+    const eventId = Date.now().toString()
     // eslint-disable-next-line no-param-reassign
     newEvent.id = eventId
 
     if (selectedEvent) {
-      // 선택된 이벤트가 있다면 해당 이벤트를 수정
       setEvents((prevEvents) => {
         const updatedEvents = prevEvents.map((event) => {
           if (event.id === selectedEvent.id) {
@@ -53,16 +52,12 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         return updatedEvents
       })
     } else {
-      // 선택된 이벤트가 없다면 새로운 이벤트 추가
       setEvents((prevEvents) => [...prevEvents, newEvent])
     }
   }
 
-  // 나머지 코드는 그대로 유지됩니다.
-
   const handleDeleteEvent = () => {
     if (selectedEvent) {
-      // 선택된 이벤트와 ID가 같은 이벤트를 제외한 새로운 이벤트 배열 생성
       const updatedEvents = events.filter(
         (event) => event.id !== selectedEvent.id,
       )
@@ -79,19 +74,18 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
       setShowModal(true)
     } else {
       const eventTitle = clickedEvent.title
-      // 회의록 페이지로 이동
-      window.location.href = `/meeting-notes/${eventTitle}` // 예시 URL
+      window.location.href = `/meeting-notes/${eventTitle}`
     }
   }
 
   const handleAddEventButtonClick = () => {
     setShowModal(false)
-    setSelectedEvent(null) // 선택된 이벤트 초기화
+    setSelectedEvent(null)
     setShowModal(true)
   }
 
   const handleCloseModal = () => {
-    setSelectedEvent(null) // 선택된 이벤트 초기화
+    setSelectedEvent(null)
     setShowModal(false)
   }
 
@@ -109,7 +103,7 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         locale={koLocale}
         customButtons={{
           addEventButton: {
-            text: '',
+            text: '+ 일정추가',
             click: () => setShowModal(true),
           },
           todayButton: {
@@ -126,8 +120,8 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
           year: 'numeric',
           month: 'long',
         }}
-        eventBackgroundColor="#FF7236"
-        eventBorderColor="#FF7236"
+        eventBackgroundColor="#000000"
+        eventBorderColor="#000000"
         eventTimeFormat={{
           hour: '2-digit',
           minute: '2-digit',
@@ -137,7 +131,7 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         displayEventTime
         fixedWeekCount={false}
         events={events}
-        dayMaxEvents={2} // = eventLimit
+        dayMaxEvents={2}
         moreLinkClassNames={['more-events-link']}
         moreLinkText={(n) => `그 외 ${n}개`}
         dayHeaderContent={(arg) => {

@@ -26,6 +26,7 @@ const LoginHandler = () => {
             Cookies.set('accessToken', response.data.accessToken, {
               expires: accessTokenExpiry,
               path: '/',
+              domain: 'oguogu.store',
             })
             const refreshTokenExpiry = new Date()
             refreshTokenExpiry.setTime(
@@ -46,7 +47,7 @@ const LoginHandler = () => {
               path: '/',
               domain: 'oguogu.store',
             })
-            router.push('/signup')
+            router.push('/admin')
           })
           .catch((error) => {
             console.error('Error fetching token:', error)

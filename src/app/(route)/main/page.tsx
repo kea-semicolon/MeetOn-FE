@@ -3,6 +3,8 @@
 import Fix from '@/_components/Fix/fix'
 import Calendar from '@/_components/Chart/calendar'
 import { useEffect, useState } from 'react'
+import RoomCode from '@/_components/Admin/roomcode'
+import Userlist from '@/_components/Admin/userlist'
 
 export default function MainPage() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -24,8 +26,11 @@ export default function MainPage() {
   return (
     <div className="flex w-full">
       <Fix />
-      <div style={mainStyles} className="my-[70px] w-3/5 relative">
-        <Calendar showAddButton />
+      <div style={mainStyles} className="my-[70px] w-3/5 relative bg-[#F8F9FB]">
+        <p className="px-6 py-4 text-[20px] font-bold">캘린더</p>
+        <div className="pl-4 pr-4 pb-4">
+          <Calendar />
+        </div>
       </div>
     </div>
   )
