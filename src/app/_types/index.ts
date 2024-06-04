@@ -13,3 +13,16 @@ export interface MemberInfo {
 export interface CodeInfo {
   code: string
 }
+
+export interface User {
+  userId: number
+  userImage: string
+  userNickname: string
+  authority: string
+  userEmail: string
+  createdAt: string
+}
+
+export interface Member {
+  userList: User[]
+}

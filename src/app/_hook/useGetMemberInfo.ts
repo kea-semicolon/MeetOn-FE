@@ -2,7 +2,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { MemberInfo } from '@/_types'
 import memberInfo from '@/_service/memberInfo'
 
-const useGetItems = () => {
+const useGetMemberInfo = () => {
   const queryKey = ['memberInfo']
 
   return useSuspenseQuery<MemberInfo, Error>({
@@ -11,4 +11,4 @@ const useGetItems = () => {
   })
 }
 
-export default useGetItems
+export default useGetMemberInfo
