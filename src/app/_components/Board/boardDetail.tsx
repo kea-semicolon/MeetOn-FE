@@ -3,6 +3,7 @@ import DeleteBoardModal from '@/_components/Board/deleteBoardModal'
 import useDeleteBoard from '@/_hook/useDeleteBoard'
 import useGetBoardDetail from '@/_hook/useGetBoardDetail'
 import Comment from '@/_components/Comment/comment'
+import usePutBoard from '@/_hook/usePutBoard'
 
 const BoardDetail = () => {
   const { handleDelete, handleDeleteClick, handleCloseModal, showDeleteModal } =
@@ -25,10 +26,22 @@ const BoardDetail = () => {
   } = useGetBoardDetail(Number(boardId))
 
   const [isEditing, setIsEditing] = useState(false)
+  const [editedTitle, setEditedTitle] = useState('')
+  const [editedContent, setEditedContent] = useState('')
+
+  useEffect(() => {
+    // Set initial values for editing when boardDetail is loaded
+    if (boardDetail) {
+      setEditedTitle(boardDetail.title)
+      setEditedContent(boardDetail.content)
+    }
+  }, [boardDetail])
 
   const handleEditClick = () => {
     setIsEditing(true)
   }
+
+  const { mutate: updateBoard } = usePutBoard() // Use the mutation function from usePutBoard
 
   return (
     <div className="w-3/5 h-full absolute bg-[#F8F9FB]">
@@ -39,8 +52,12 @@ const BoardDetail = () => {
             type="text"
             className="flex-1 mr-4 px-3 py-1.5 border border-[#959595] rounded-[3px] text-[22px] focus:outline-none"
             placeholder="제목"
-            value={boardDetail?.title || ''}
+            value={
+              // eslint-disable-next-line no-nested-ternary
+              isEditing ? editedTitle : boardDetail ? boardDetail.title : ''
+            }
             readOnly={!isEditing}
+            onChange={(e) => setEditedTitle(e.target.value)}
           />
 
           <div className="flex items-center pl-28">
@@ -65,8 +82,12 @@ const BoardDetail = () => {
           <textarea
             className="mb-4 w-full h-96 px-3 py-2 border border-[#959595] rounded-[3px] text-[14px] focus:outline-none"
             placeholder="내용을 입력하세요"
-            value={boardDetail?.content || ''}
+            value={
+              // eslint-disable-next-line no-nested-ternary
+              isEditing ? editedContent : boardDetail ? boardDetail.content : ''
+            }
             readOnly={!isEditing}
+            onChange={(e) => setEditedContent(e.target.value)}
           />
         </div>
         <div className="pb-4 flex justify-end">

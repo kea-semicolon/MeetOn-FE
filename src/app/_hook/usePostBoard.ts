@@ -20,7 +20,7 @@ const usePostBoard = () => {
   return useMutation({
     mutationFn: createPost,
     onSuccess: () => {
-      console.log('create post success')
+      console.log('게시글 작성 성공')
       router.push('/board')
     },
     onError: (error: any) => {

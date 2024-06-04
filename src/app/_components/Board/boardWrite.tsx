@@ -57,7 +57,6 @@ const BoardWrite = () => {
       }
 
       await createPost(formData)
-      console.log('create post success')
     } catch (error) {
       console.error('Error while posting board:', error)
     }
@@ -66,11 +65,11 @@ const BoardWrite = () => {
   return (
     <div className="w-3/5 h-full absolute bg-[#F8F9FB]">
       <p className="px-6 py-4 text-[20px] font-bold">게시판</p>
-      <div className="pl-4 pr-4 pt-2">
+      <div className="ml-4 mr-4 pl-4 pr-4 pt-4 bg-white rounded-[12px]">
         <div className="flex items-center mb-4">
           <input
             type="text"
-            className="flex-1 mr-4 px-3 py-2.5 border border-[#959595] rounded-[3px] text-[14px]"
+            className="flex-1 mr-4 px-3 py-2 border border-[#959595] rounded-[3px] text-[14px]"
             placeholder="제목"
             value={title}
             onChange={(e) => setTitle(e.target.value)}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Search from '@/_components/Board/search'
@@ -62,10 +62,14 @@ const BoardList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {data.content.map(
-              (
-                item, // Updated to access data.content
-              ) => (
+            {data.content.length === 0 ? (
+              <tr>
+                <td colSpan={3} className="px-10 py-10 text-center text-[14px]">
+                  작성된 게시글이 없습니다.
+                </td>
+              </tr>
+            ) : (
+              data.content.map((item) => (
                 <tr key={item.boardId} className="hover:bg-gray-100">
                   <td
                     className={`flex align-middle justify-center py-2 px-4 border-b text-[14px] ${
@@ -101,7 +105,7 @@ const BoardList: React.FC = () => {
                     {item.username}
                   </td>
                 </tr>
-              ),
+              ))
             )}
           </tbody>
         </table>
