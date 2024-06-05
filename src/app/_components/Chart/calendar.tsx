@@ -14,6 +14,20 @@ interface CalendarProps {
   onTodayEventsChange: (events: any[]) => void
 }
 
+const DisplayMoreEventsModal = ({ events, onClose }) => {
+  return (
+    <div className="display-more-events-modal">
+      <h2>All Events</h2>
+      <ul>
+        {events.map((event, index) => (
+          <li key={index}>{event.title}</li>
+        ))}
+      </ul>
+      <button onClick={onClose}>Close</button>
+    </div>
+  )
+}
+
 const Calendar: NextPage<CalendarProps> = ({
   showAddButton = true,
   onTodayEventsChange,
@@ -27,6 +41,13 @@ const Calendar: NextPage<CalendarProps> = ({
   const currentMonth = new Date().getMonth() + 1
 
   const { data } = useGetSchedule(currentYear, currentMonth)
+
+  const handleMoreLinkClick = (info) => {
+    const { allSegs } = info
+    const allEvents = allSegs.map((seg) => seg.event)
+    setEvents(allEvents)
+    setShowModal(true)
+  }
 
   useEffect(() => {
     if (data?.result) {
@@ -158,9 +179,18 @@ const Calendar: NextPage<CalendarProps> = ({
         eventDisplay="block"
         fixedWeekCount={false}
         events={events}
-        dayMaxEvents={2}
+        dayMaxEvents={1}
         moreLinkClassNames={['more-events-link']}
         moreLinkText={(n) => `그 외 ${n}개`}
+        moreLinkClick={(info) => {
+          const { date, allSegs } = info
+          info.jsEvent.preventDefault()
+          console.log('Clicked date:', date)
+          console.log('All segments:', allSegs)
+
+          // 여기에 모달을 열고 사용자 정의 동작을 수행하는 코드를 추가합니다.
+          // 예: openCustomModal(allSegs);
+        }}
         dayHeaderContent={(arg) => {
           const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
           return daysOfWeek[arg.date.getDay()]

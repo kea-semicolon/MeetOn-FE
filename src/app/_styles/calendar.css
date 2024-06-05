@@ -73,7 +73,7 @@
 }
 
 .calendar .fc-event-title {
-    padding-left: 4px !important;
+    padding: 1px 0px 1px 4px !important;
     margin : auto !important;
     font-size : 8px !important;
 }
@@ -187,5 +187,19 @@
     font-size : 12px;
 }
 
+/* 그 외 n개 */
+.calendar .fc-theme-standard .fc-popover {
+    border-radius: 3px !important;
+}
 
+.calendar .fc .fc-popover-title {
+    font-size : 12px !important;
+}
 
+.calendar .fc .fc-more-popover-misc {
+    display: none !important;
+}
+
+.calendar .fc-daygrid-event-harness {
+    margin-bottom: 3px !important;
+}
