@@ -1,10 +1,6 @@
 'use client'
 
-import Image from 'next/image'
-import { DeleteUser } from '@/_assets/Icons'
-import useGetMember from '@/_hook/useGetMember'
 import Fix from '@/_components/Fix/fix'
-import Admin from '@/_components/Admin/admin'
 import { useEffect, useState } from 'react'
 import MemoPage from '@/_components/Memo/memopage'
 

@@ -20,3 +20,13 @@ export interface User {
 export interface Member {
   userList: User[]
 }
+
+export interface MemoInfo {
+  content: string
+  createdDate: string
+  memoId: number
+}
+
+export interface Memo {
+  memoList: MemoInfo[]
+}

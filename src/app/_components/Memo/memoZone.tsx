@@ -3,21 +3,36 @@
 import StickerMemo from '@/_components/Memo/stickerMemo'
 import Image from 'next/image'
 import { Plus } from '@/_assets/Icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import useGetMemo from '@/_hook/useGetMemo'
+import { MemoInfo } from '@/_types'
 
 export default function MemoZone() {
-  const [memoCount, setMemoCount] = useState(2)
+  const { data } = useGetMemo()
+  const [memoList, setMemoList] = useState<MemoInfo[]>(data?.memoList || [])
+
   const addMemo = () => {
-    setMemoCount((prevCount) => prevCount + 1)
-  }
-  const renderMemos = () => {
-    const memos = []
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < memoCount; i++) {
-      memos.push(<StickerMemo key={i} />)
+    const newMemo: MemoInfo = {
+      content: '',
+      createdDate: new Date().toISOString(),
+      memoId: memoList.length + 1,
     }
-    return memos
+    setMemoList((prevMemos) => [newMemo, ...prevMemos])
   }
+
+  const renderMemos = () => {
+    return memoList.map((memo) => (
+      <StickerMemo key={memo.memoId} memoContent={memo.content} />
+    ))
+  }
+
+  useEffect(() => {
+    if (data?.memoList) {
+      const sortedMemos = data.memoList.sort((a, b) => b.memoId - a.memoId)
+      setMemoList(sortedMemos)
+    }
+  }, [data])
+
   return (
     <div className="flex flex-col w-full">
       <div className="flex justify-between mb-3">
