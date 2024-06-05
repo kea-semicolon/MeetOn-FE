@@ -90,7 +90,9 @@ const UserList = () => {
                 </td>
                 <td className="py-4">{user.userNickname}</td>
                 <td className="py-4">{user.userEmail}</td>
-                <td className="py-4">{user.createdAt.slice(0, 10)}</td>
+                <td className="py-4">
+                  {user.createdAt.slice(0, 10).replace(/-/g, '.')}
+                </td>
                 <td className="py-4 flex justify-center">
                   <div className="">
                     <Image src={DeleteUser} alt="deleteuser" />
