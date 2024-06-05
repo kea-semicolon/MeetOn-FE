@@ -6,18 +6,17 @@ import { Cancel, ViewCalendarBtn } from '@/_assets/Icons'
 import '@/_styles/addEventModal.css'
 import usePostSchedule from '@/_hook/usePostSchedule' // 저장에 사용될 훅
 import useUpdateSchedule from '@/_hook/usePutSchedule'
+import useDeleteSchedule from '@/_hook/useDeleteSchedule'
 
 interface AddEventModalProps {
   onClose: () => void
   onSave: (event: any) => void
-  onDelete: () => void
   selectedEvent: any
 }
 
 const AddEventModal: React.FC<AddEventModalProps> = ({
   onClose,
   onSave,
-  onDelete,
   selectedEvent,
 }) => {
   const [title, setTitle] = useState<string>('')
@@ -33,6 +32,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
 
   const postScheduleMutation = usePostSchedule() // 새 일정을 추가하기 위한 훅
   const updateScheduleMutation = useUpdateSchedule() // 일정을 업데이트하기 위한 훅
+  const deleteScheduleMutation = useDeleteSchedule()
 
   const [scheduleId, setScheduleId] = useState<number | null>(null)
 
@@ -128,6 +128,31 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       } catch (error) {
         console.error('Error updating schedule:', error)
       }
+    }
+  }
+
+  const handleDelete = async (deleteScheduleId: number) => {
+    try {
+      console.log('삭제 버튼 클릭')
+      console.log('삭제할 스케줄 id: ', deleteScheduleId)
+      if (deleteScheduleId) {
+        // 삭제 요청 보내기
+        await deleteScheduleMutation.mutateAsync(deleteScheduleId)
+        // 삭제가 성공하면 onDelete 콜백 실행
+        console.log('Deleted scheduleId:', deleteScheduleId) // 삭제 버튼을 클릭하면 selected schedule id 출력
+        onClose()
+      } else {
+        console.log('schedule id 존재 안함')
+      }
+    } catch (error) {
+      console.error('Error deleting schedule:', error)
+    }
+  }
+
+  const handleDeleteEvent = () => {
+    if (selectedEvent) {
+      handleDelete(selectedEvent.id) // selectedEvent.id를 handleDelete 함수의 인자로 전달
+      onClose()
     }
   }
 
@@ -271,8 +296,12 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         <hr className="border-gray-300" />
         <div className="flex justify-center align-center pt-3">
           <button
-            onClick={selectedEvent ? onDelete : onClose}
-            className={`pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] border border-[#D9D9D9] text-[12px] ${selectedEvent ? 'text-[#959595] bg-[#000000] border-none' : 'text-black'} mx-0.5`}
+            onClick={selectedEvent ? handleDeleteEvent : onClose}
+            className={`pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] border border-[#D9D9D9] text-[12px] ${
+              selectedEvent
+                ? 'text-[#959595] bg-[#000000] border-none'
+                : 'text-black'
+            } mx-0.5`}
           >
             {selectedEvent ? '삭제' : '취소'}
           </button>

@@ -79,16 +79,6 @@ const Calendar: NextPage<CalendarProps> = ({
     }
   }
 
-  const handleDeleteEvent = () => {
-    if (selectedEvent) {
-      const updatedEvents = events.filter(
-        (event) => event.id !== selectedEvent.id,
-      )
-      setEvents(updatedEvents)
-    }
-    setShowModal(false)
-  }
-
   const handleEventClick = (clickInfo: any) => {
     const clickedEvent = clickInfo.event
     const scheduleId = clickedEvent.id
@@ -177,7 +167,6 @@ const Calendar: NextPage<CalendarProps> = ({
           onClose={handleCloseModal}
           selectedEvent={selectedEvent}
           onSave={handleSaveEvent}
-          onDelete={handleDeleteEvent}
         />
       )}
     </div>
