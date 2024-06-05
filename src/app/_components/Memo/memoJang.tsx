@@ -1,16 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import usePostMemo from '@/_hook/usePostMemo'
-import { useRouter } from 'next/navigation'
 
 export default function MemoJang({
   setCurrentView,
+  selectedContent,
 }: {
   setCurrentView: (view: boolean) => void
+  selectedContent: string
 }) {
   const [memoText, setMemoText] = useState<string>('')
-  const route = useRouter()
   const { mutate: createMemo } = usePostMemo()
-
+  useEffect(() => {
+    setMemoText(selectedContent)
+  }, [selectedContent])
   const handleSave = () => {
     createMemo({ content: memoText })
     setCurrentView(true)

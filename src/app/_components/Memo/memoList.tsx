@@ -6,8 +6,10 @@ import { MemoPlus } from '@/_assets/Icons'
 
 export default function MemoList({
   setCurrentView,
+  setSelectedContent,
 }: {
   setCurrentView: (view: boolean) => void
+  setSelectedContent: (content: string) => void
 }) {
   const { data } = useGetMemo()
   const [memoList, setMemoList] = useState<MemoInfo[]>(data?.memoList || [])
@@ -15,6 +17,10 @@ export default function MemoList({
   const defaultCells = Array.from({ length: 10 }, (_, index) => index)
   const handleMemoPlusClick = () => {
     setCurrentView(!setCurrentView)
+  }
+  const handleMemoClick = (content: string) => {
+    setSelectedContent(content)
+    setCurrentView(false)
   }
   return (
     <div>
@@ -39,7 +45,11 @@ export default function MemoList({
                   ?.slice(0, 10)
                   .replace(/-/g, '.') || ''}
               </td>
-              <td className="py-2 text-left pl-4" style={{ height: '40px' }}>
+              <td
+                onClick={() => handleMemoClick(memoList[index]?.content || '')}
+                className="py-2 text-left pl-4 cursor-pointer"
+                style={{ height: '40px' }}
+              >
                 {memoList[index]?.content?.length > 20
                   ? `${memoList[index].content.slice(0, 40)}···`
                   : memoList[index]?.content || ''}
