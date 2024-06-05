@@ -42,12 +42,21 @@ const Calendar: NextPage<CalendarProps> = ({
 
   useEffect(() => {
     const today = new Date()
+    const isToday = (date: Date) => {
+      return (
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate()
+      )
+    }
+
     const filteredEvents = events.filter((event) => {
       const eventStart = new Date(event.start)
+      const eventEnd = new Date(event.end)
       return (
-        eventStart.getFullYear() === today.getFullYear() &&
-        eventStart.getMonth() === today.getMonth() &&
-        eventStart.getDate() === today.getDate()
+        isToday(eventStart) ||
+        isToday(eventEnd) ||
+        (eventStart < today && eventEnd > today)
       )
     })
     onTodayEventsChange(filteredEvents)
