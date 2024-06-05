@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import logo from '@/_assets/Images/mainlogo.png'
 
 export default function Header() {
   const [path, setPath] = useState('')
@@ -43,10 +45,9 @@ export default function Header() {
 
   return (
     <div className="flex items-center">
-      <a href="/main" className="flex" style={headerStyles}>
-        <p className="text-[28px] font-bold text-[#FFCD00]">Meet;</p>
-        <p className="text-[28px] font-bold text-[#4D4D4D]">ON</p>
-      </a>
+      <div className="flex" style={headerStyles}>
+        <Image src={logo} alt="logo" className="w-[121px]" />
+      </div>
       <div className="flex gap-24 text-[16px] font-medium mt-2">
         {menuItems.map((item) => (
           <div
@@ -54,9 +55,11 @@ export default function Header() {
             className="flex flex-col items-center gap-0.5 cursor-pointer"
             onClick={() => handleNavigation(item.href)}
           >
-            <p className={path === item.href ? 'font-bold' : ''}>{item.text}</p>
+            <p className={path === item.href ? 'font-bold' : 'text-[#959595]'}>
+              {item.text}
+            </p>
             {path === item.href && (
-              <div className="bg-[#FFCD00] rounded-full w-[6px] h-[6px]" />
+              <div className="w-[56px] h-[1.5px] bg-black" />
             )}
           </div>
         ))}
