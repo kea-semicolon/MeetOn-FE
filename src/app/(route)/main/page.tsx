@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Fix from '@/_components/Fix/fix'
 import Calendar from '@/_components/Chart/calendar'
 import TodayEvents from '@/_components/Chart/todayEvents'
@@ -21,9 +21,12 @@ export default function MainPage() {
     }
   }, [])
 
-  const handleTodayEventsChange = (events: any[]) => {
-    setTodayEvents(events)
-  }
+  const handleTodayEventsChange = useCallback(
+    (events: any[]) => {
+      setTodayEvents(events)
+    },
+    [setTodayEvents],
+  )
 
   const mainStyles = {
     marginLeft: `${windowWidth / 5 - 15}px`, // 화면 너비의 1/5 만큼 왼쪽으로 이동

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { NextPage } from 'next'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -63,21 +63,26 @@ const Calendar: NextPage<CalendarProps> = ({
     onTodayEventsChange(filteredEvents)
   }, [events, onTodayEventsChange])
 
-  const handleSaveEvent = (newEvent: any) => {
-    if (selectedEvent) {
-      setEvents((prevEvents) => {
-        const updatedEvents = prevEvents.map((event) => {
-          if (event.id === selectedEvent.id) {
-            return { ...event, ...newEvent }
-          }
-          return event
+  const handleSaveEvent = useCallback(
+    (newEvent: any) => {
+      if (selectedEvent) {
+        setEvents((prevEvents) => {
+          const updatedEvents = prevEvents.map((event) => {
+            if (event.id === selectedEvent.id) {
+              return { ...event, ...newEvent }
+            }
+            return event
+          })
+          return updatedEvents
         })
-        return updatedEvents
-      })
-    } else {
-      setEvents((prevEvents) => [...prevEvents, newEvent])
-    }
-  }
+      } else {
+        const updatedEvents = [...events, newEvent]
+        setEvents(updatedEvents)
+        onTodayEventsChange(updatedEvents)
+      }
+    },
+    [events, selectedEvent, onTodayEventsChange],
+  )
 
   const handleEventClick = (clickInfo: any) => {
     const clickedEvent = clickInfo.event
