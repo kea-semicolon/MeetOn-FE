@@ -4,7 +4,8 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Cancel, ViewCalendarBtn } from '@/_assets/Icons'
 import '@/_styles/addEventModal.css'
-import usePostSchedule from '@/_hook/usePostSchedule'
+import usePostSchedule from '@/_hook/usePostSchedule' // 저장에 사용될 훅
+import useUpdateSchedule from '@/_hook/usePutSchedule'
 
 interface AddEventModalProps {
   onClose: () => void
@@ -30,10 +31,14 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   const [endDate, setEndDate] = useState<Date | null>(new Date())
   const [endTime, setEndTime] = useState<Date | null>(defaultEndTime)
 
-  const postScheduleMutation = usePostSchedule()
+  const postScheduleMutation = usePostSchedule() // 새 일정을 추가하기 위한 훅
+  const updateScheduleMutation = useUpdateSchedule() // 일정을 업데이트하기 위한 훅
+
+  const [scheduleId, setScheduleId] = useState<number | null>(null)
 
   useEffect(() => {
     if (selectedEvent) {
+      setScheduleId(selectedEvent.scheduleId)
       setTitle(selectedEvent.title)
       setStartDate(selectedEvent.start)
       setStartTime(selectedEvent.start)
@@ -50,7 +55,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
     } else if (!startTime || !endTime) {
       alert('시간을 입력하세요.')
     } else {
-      // 날짜 시간 모두 입력 (모든 조건 충족된 경우)
       const startDateTime = new Date(
         startDate!.getFullYear(),
         startDate!.getMonth(),
@@ -66,36 +70,63 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         endTime!.getMinutes(),
       )
 
-      let newEvent
-      if (selectedEvent) {
-        // 수정
-        newEvent = {
-          ...selectedEvent,
-          title,
-          start: startDateTime,
-          end: endDateTime,
-        }
-      } else {
-        // 새로운 이벤트 추가
-        newEvent = { title, start: startDateTime, end: endDateTime }
-      }
-
       try {
-        console.log(startDateTime.toJSON(), endDateTime.toJSON())
-        const startTimeString = `${String(startDateTime.getHours()).padStart(2, '0')}:${String(startDateTime.getMinutes()).padStart(2, '0')}:${String(startDateTime.getSeconds()).padStart(2, '0')}`
-        const endTimeString = `${String(endDateTime.getHours()).padStart(2, '0')}:${String(endDateTime.getMinutes()).padStart(2, '0')}:${String(endDateTime.getSeconds()).padStart(2, '0')}`
-        console.log(startTimeString, endTimeString)
-
+        // 새 일정 추가
         postScheduleMutation.mutateAsync({
           title,
           startTime: startDateTime.toJSON(),
           endTime: endDateTime.toJSON(),
         })
-        onSave(newEvent)
+        onSave({ title, start: startDateTime, end: endDateTime })
         onClose()
       } catch (error) {
         console.error('Error saving schedule:', error)
-        // Handle error
+      }
+    }
+  }
+
+  const handleUpdate = () => {
+    if (!startDate && !startTime && !endDate && !endTime) {
+      alert('날짜와 시간을 입력하세요.')
+    } else if (!startDate || !endDate) {
+      alert('날짜를 입력하세요.')
+    } else if (!startTime || !endTime) {
+      alert('시간을 입력하세요.')
+    } else {
+      const startDateTime = new Date(
+        startDate!.getFullYear(),
+        startDate!.getMonth(),
+        startDate!.getDate(),
+        startTime!.getHours(),
+        startTime!.getMinutes(),
+      )
+      const endDateTime = new Date(
+        endDate!.getFullYear(),
+        endDate!.getMonth(),
+        endDate!.getDate(),
+        endTime!.getHours(),
+        endTime!.getMinutes(),
+      )
+
+      try {
+        // 일정 업데이트
+        console.log('1 : ', selectedEvent.id)
+        updateScheduleMutation.mutateAsync({
+          scheduleId: selectedEvent?.id,
+          title,
+          startTime: startDateTime.toJSON(),
+          endTime: endDateTime.toJSON(),
+        })
+        console.log('2 : ', selectedEvent.id)
+        onSave({
+          ...selectedEvent,
+          title,
+          start: startDateTime,
+          end: endDateTime,
+        })
+        onClose()
+      } catch (error) {
+        console.error('Error updating schedule:', error)
       }
     }
   }
@@ -246,12 +277,21 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             {selectedEvent ? '삭제' : '취소'}
           </button>
 
-          <button
-            onClick={handleSave}
-            className="pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] bg-[#000000] text-white text-[12px] mx-0.5"
-          >
-            저장
-          </button>
+          {selectedEvent ? ( // 수정 모드인지 확인
+            <button
+              onClick={handleUpdate}
+              className="pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] bg-[#000000] text-white text-[12px] mx-0.5"
+            >
+              수정
+            </button>
+          ) : (
+            <button
+              onClick={handleSave}
+              className="pl-3.5 pr-3.5 pt-1 pb-1 rounded-[4px] bg-[#000000] text-white text-[12px] mx-0.5"
+            >
+              저장
+            </button>
+          )}
         </div>
       </div>
     </>

@@ -14,20 +14,6 @@ interface CalendarProps {
   onTodayEventsChange: (events: any[]) => void
 }
 
-const DisplayMoreEventsModal = ({ events, onClose }) => {
-  return (
-    <div className="display-more-events-modal">
-      <h2>All Events</h2>
-      <ul>
-        {events.map((event, index) => (
-          <li key={index}>{event.title}</li>
-        ))}
-      </ul>
-      <button onClick={onClose}>Close</button>
-    </div>
-  )
-}
-
 const Calendar: NextPage<CalendarProps> = ({
   showAddButton = true,
   onTodayEventsChange,
@@ -42,17 +28,11 @@ const Calendar: NextPage<CalendarProps> = ({
 
   const { data } = useGetSchedule(currentYear, currentMonth)
 
-  const handleMoreLinkClick = (info) => {
-    const { allSegs } = info
-    const allEvents = allSegs.map((seg) => seg.event)
-    setEvents(allEvents)
-    setShowModal(true)
-  }
-
   useEffect(() => {
     if (data?.result) {
       console.log('Fetched user list:', data.result)
       const schedules = data.result.map((schedule) => ({
+        id: schedule.scheduleId,
         title: schedule.title,
         start: schedule.startTime,
         end: schedule.endTime,
@@ -84,10 +64,6 @@ const Calendar: NextPage<CalendarProps> = ({
   }, [events, onTodayEventsChange])
 
   const handleSaveEvent = (newEvent: any) => {
-    const eventId = Date.now().toString()
-    // eslint-disable-next-line no-param-reassign
-    newEvent.id = eventId
-
     if (selectedEvent) {
       setEvents((prevEvents) => {
         const updatedEvents = prevEvents.map((event) => {
@@ -115,6 +91,9 @@ const Calendar: NextPage<CalendarProps> = ({
 
   const handleEventClick = (clickInfo: any) => {
     const clickedEvent = clickInfo.event
+    const scheduleId = clickedEvent.id
+    console.log('Selected event scheduleId:', scheduleId)
+
     const isHomePage = window.location.pathname === '/main'
     if (isHomePage) {
       setSelectedEvent(clickedEvent)
@@ -182,15 +161,6 @@ const Calendar: NextPage<CalendarProps> = ({
         dayMaxEvents={1}
         moreLinkClassNames={['more-events-link']}
         moreLinkText={(n) => `그 외 ${n}개`}
-        moreLinkClick={(info) => {
-          const { date, allSegs } = info
-          info.jsEvent.preventDefault()
-          console.log('Clicked date:', date)
-          console.log('All segments:', allSegs)
-
-          // 여기에 모달을 열고 사용자 정의 동작을 수행하는 코드를 추가합니다.
-          // 예: openCustomModal(allSegs);
-        }}
         dayHeaderContent={(arg) => {
           const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
           return daysOfWeek[arg.date.getDay()]

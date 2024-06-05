@@ -8,6 +8,10 @@ interface PostBoardProps {
   endTime: string
 }
 
+interface CreateScheduleResponse {
+  scheduleId: string // Adjust based on the actual response structure
+}
+
 const usePostSchedule = () => {
   const router = useRouter()
   const createSchedule = async ({

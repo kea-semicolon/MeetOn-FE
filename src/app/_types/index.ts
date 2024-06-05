@@ -5,6 +5,7 @@ export interface CreateChannelInfo {
 }
 
 export interface ScheduleInfo {
+  scheduleId: number
   title: string
   startTime: string
   endTime: string
