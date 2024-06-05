@@ -1,3 +1,20 @@
+export interface CreateChannelInfo {
+  userNickname: string
+  userAuth: string
+  channelName: string
+}
+
+export interface ScheduleInfo {
+  scheduleId: number
+  title: string
+  startTime: string
+  endTime: string
+}
+
+export interface Schedule {
+  result: ScheduleInfo[]
+}
+
 export interface MemberInfo {
   userNickname: string
   userImage: string

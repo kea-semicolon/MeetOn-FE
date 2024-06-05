@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import useGetSchedule from '@/_hook/useGetSchedule'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import koLocale from '@fullcalendar/core/locales/ko'
 import AddEventModal from './addEventModal'
@@ -10,23 +11,60 @@ import '@/_styles/calendar.css'
 
 interface CalendarProps {
   showAddButton?: boolean
+  onTodayEventsChange: (events: any[]) => void
 }
 
-const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
+const Calendar: NextPage<CalendarProps> = ({
+  showAddButton = true,
+  onTodayEventsChange,
+}) => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [events, setEvents] = useState<any[]>([])
   const calendarRef = useRef<any>(null)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
 
+  const currentYear = new Date().getFullYear()
+  const currentMonth = new Date().getMonth() + 1
+
+  const { data } = useGetSchedule(currentYear, currentMonth)
+
+  useEffect(() => {
+    if (data?.result) {
+      console.log('Fetched user list:', data.result)
+      const schedules = data.result.map((schedule) => ({
+        id: schedule.scheduleId,
+        title: schedule.title,
+        start: schedule.startTime,
+        end: schedule.endTime,
+      }))
+      setEvents(schedules)
+    }
+  }, [data])
+
+  useEffect(() => {
+    const today = new Date()
+    const isToday = (date: Date) => {
+      return (
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate()
+      )
+    }
+
+    const filteredEvents = events.filter((event) => {
+      const eventStart = new Date(event.start)
+      const eventEnd = new Date(event.end)
+      return (
+        isToday(eventStart) ||
+        isToday(eventEnd) ||
+        (eventStart < today && eventEnd > today)
+      )
+    })
+    onTodayEventsChange(filteredEvents)
+  }, [events, onTodayEventsChange])
+
   const handleSaveEvent = (newEvent: any) => {
-    // 이벤트 생성 시 ID 부여
-    const eventId = Date.now().toString()
-
-    // eslint-disable-next-line no-param-reassign
-    newEvent.id = eventId
-
     if (selectedEvent) {
-      // 선택된 이벤트가 있다면 해당 이벤트를 수정
       setEvents((prevEvents) => {
         const updatedEvents = prevEvents.map((event) => {
           if (event.id === selectedEvent.id) {
@@ -37,57 +75,35 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         return updatedEvents
       })
     } else {
-      // 선택된 이벤트가 없다면 새로운 이벤트 추가
       setEvents((prevEvents) => [...prevEvents, newEvent])
     }
   }
 
-  const handleDeleteEvent = () => {
-    if (selectedEvent) {
-      // 선택된 이벤트와 ID가 같은 이벤트를 제외한 새로운 이벤트 배열 생성
-      const updatedEvents = events.filter(
-        (event) => event.id !== selectedEvent.id,
-      )
-      setEvents(updatedEvents)
-    }
-    setShowModal(false)
-  }
-
   const handleEventClick = (clickInfo: any) => {
     const clickedEvent = clickInfo.event
+    const scheduleId = clickedEvent.id
+    console.log('Selected event scheduleId:', scheduleId)
+
     const isHomePage = window.location.pathname === '/main'
     if (isHomePage) {
       setSelectedEvent(clickedEvent)
       setShowModal(true)
     } else {
       const eventTitle = clickedEvent.title
-      // 회의록 페이지로 이동
-      window.location.href = `/meeting-notes/${eventTitle}` // 예시 URL
+      window.location.href = `/meeting-notes/${eventTitle}`
     }
   }
 
   const handleAddEventButtonClick = () => {
     setShowModal(false)
-    setSelectedEvent(null) // 선택된 이벤트 초기화
+    setSelectedEvent(null)
     setShowModal(true)
   }
 
   const handleCloseModal = () => {
-    setSelectedEvent(null) // 선택된 이벤트 초기화
+    setSelectedEvent(null)
     setShowModal(false)
   }
-
-  // 일정 수정 test용
-  React.useEffect(() => {
-    setEvents((prevEvents) => [
-      ...prevEvents,
-      {
-        title: '주제 회의',
-        start: '2024-05-08',
-        end: '2024-05-08',
-      },
-    ])
-  }, [])
 
   return (
     <div className="calendar w-full">
@@ -103,7 +119,7 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         locale={koLocale}
         customButtons={{
           addEventButton: {
-            text: '',
+            text: '+ 일정추가',
             click: () => setShowModal(true),
           },
           todayButton: {
@@ -120,8 +136,8 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
           year: 'numeric',
           month: 'long',
         }}
-        eventBackgroundColor="#FF7236"
-        eventBorderColor="#FF7236"
+        eventBackgroundColor="#000000"
+        eventBorderColor="#000000"
         eventTimeFormat={{
           hour: '2-digit',
           minute: '2-digit',
@@ -129,9 +145,10 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
         }}
         editable
         displayEventTime
+        eventDisplay="block"
         fixedWeekCount={false}
         events={events}
-        dayMaxEvents={2} // = eventLimit
+        dayMaxEvents={1}
         moreLinkClassNames={['more-events-link']}
         moreLinkText={(n) => `그 외 ${n}개`}
         dayHeaderContent={(arg) => {
@@ -150,7 +167,6 @@ const Calendar: NextPage<CalendarProps> = ({ showAddButton = true }) => {
           onClose={handleCloseModal}
           selectedEvent={selectedEvent}
           onSave={handleSaveEvent}
-          onDelete={handleDeleteEvent}
         />
       )}
     </div>
