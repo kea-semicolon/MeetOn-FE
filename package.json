@@ -23,7 +23,8 @@
     "openvidu-browser": "^2.29.1",
     "react": "^18",
     "react-datepicker": "^6.6.0",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.32.0",

@@ -1,4 +1,3 @@
-import useGetMemberInfo from '@/_hook/useGetMemberInfo'
 import useGetCodeInfo from '@/_hook/useGetCodeInfo'
 
 const RoomCode = () => {

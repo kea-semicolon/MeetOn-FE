@@ -8,7 +8,7 @@ export default function Fix() {
       <div className="-mt-4 h-screen w-1/5 fixed right-0">
         <Chat />
       </div>
-      <div className="ml-9">
+      <div className="ml-2">
         <Header />
       </div>
       <div className="flex">

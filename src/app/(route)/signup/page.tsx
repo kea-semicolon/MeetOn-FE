@@ -6,6 +6,7 @@ import usePostChannel from '@/_hook/usePostChannel'
 import Modal from '@/_components/Modal/modal'
 import useGetMemberInfo from '@/_hook/useGetMemberInfo'
 import usePatchMember from '@/_hook/usePatchMember'
+import signup from '@/_assets/Images/signup.png'
 
 export default function Signup() {
   const { data: memberInfo } = useGetMemberInfo()
@@ -53,8 +54,8 @@ export default function Signup() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className=" w-[513px] h-[440px] shadow-md ">
+    <div className="flex justify-center items-center bg-black h-screen">
+      <div className="rounded-[8px] z-10 w-[513px] h-[440px] shadow-md bg-[#1D1D1D]">
         {memberInfo && (
           <Image
             className="rounded-full mx-auto mb-6 mt-16"
@@ -66,7 +67,7 @@ export default function Signup() {
         )}
         <div className="w-[186px] mx-auto">
           <input
-            className="outline-none flex text-center h-[31px] text-[16px]"
+            className="outline-none flex bg-[#1D1D1D] text-white text-center h-[31px] text-[16px]"
             placeholder="사용자 이름"
             value={userNickname}
             onChange={(e) => setUserNickname(e.target.value)}
@@ -76,14 +77,14 @@ export default function Signup() {
         <div className="flex gap-3 justify-center mt-12">
           <button
             type="button"
-            className="rounded-[6px] border text-[#FFCD00] text-center border-[#FFCD00] w-[148px] h-[50px]"
+            className="rounded-[6px] border text-[#D2FA64] text-center border-[#D2FA64] w-[148px] h-[50px]"
             onClick={openModal}
           >
             방 만들기
           </button>
           <button
             type="button"
-            className="rounded-[6px] text-[#FFFFFF] text-center bg-[#FFCD00] w-[148px] h-[50px]"
+            className="rounded-[6px] text-black text-center bg-[#D2FA64] w-[148px] h-[50px]"
             onClick={openModal2}
           >
             참여하기
@@ -94,7 +95,7 @@ export default function Signup() {
         )}
       </div>
       {isModalOpen && (
-        <div className="absolute">
+        <div className="z-20 absolute">
           <Modal
             hostStatus="방 이름을 입력하세요"
             onClose={closeModal}
@@ -105,7 +106,7 @@ export default function Signup() {
         </div>
       )}
       {isModalOpen2 && (
-        <div className="absolute">
+        <div className="z-20 absolute">
           <Modal
             hostStatus="방 코드를 입력하세요"
             onClose={closeModal}
@@ -115,6 +116,7 @@ export default function Signup() {
           />
         </div>
       )}
+      <Image src={signup} alt="signup" className="fixed w-[1440px] px-10 " />
     </div>
   )
 }
