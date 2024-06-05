@@ -1,44 +1,35 @@
-'use client'
-
-import useGetMemo from '@/_hook/useGetMemo'
 import { useState } from 'react'
-import { MemoInfo } from '@/_types'
+import usePostMemo from '@/_hook/usePostMemo'
+import { useRouter } from 'next/navigation'
 
-export default function MemoJang() {
-  const { data } = useGetMemo()
-  const [memoList, setMemoList] = useState<MemoInfo[]>(data?.memoList || [])
+export default function MemoJang({
+  setCurrentView,
+}: {
+  setCurrentView: (view: boolean) => void
+}) {
+  const [memoText, setMemoText] = useState<string>('')
+  const route = useRouter()
+  const { mutate: createMemo } = usePostMemo()
 
-  const defaultCells = Array.from({ length: 10 }, (_, index) => index)
+  const handleSave = () => {
+    createMemo({ content: memoText })
+    setCurrentView(true)
+  }
 
   return (
-    <table className="w-full bg-[#FFFACD] bg-opacity-50 text-center mt-5">
-      <thead>
-        <tr className="">
-          <td className="py-4 w-44 border-r-[0.5px]  border-r-[#FF2D2D]">
-            게시 날짜
-          </td>
-          <td className="py-4">메모 내용</td>
-        </tr>
-      </thead>
-      <tbody className="">
-        {defaultCells.map((_, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <tr key={index} className="border-t-[0.5px]  border-black">
-            <td
-              className="py-2  border-r-[0.5px] border-r-[#FF2D2D]"
-              style={{ height: '40px' }}
-            >
-              {memoList[index]?.createdDate?.slice(0, 10).replace(/-/g, '.') ||
-                ''}
-            </td>
-            <td className="py-2 text-left pl-4" style={{ height: '40px' }}>
-              {memoList[index]?.content?.length > 20
-                ? `${memoList[index].content.slice(0, 40)}···`
-                : memoList[index]?.content || ''}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="flex flex-col">
+      <textarea
+        placeholder="메모 내용을 입력하세요."
+        className="mb-3 focus:outline-0 pl-3 pt-3 rounded-[3px] border border-opacity-50 border-[#959595] mt-4 bg-white w-full h-[405px]"
+        value={memoText}
+        onChange={(e) => setMemoText(e.target.value)}
+      />
+      <button
+        onClick={handleSave}
+        className="w-[66px] h-[34px] bg-black text-[#D2FA64] ml-auto rounded-[3px]"
+      >
+        저장
+      </button>
+    </div>
   )
 }

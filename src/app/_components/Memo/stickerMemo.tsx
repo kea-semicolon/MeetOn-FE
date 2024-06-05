@@ -18,25 +18,25 @@ const StickerMemo = ({ memoContent }: { memoContent: string }) => {
   return (
     <div className="flex flex-col mb-3">
       <div className="relative w-full h-[23px] bg-[#FFF7D8]">
+        <button type="button" onClick={() => setContent(!content)}>
+          <Image
+            className="mt-0.5 ml-2"
+            src={content ? UpArrow : DownArrow}
+            alt="arrow"
+          />
+        </button>
         <button type="button" onClick={handleSave}>
           <Image
-            className="absolute opacity-80 right-[40px] top-[7px]"
+            className="absolute opacity-80 right-[25px] top-[5.8px]"
             src={Save}
             alt="save"
           />
         </button>
         <button type="button">
           <Image
-            className="absolute right-7 top-1.5"
+            className="absolute right-2 top-0.5"
             src={Trashcan}
             alt="trashcan"
-          />
-        </button>
-        <button type="button" onClick={() => setContent(!content)}>
-          <Image
-            className="absolute right-3 top-2"
-            src={content ? UpArrow : DownArrow}
-            alt="arrow"
           />
         </button>
       </div>

@@ -1,5 +1,5 @@
-import useGetMemberInfo from '@/_hook/useGetMemberInfo'
 import useGetCodeInfo from '@/_hook/useGetCodeInfo'
+import { useState } from 'react'
 
 const RoomCode = () => {
   const { data } = useGetCodeInfo()
