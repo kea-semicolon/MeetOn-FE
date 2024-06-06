@@ -47,8 +47,8 @@ export default function Chat() {
               src={user.userImage}
               className="rounded-full "
             />
-            <div className="w-1.5 h-1.5 rounded-full bg-[#21EC00]" />
-            <p>{user.userNickname}</p>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#959595]" />
+            <p className="text-[#959595]">{user.userNickname}</p>
           </div>
         ))}
 
