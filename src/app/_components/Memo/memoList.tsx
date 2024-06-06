@@ -24,10 +24,10 @@ export default function MemoList({
   }
   return (
     <div>
-      <table className="w-full bg-[#FFFACD] bg-opacity-50 text-center mt-5">
+      <table className="w-full bg-[#FDFFE8] bg-opacity-60 text-center mt-5">
         <thead>
           <tr className="">
-            <td className="py-4 w-44 border-r-[0.5px]  border-r-[#FF2D2D]">
+            <td className="py-4 w-44 border-r-[0.5px] border-r-[#FF2D2D]">
               게시 날짜
             </td>
             <td className="py-4">메모 내용</td>
@@ -47,7 +47,7 @@ export default function MemoList({
               </td>
               <td
                 onClick={() => handleMemoClick(memoList[index]?.content || '')}
-                className="py-2 text-left pl-4 cursor-pointer"
+                className="py-2 text-left pl-5 cursor-pointer"
                 style={{ height: '40px' }}
               >
                 {memoList[index]?.content?.length > 20
