@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import logo from '@/_assets/Images/logo.png'
 
 interface ModalProps {
   onClose: () => void
@@ -26,32 +28,31 @@ export default function Modal({
     onClose()
   }
   return (
-    <div className="gap-7 flex justify-center flex-col items-center w-[481px] h-[280px] rounded-[18px] bg-white">
+    <div className="gap-7 flex justify-center flex-col items-center w-[481px] h-[280px] rounded-[4px] bg-[#1D1D1D]">
       <div className="flex">
-        <p className="text-[28px] text-[#FFCD00] font-bold">Meet;</p>
-        <p className="text-[28px] text-[#4D4D4D] font-bold">ON</p>
+        <Image className="w-[99px]" src={logo} alt="logo" />
       </div>
       <input
-        className="pl-2 outline-0 w-[308px] border-2 h-[48px] rounded-[6px]"
+        className="pl-2 bg-[#000000] text-white outline-0 w-[308px] h-[48px] rounded-[6px]"
         placeholder={hostStatus}
         value={channelName}
         onChange={(e) => setChannelName(e.target.value)}
       />
       <div className="flex gap-3">
         <button
-          className="bg-[#D9D9D9] rounded-[6px] w-[150px] h-[54px]"
+          className="bg-[#4E5058] text-white rounded-[3px] w-[150px] h-[54px]"
           type="button"
           onClick={handleCancelClick}
         >
           취소
         </button>
         <button
-          className="bg-[#FFCD00] text-white rounded-[6px] w-[150px] h-[54px]"
+          className="bg-[#000000] border border-[#D2FA64] text-[#D2FA64] rounded-[3px] w-[150px] h-[54px]"
           type="button"
           onClick={handleCreateClick}
         >
           {' '}
-          만들기
+          참여하기
         </button>
       </div>
     </div>
