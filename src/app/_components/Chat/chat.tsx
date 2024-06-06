@@ -59,7 +59,7 @@ export default function Chat() {
           className="placeholder-[#444847] outline-0 items-center px-3 bg-[#202020]"
           placeholder="메세지를 입력하세요."
         />
-        {/*<OpenViduFile />*/}
+        {/* <OpenViduFile /> */}
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ import Chat from '@/_components/Chat/chat'
 import Image from 'next/image'
 import openvidu from '@/_assets/Images/openvidu.png'
 import { useEffect, useRef, useState } from 'react'
+import Join from '@/_components/OpenVidu/join'
 
 export default function Fix() {
   const chatRef = useRef<HTMLDivElement>(null)
@@ -33,7 +34,7 @@ export default function Fix() {
         className="fixed mb-8 bottom-0 right-0 w-[76px] z-50"
         style={{ right: chatWidth + 10 }}
       >
-        <Image src={openvidu} alt="openvidu" />
+        <Join />
       </div>
     </div>
   )
