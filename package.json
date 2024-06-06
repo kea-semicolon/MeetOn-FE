@@ -28,6 +28,7 @@
     "react-dom": "^18",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.23.1"
+    "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.40.0",

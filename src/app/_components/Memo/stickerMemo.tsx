@@ -1,39 +1,51 @@
 'use client'
 
 import Image from 'next/image'
-import { DownArrow, UpArrow, Pin, Trashcan, Rectangle } from '@/_assets/Icons'
-import { useEffect, useState } from 'react'
+import { DownArrow, UpArrow, Trashcan, Save } from '@/_assets/Icons'
+import { useState } from 'react'
+import usePostMemo from '@/_hook/usePostMemo'
 
-const StickerMemo = () => {
+const StickerMemo = ({ memoContent }: { memoContent: string }) => {
   const [content, setContent] = useState<boolean>(true)
-  const [pin, setPin] = useState<boolean>(false)
+  const [memoText, setMemoText] = useState<string>(memoContent)
+
+  const { mutate: createMemo } = usePostMemo()
+
+  const handleSave = () => {
+    createMemo({ content: memoText })
+  }
+
   return (
     <div className="flex flex-col mb-3">
-      <div className="relative w-full h-[23px] bg-[#FFCD00] bg-opacity-20">
-        <button type="button" onClick={() => setPin(!pin)}>
-          <Image
-            className="absolute left-3 top-1.5"
-            src={pin ? Pin : Rectangle}
-            alt="pin"
-          />
-        </button>
-        <button type="button">
-          <Image
-            className="absolute right-7 top-1.5"
-            src={Trashcan}
-            alt="trashcan"
-          />
-        </button>
+      <div className="relative w-full h-[23px] bg-[#FCFFD3] bg-opacity-90">
         <button type="button" onClick={() => setContent(!content)}>
           <Image
-            className="absolute right-3 top-2"
+            className="mt-0.5 ml-2"
             src={content ? UpArrow : DownArrow}
             alt="arrow"
           />
         </button>
+        <button type="button" onClick={handleSave}>
+          <Image
+            className="absolute opacity-80 right-[25px] top-[5.8px]"
+            src={Save}
+            alt="save"
+          />
+        </button>
+        <button type="button">
+          <Image
+            className="absolute right-2 top-0.5"
+            src={Trashcan}
+            alt="trashcan"
+          />
+        </button>
       </div>
       {content && (
-        <textarea className="text-[10px] p-2 focus:outline-none w-full h-[183px] bg-[#FFCD00] bg-opacity-10" />
+        <textarea
+          className="text-[14px] p-3 focus:outline-none w-full h-[183px] bg-opacity-90 bg-[#FDFFE8]"
+          value={memoText}
+          onChange={(e) => setMemoText(e.target.value)}
+        />
       )}
     </div>
   )

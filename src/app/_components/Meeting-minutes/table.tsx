@@ -1,24 +1,36 @@
 import { useState } from 'react'
 
 const Table = () => {
-  const initialRows = Array.from({ length: 9 }, () =>
-    Array.from({ length: 2 }, () => ''),
-  )
+  // 고유한 id를 생성하는 함수
+  const createRow = () => ({
+    id: Math.random().toString(36).substr(2, 9),
+    cells: ['', ''],
+  })
+
+  const initialRows = Array.from({ length: 9 }, createRow)
   const [tableRows, setTableRows] = useState(initialRows)
 
   // 행 추가
   const addRow = () => {
-    setTableRows([...tableRows, Array.from({ length: 2 }, () => '')])
+    setTableRows([...tableRows, createRow()])
   }
 
   // 셀 값 변경
   const handleChangeCell = (
-    rowIndex: number,
+    rowId: string,
     columnIndex: number,
     value: string,
   ) => {
-    const updatedRows = [...tableRows]
-    updatedRows[rowIndex][columnIndex] = value
+    const updatedRows = tableRows.map((row) =>
+      row.id === rowId
+        ? {
+            ...row,
+            cells: row.cells.map((cell, idx) =>
+              idx === columnIndex ? value : cell,
+            ),
+          }
+        : row,
+    )
     setTableRows(updatedRows)
   }
 
@@ -36,18 +48,23 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {tableRows.map((row, rowIndex) => (
-            <tr key={rowIndex} className="w-1/5 border-b border-[#959595]">
-              {row.map((cell, columnIndex) => (
-                <td
-                  key={columnIndex}
-                  className="w-1/5 border-r border-[#959595] px-6 py-4 whitespace-nowrap"
-                >
+          {tableRows.map((row) => (
+            <tr key={row.id} className="w-1/5 border-b border-[#959595]">
+              {row.cells.map((cell, columnIndex) => (
+                // eslint-disable-next-line react/jsx-key
+                <td className="w-1/5 border-r border-[#959595] px-6 py-4 whitespace-nowrap">
+                  <label
+                    htmlFor={`cell-${row.id}-${columnIndex}`}
+                    className="sr-only"
+                  >
+                    {columnIndex === 0 ? '회의 날짜' : '회의 제목'}
+                  </label>
                   <input
+                    id={`cell-${row.id}-${columnIndex}`}
                     type="text"
                     value={cell}
                     onChange={(e) =>
-                      handleChangeCell(rowIndex, columnIndex, e.target.value)
+                      handleChangeCell(row.id, columnIndex, e.target.value)
                     }
                     style={{ width: '100%', backgroundColor: 'transparent' }}
                   />
