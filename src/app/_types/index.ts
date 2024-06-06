@@ -4,6 +4,17 @@ export interface CreateChannelInfo {
   channelName: string
 }
 
+export interface CreateBoardInfo {
+  title: string
+  content: string
+  isNotice: boolean
+  fileList: string[]
+}
+
+export interface CreateCommentInfo {
+  content: string
+}
+
 export interface ScheduleInfo {
   scheduleId: number
   title: string
@@ -23,6 +34,24 @@ export interface MemberInfo {
 
 export interface CodeInfo {
   code: string
+}
+
+
+export interface BoardItem {
+  boardId: number
+  boardTitle: string
+  username: string
+  createdDate: string
+  notice: boolean
+  content: string
+}
+
+export interface ApiResponse {
+  content: BoardItem[]
+  totalElements: number
+  totalPages: number
+  size: number
+  number: number
 }
 
 export interface User {
