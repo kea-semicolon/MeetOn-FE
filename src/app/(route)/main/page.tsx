@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Fix from '@/_components/Fix/fix'
 import Calendar from '@/_components/Chart/calendar'
 import TodayEvents from '@/_components/Chart/todayEvents'
+import MemoPage from '@/_components/Memo/memopage'
 
 export default function MainPage() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -29,7 +30,7 @@ export default function MainPage() {
   )
 
   const mainStyles = {
-    marginLeft: `${windowWidth / 5 - 15}px`, // 화면 너비의 1/5 만큼 왼쪽으로 이동
+    marginLeft: `${windowWidth / 5 - 13}px`, // 화면 너비의 1/5 만큼 왼쪽으로 이동
   }
 
   return (

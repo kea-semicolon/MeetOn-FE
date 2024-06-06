@@ -48,11 +48,11 @@ export default function Header() {
       <div className="flex" style={headerStyles}>
         <Image src={logo} alt="logo" className="w-[121px]" />
       </div>
-      <div className="flex gap-24 text-[16px] font-medium mt-2">
+      <div className="flex gap-16 text-[16px] font-medium mt-2">
         {menuItems.map((item) => (
           <div
             key={item.href}
-            className="flex flex-col items-center gap-0.5 cursor-pointer"
+            className="w-[70px] flex flex-col items-center gap-0.5 cursor-pointer"
             onClick={() => handleNavigation(item.href)}
           >
             <p className={path === item.href ? 'font-bold' : 'text-[#959595]'}>
