@@ -21,6 +21,9 @@ export default function MemoZone() {
   }
 
   const renderMemos = () => {
+    if (memoList.length === 0) {
+      return <StickerMemo key="default-empty-memo" memoContent="" />
+    }
     return memoList.map((memo) => (
       <StickerMemo key={memo.memoId} memoContent={memo.content} />
     ))
@@ -30,6 +33,8 @@ export default function MemoZone() {
     if (data?.memoList) {
       const sortedMemos = data.memoList.sort((a, b) => b.memoId - a.memoId)
       setMemoList(sortedMemos)
+    } else {
+      setMemoList([])
     }
   }, [data])
 

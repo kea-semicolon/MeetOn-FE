@@ -40,7 +40,7 @@ export default function MainPage() {
         style={mainStyles}
         className="my-[70px] w-3/5 h-screen relative bg-[#F8F9FB]"
       >
-        <p className="px-6 py-4 text-[20px] font-bold">캘린더</p>
+        <p className="px-6 pb-6 pt-4 text-[20px] font-bold">캘린더</p>
         <div className="pl-4 pr-4 pb-4">
           <Calendar onTodayEventsChange={handleTodayEventsChange} />
         </div>
