@@ -17,7 +17,7 @@ const StickerMemo = ({ memoContent }: { memoContent: string }) => {
 
   return (
     <div className="flex flex-col mb-3">
-      <div className="relative w-full h-[23px] bg-[#FFF7D8]">
+      <div className="relative w-full h-[23px] bg-[#FCFFD3] bg-opacity-90">
         <button type="button" onClick={() => setContent(!content)}>
           <Image
             className="mt-0.5 ml-2"
@@ -42,7 +42,7 @@ const StickerMemo = ({ memoContent }: { memoContent: string }) => {
       </div>
       {content && (
         <textarea
-          className="text-[14px] p-3 focus:outline-none w-full h-[183px] bg-[#FFFDE8]"
+          className="text-[14px] p-3 focus:outline-none w-full h-[183px] bg-opacity-90 bg-[#FDFFE8]"
           value={memoText}
           onChange={(e) => setMemoText(e.target.value)}
         />
