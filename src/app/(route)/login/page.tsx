@@ -24,7 +24,7 @@ export default function Login() {
         <button
           type="button"
           onClick={handleLogin}
-          className="w-[470px] -ml-1 mt-32 flex h-[60px] items-center justify-center gap-2 rounded-[7px] bg-[#FEE500]"
+          className="w-[450px] -ml-1 mt-32 flex h-[55px] items-center justify-center gap-2 rounded-[7px] bg-[#FEE500]"
         >
           <div className="mt-1 flex">
             <Image
@@ -32,7 +32,7 @@ export default function Login() {
               className="mr-3 mt-0.5 h-[25px] w-[26px]"
               alt="kakao"
             />
-            <p className="text-[21px]">카카오계정으로 로그인</p>
+            <p className="text-[18px]">카카오계정으로 로그인</p>
           </div>
         </button>
       </div>

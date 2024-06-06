@@ -15,7 +15,6 @@ const UserList = () => {
 
   useEffect(() => {
     if (data?.userList) {
-      console.log('Fetched user list:', data.userList)
       const initialCheckboxes = data.userList.map((user) => ({
         id: user.userId,
         checked: false,
