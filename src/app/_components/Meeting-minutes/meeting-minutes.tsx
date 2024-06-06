@@ -23,7 +23,7 @@ const MeetingMinutes = () => {
   return (
     <div className="w-3/5 h-full absolute bg-[#F8F9FB]">
       <div className="flex justify-between">
-        <p className="text-[20px] font-bold pl-6 pt-4">일정공유</p>
+        <p className="text-[20px] font-bold pl-6 pt-4">회의록</p>
         <div className="flex justify-end px-6 py-4">
           <Toggle onToggle={handleToggleView} />
         </div>
