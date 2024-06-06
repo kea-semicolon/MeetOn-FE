@@ -1,4 +1,3 @@
-import OpenViduFile from '@/_components/OpenVidu/OpenViduFile'
 import Image from 'next/image'
 import useGetMemberInfo from '@/_hook/useGetMemberInfo'
 import useGetMember from '@/_hook/useGetMember'
@@ -38,7 +37,7 @@ export default function Chat() {
             {memberList.userList.length}
           </p>
         </div>
-        {memberList?.userList?.map((user) => (
+        {memberList?.userList?.map((user: any) => (
           <div key={user.userId} className="flex items-center gap-2.5 my-5">
             <Image
               alt="userimage"
