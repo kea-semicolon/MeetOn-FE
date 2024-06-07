@@ -130,8 +130,8 @@ const Calendar: NextPage<CalendarProps> = ({
         headerToolbar={{
           left: 'prev,title,next',
           end: `${
-            showAddButton ? 'addEventButton,' : ''
-          }todayButton${showWhen2meetButton ? ',when2meetButton' : ''}`,
+            showWhen2meetButton ? 'when2meetButton,' : ''
+          }todayButton${showAddButton ? ',addEventButton' : ''}`,
         }}
         locale={koLocale}
         customButtons={{

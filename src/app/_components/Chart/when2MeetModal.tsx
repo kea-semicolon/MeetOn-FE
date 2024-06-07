@@ -188,7 +188,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                   onClick={() => {
                     startDatePickerRef.current?.setFocus()
                   }}
-                  className="absolute top-1/2 transform -translate-y-1/ right-0 mr-5 border-none bg-none cursor-pointer"
+                  className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-5 border-none bg-none cursor-pointer"
                 >
                   <Image src={ViewCalendarBtn} alt="calendar" />
                 </button>
@@ -204,7 +204,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                   timeIntervals={30}
                   dateFormat="HH:mm"
                   className="text-xs bg-white w-[107px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-3 px-3"
-                  ref={startDatePickerRef}
+                  ref={startTimePickerRef}
                 />
                 <button
                   onClick={() => {

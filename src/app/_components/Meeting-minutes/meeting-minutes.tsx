@@ -1,5 +1,4 @@
-import Calendar from '@/_components/Chart/calendar'
-import MeetingMinutesList from '@/_components/Meeting-minutes/meetingMinutesList'
+import MinutesCalendar from '@/_components/Meeting-minutes/minutesCalendar'
 import Toggle from '@/_components/Meeting-minutes/toggle'
 import Table from '@/_components/Meeting-minutes/table'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -30,15 +29,11 @@ const MeetingMinutes = () => {
       </div>
       <div className="pl-4 pr-4 pb-4">
         {isCalendarView ? (
-          <Calendar
-            onTodayEventsChange={handleTodayEventsChange}
-            showAddButton={false}
-          />
+          <MinutesCalendar onTodayEventsChange={handleTodayEventsChange} />
         ) : (
           <Table />
         )}
       </div>
-      <MeetingMinutesList />
     </div>
   )
 }
