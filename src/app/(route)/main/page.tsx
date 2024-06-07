@@ -42,7 +42,10 @@ export default function MainPage() {
       >
         <p className="px-6 pb-6 pt-4 text-[20px] font-bold">캘린더</p>
         <div className="pl-4 pr-4 pb-4">
-          <Calendar onTodayEventsChange={handleTodayEventsChange} />
+          <Calendar
+            onTodayEventsChange={handleTodayEventsChange}
+            showWhen2meetButton={false}
+          />
         </div>
         <p className="px-6 pt-3 pb-3 text-[20px] font-bold">오늘의 일정</p>
         <div className="">

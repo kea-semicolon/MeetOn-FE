@@ -36,7 +36,6 @@ export interface CodeInfo {
   code: string
 }
 
-
 export interface BoardItem {
   boardId: number
   boardTitle: string
@@ -75,4 +74,12 @@ export interface MemoInfo {
 
 export interface Memo {
   memoList: MemoInfo[]
+}
+
+export interface WhenToMeetInfo {
+  eventName: string
+  startDate: string
+  endDate: string
+  startTime: number
+  endTime: number
 }
