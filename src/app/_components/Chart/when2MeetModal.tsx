@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -20,8 +20,14 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
   const [startTime, setStartTime] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
   const [endTime, setEndTime] = useState<Date | null>(null)
+  const [tableRows, setTableRows] = useState<number[]>([])
 
   const postWhenToMeetMutation = usePostWhenToMeet() // 새 일정을 추가하기 위한 훅
+
+  const startDatePickerRef = useRef<DatePicker | null>(null)
+  const startTimePickerRef = useRef<DatePicker | null>(null)
+  const endDatePickerRef = useRef<DatePicker | null>(null)
+  const endTimePickerRef = useRef<DatePicker | null>(null)
 
   const handleSave = () => {
     if (!startDate || !startTime || !endDate || !endTime || !title) {
@@ -45,6 +51,12 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
       if (startDateTime >= endDateTime) {
         alert('시작 시간은 종료 시간보다 이전이어야 합니다.')
       } else {
+        const durationInMinutes =
+          (endDateTime.getTime() - startDateTime.getTime()) / (1000 * 60)
+        const numberOfRows = Math.ceil(durationInMinutes / 30) // 30분 간격으로 행 계산
+        setTableRows(
+          Array.from({ length: numberOfRows }, (_, index) => index + 1),
+        ) // 행 배열 설정
         postWhenToMeetMutation.mutate({
           title,
           startDate: startDateTime.toISOString(),
@@ -56,20 +68,71 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
     }
     onClose() // 모달 창 닫기
   }
+  // 시작 날짜와 종료 날짜에 따라 열의 수 계산
+  const calculateColumnCount = () => {
+    if (!startDate || !endDate) return 0
+    const startDateTime = startDate.getTime()
+    const endDateTime = endDate.getTime()
+    const numberOfDays =
+      Math.ceil((endDateTime - startDateTime) / (1000 * 60 * 60 * 24)) + 1 // 선택한 날짜 수 계산
+    return numberOfDays
+  }
+
+  // 시작 시간과 종료 시간에 따라 행의 수 계산
+  const calculateRowCount = () => {
+    if (!startTime || !endTime) return 0
+    const startHour = startTime.getHours()
+    const startMinute = startTime.getMinutes()
+    const endHour = endTime.getHours()
+    const endMinute = endTime.getMinutes()
+    const startMinutes = startHour * 60 + startMinute
+    const endMinutes = endHour * 60 + endMinute
+    const durationInMinutes = endMinutes - startMinutes
+    const numberOfRows = Math.ceil(durationInMinutes / 30) // 30분 간격으로 행 계산
+    return numberOfRows
+  }
 
   // 표 그리기
   const drawTable = () => {
-    if (startDate && startTime && endDate && endTime) {
+    const columnCount = calculateColumnCount()
+    const rowCount = calculateRowCount()
+
+    if (columnCount > 0 && rowCount > 0) {
       return (
-        <div className="bg-green-200 p-3 rounded-md">
-          <p>
-            시작 일시: {startDate.toLocaleDateString()}{' '}
-            {startTime.toLocaleTimeString()}
-          </p>
-          <p>
-            종료 일시: {endDate.toLocaleDateString()}{' '}
-            {endTime.toLocaleTimeString()}
-          </p>
+        <div className="">
+          {/*
+          <p className="bg-blue-400">{`${columnCount}열, ${rowCount}행`}</p> */}
+          <table className="w-full border">
+            <thead>
+              <tr>
+                {/* 열 헤더 추가 */}
+                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                <th className="border" /> {/* 비워둠 */}
+                {[...Array(columnCount)].map((_, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <th key={index} className="border">
+                    Day {index + 1}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {/* 행과 각 행의 셀을 추가 */}
+              {[...Array(rowCount)].map((_, rowIndex) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <tr key={rowIndex} className="border">
+                  <td className="border">Time {rowIndex + 1}</td>
+                  {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
+                  {[...Array(columnCount)].map((_, colIndex) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <td key={colIndex} className="border">
+                      Cell {colIndex + 1}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )
     }
@@ -79,7 +142,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50 z-10" />
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md border border-gray-200 z-20 w-[548px] h-auto">
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md border border-gray-200 z-20 w-[520px] h-auto">
         {/* 모달 내용 */}
         <style jsx global>{`
           .react-datepicker__input-container {
@@ -95,161 +158,112 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         <hr className="my-4 border-gray-300" />
 
         {/* 이벤트 이름 입력 */}
-        <div className="flex mb-[10px] mt-3">
-          <div className="w-3/4">
-            <textarea
-              value={title}
-              placeholder="이벤트 이름을 입력하세요"
-              className="w-[339] h-[108px] text-[38px] rounded-[2px] border border-[#d9d9d9] mt-[5px] ml-[-12px] inline-block align-top resize-none"
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
+        <div className="flex justify-center items-center pb-4">
+          <textarea
+            value={title}
+            placeholder="이벤트 이름을 입력하세요"
+            className="w-[339px] h-[38px] text-[14px] rounded-[2px] border border-[#d9d9d9] resize-none pt-2 pl-2"
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
 
         <div className="h-[210px]">
           {/* 시작 날짜 선택 */}
-          <div className="flex items-center mb-[10px]">
-            <div className="w-1/5 mr-[6px] text-[10px] text-[#636363] text-center ">
-              시작 일시 선택
-            </div>
-            <div className="w-2/5">
-              <div className="relative ml-0.5">
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date: Date | null) => setStartDate(date)}
-                    dateFormat="MM월 dd일"
-                    placeholderText="시작 날짜 선택"
-                    className="text-xs bg-white w-[121px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-1.5 pl-3"
-                    formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
-                  />
-                  <button
-                    onClick={() => {
-                      const datePickerInput = document.querySelector(
-                        '.react-datepicker-wrapper input',
-                      )
-                      if (datePickerInput) {
-                        const event = new MouseEvent('click', {
-                          bubbles: true,
-                          cancelable: true,
-                          view: window,
-                        })
-                        datePickerInput.dispatchEvent(event)
-                      }
-                    }}
-                    className="absolute top-1/2 transform -translate-y-1/2 right-0 border-none bg-none cursor-pointer"
-                  >
-                    <Image src={ViewCalendarBtn} alt="error" />
-                  </button>
-                </label>
+          <div className="flex justify-center items-center">
+            <div className="flex items-center mb-3">
+              <div className="text-[12px] text-[#636363] whitespace-nowrap pr-1.5">
+                시작 일시
               </div>
-            </div>
-            {/* 시작 시간 선택 */}
-            <div className="w-2/5">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label>
+              <div className="relative">
                 <DatePicker
-                  selected={startTime}
-                  onChange={(date: Date | null) => setStartTime(date)}
+                  selected={startDate}
+                  onChange={(date: Date | null) => setStartDate(date)}
                   dateFormat="MM월 dd일"
-                  placeholderText="시작 시간 선택"
-                  className="text-xs bg-white  w-[107px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-1.5 pl-3"
+                  placeholderText="시작 날짜 선택"
+                  className="text-xs bg-white w-[121px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-1.5 pl-3"
                   formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
-                  wrapperClassName="react-datepicker-wrapper-end"
+                  ref={startDatePickerRef}
                 />
                 <button
                   onClick={() => {
-                    const datePickerInput = document.querySelector(
-                      '.react-datepicker-wrapper input',
-                    )
-                    if (datePickerInput) {
-                      const event = new MouseEvent('click', {
-                        bubbles: true,
-                        cancelable: true,
-                        view: window,
-                      })
-                      datePickerInput.dispatchEvent(event)
-                    }
+                    startDatePickerRef.current?.setFocus()
                   }}
-                  className="absolute top-1/2 transform -translate-y-1/2 right-0 border-none bg-none cursor-pointer"
+                  className="absolute top-1/2 transform -translate-y-1/ right-0 mr-5 border-none bg-none cursor-pointer"
                 >
-                  <Image src={ViewCalendarBtn} alt="error" />
+                  <Image src={ViewCalendarBtn} alt="calendar" />
                 </button>
-              </label>
-            </div>
-          </div>
-
-          {/* 종료 날짜 선택 */}
-          <div className="flex items-center mb-[10px]">
-            <div className="w-1/5 mr-[6px] text-[10px] text-[#636363] text-center">
-              종료 일시 선택
-            </div>
-            <div className="w-2/5">
-              <div className="relative ml-0.5">
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label>
-                  <DatePicker
-                    selected={endDate}
-                    onChange={(date: Date | null) => setStartDate(date)}
-                    dateFormat="MM월 dd일"
-                    placeholderText="종료 날짜 선택"
-                    className="text-xs bg-white w-[121px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-1.5 pl-3"
-                    formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
-                  />
-                  <button
-                    onClick={() => {
-                      const datePickerInput = document.querySelector(
-                        '.react-datepicker-wrapper input',
-                      )
-                      if (datePickerInput) {
-                        const event = new MouseEvent('click', {
-                          bubbles: true,
-                          cancelable: true,
-                          view: window,
-                        })
-                        datePickerInput.dispatchEvent(event)
-                      }
-                    }}
-                    className="absolute top-1/2 transform -translate-y-1/2 right-0 border-none bg-none cursor-pointer"
-                  >
-                    <Image src={ViewCalendarBtn} alt="error" />
-                  </button>
-                </label>
+              </div>
+              {/* 시작 시간 선택 */}
+              <div className="relative">
+                <DatePicker
+                  selected={startTime}
+                  onChange={(date: Date | null) => setStartTime(date)}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  placeholderText="시작 시간 선택"
+                  timeIntervals={30}
+                  dateFormat="HH:mm"
+                  className="text-xs bg-white w-[107px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-3 px-3"
+                  ref={startDatePickerRef}
+                />
+                <button
+                  onClick={() => {
+                    startTimePickerRef.current?.setFocus()
+                  }}
+                  className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-5 border-none bg-none cursor-pointer"
+                >
+                  <Image src={ViewCalendarBtn} alt="calendar" />
+                </button>
               </div>
             </div>
-            {/* 종료 시간 선택 */}
-            <div className="w-2/5">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label>
+          </div>
+          {/* 종료 날짜 선택 */}
+          <div className="flex justify-center items-center">
+            <div className="flex items-center mb-[10px]">
+              <div className="text-[12px] text-[#636363] whitespace-nowrap pr-1.5">
+                종료 일시
+              </div>
+              <div className="relative">
                 <DatePicker
                   selected={endDate}
                   onChange={(date: Date | null) => setEndDate(date)}
                   dateFormat="MM월 dd일"
-                  placeholderText="종료 시간 선택"
-                  className="text-xs bg-white w-[107px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-1.5 pl-3"
+                  placeholderText="종료 날짜 선택"
+                  className="text-xs bg-white w-[121px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-1.5 pl-3"
                   formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
-                  wrapperClassName="react-datepicker-wrapper-end"
+                  ref={endDatePickerRef}
                 />
                 <button
                   onClick={() => {
-                    const datePickerInput = document.querySelector(
-                      '.react-datepicker-wrapper input',
-                    )
-                    if (datePickerInput) {
-                      const event = new MouseEvent('click', {
-                        bubbles: true,
-                        cancelable: true,
-                        view: window,
-                      })
-                      datePickerInput.dispatchEvent(event)
-                    }
+                    endDatePickerRef.current?.setFocus()
                   }}
-                  className="absolute top-1/2 transform -translate-y-1/2 right-0 border-none bg-none cursor-pointer"
+                  className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-5 border-none bg-none cursor-pointer"
                 >
-                  <Image src={ViewCalendarBtn} alt="error" />
+                  <Image src={ViewCalendarBtn} alt="calendar" />
                 </button>
-              </label>
+              </div>
+              {/* 종료 시간 선택 */}
+              <div className="relative">
+                <DatePicker
+                  selected={endTime}
+                  onChange={(date: Date | null) => setEndTime(date)}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  placeholderText="종료 시간 선택"
+                  timeIntervals={30}
+                  dateFormat="HH:mm"
+                  className="text-xs bg-white w-[107px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-3 px-3"
+                  ref={endTimePickerRef}
+                />
+                <button
+                  onClick={() => {
+                    endTimePickerRef.current?.setFocus()
+                  }}
+                  className="absolute top-1/2 transform -translate-y-1/2 right-0 mr-5 border-none bg-none cursor-pointer"
+                >
+                  <Image src={ViewCalendarBtn} alt="calendar" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -259,7 +273,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         <div className="flex justify-center align-center pt-3">
           <button
             onClick={handleSave}
-            className="pl-3.5 pr-3.5 pt-1 pb-1 rounded-[2px] bg-[#ffffff] text-[14px]"
+            className="px-4 py-1.5 rounded-[2px] bg-[#ffffff] text-[14px] border border-[#959595]"
           >
             확인
           </button>

@@ -187,6 +187,18 @@
     font-size : 12px;
 }
 
+.calendar .fc-when2meetButton-button {
+    background-color: #000000 !important;
+    background-image: url('../_assets/Icons/plusEvent.svg');
+    background-repeat : no-repeat;
+    background-position: center center !important;
+    border: none !important;
+    width: 32px !important;
+    height: 33px !important;
+    border-radius: 50% !important;
+    margin-right : 15px !important;
+}
+
 /* 그 외 n개 */
 .calendar .fc-theme-standard .fc-popover {
     border-radius: 3px !important;

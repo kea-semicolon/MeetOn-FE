@@ -114,6 +114,12 @@ const Calendar: NextPage<CalendarProps> = ({
     setShowModal(false)
   }
 
+  const handleCloseWhenToMeetModal = () => {
+    setShowWhen2meetModal(false)
+  }
+
+  const handleSaveWhenToMeet = () => {}
+
   return (
     <div className="calendar w-full">
       <FullCalendar
@@ -124,8 +130,8 @@ const Calendar: NextPage<CalendarProps> = ({
         headerToolbar={{
           left: 'prev,title,next',
           end: `${
-            showWhen2meetButton ? 'when2meetButton,' : ''
-          }todayButton${showAddButton ? ',addEventButton' : ''}`,
+            showAddButton ? 'addEventButton,' : ''
+          }todayButton${showWhen2meetButton ? ',when2meetButton' : ''}`,
         }}
         locale={koLocale}
         customButtons={{
@@ -143,7 +149,7 @@ const Calendar: NextPage<CalendarProps> = ({
             },
           },
           when2meetButton: {
-            text: 'when2meet',
+            text: '',
             click: () => {
               setShowWhen2meetModal(true)
             },
@@ -184,6 +190,12 @@ const Calendar: NextPage<CalendarProps> = ({
           onClose={handleCloseModal}
           selectedEvent={selectedEvent}
           onSave={handleSaveEvent}
+        />
+      )}
+      {showWhen2meetModal && (
+        <WhenToMeetModal
+          onClose={handleCloseWhenToMeetModal}
+          onSave={handleSaveWhenToMeet}
         />
       )}
     </div>
