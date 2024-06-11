@@ -38,9 +38,6 @@ const MinutesForm: React.FC<MinutesFormProps> = ({ eventDetails }) => {
         />
       </div>
       <div className="flex justify-end">
-        <button className="bg-[#D2FA64] border border-black px-5 py-3 text-[14px] rounded-[3px] mr-2">
-          회의 로그 보기
-        </button>
         <button className="bg-[#000000] rounded-[2px] px-5 py-1.5 text-[#D2FA64] text-[14px]">
           삭제
         </button>
