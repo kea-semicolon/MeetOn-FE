@@ -1,11 +1,11 @@
 import React from 'react'
 
-interface DeletePostModalProps {
+interface DeleteChannelModalProps {
   onClose: () => void
   onDelete: () => void
 }
 
-const DeleteBoardModal: React.FC<DeletePostModalProps> = ({
+const DeleteChannelModal: React.FC<DeleteChannelModalProps> = ({
   onClose,
   onDelete,
 }) => {
@@ -13,7 +13,7 @@ const DeleteBoardModal: React.FC<DeletePostModalProps> = ({
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 backdrop-blur-[4px] z-50">
       <div className="flex justify-center flex-col items-center w-[481px] h-[224px] rounded-[4px] bg-white">
         <div className="flex">
-          <p className="text-[15px] mt-20">게시글을 삭제하시겠습니까?</p>
+          <p className="text-[15px] mt-20">채널을 삭제하시겠습니까?</p>
         </div>
         <div className="flex w-full mt-auto ">
           <button
@@ -36,4 +36,4 @@ const DeleteBoardModal: React.FC<DeletePostModalProps> = ({
   )
 }
 
-export default DeleteBoardModal
+export default DeleteChannelModal

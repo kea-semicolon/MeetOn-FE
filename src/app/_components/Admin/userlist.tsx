@@ -4,10 +4,23 @@ import { useEffect, useState } from 'react'
 import { DeleteUser } from '@/_assets/Icons'
 import Image from 'next/image'
 import useGetMember from '@/_hook/useGetMember'
+import useDeleteChannel from '@/_hook/useDeleteChannel'
+import DeleteChannelModal from '@/_components/Admin/deleteChannelModal'
+import useDeleteUser from '@/_hook/useDeleteUser'
+import DeleteUserModal from '@/_components/Admin/deleteUserModal'
 
 const UserList = () => {
+  const { handleDelete, handleDeleteClick, handleCloseModal, showDeleteModal } =
+    useDeleteChannel()
+  const {
+    handleDeleteUser,
+    handleDeleteUserClick,
+    handleCloseUserModal,
+    showDeleteUserModal,
+  } = useDeleteUser()
   const [selectAll, setSelectAll] = useState<boolean>(false)
   const { data } = useGetMember()
+  const [userId, setUserId] = useState<number | null>(null)
 
   const [checkboxes, setCheckboxes] = useState<
     { id: number; checked: boolean }[]
@@ -93,9 +106,9 @@ const UserList = () => {
                   {user.createdAt.slice(0, 10).replace(/-/g, '.')}
                 </td>
                 <td className="py-4 flex justify-center">
-                  <div className="">
+                  <button type="button" onClick={handleDeleteUserClick}>
                     <Image src={DeleteUser} alt="deleteuser" />
-                  </div>
+                  </button>
                 </td>
               </tr>
             ))}
@@ -111,11 +124,26 @@ const UserList = () => {
           <button
             className="border w-[94px] h-[32px] bg-[#FFFFFF] rounded-[4px] text-[#FF2D2D]"
             type="button"
+            onClick={handleDeleteClick}
           >
             채널 삭제
           </button>
         </div>
       </div>
+      {showDeleteModal && (
+        <DeleteChannelModal
+          onClose={handleCloseModal}
+          onDelete={() => handleDelete()}
+        />
+      )}
+      {showDeleteUserModal && (
+        <DeleteUserModal
+          onClose={handleCloseUserModal}
+          onDelete={() => {
+            handleDeleteUser(4)
+          }}
+        />
+      )}
     </div>
   )
 }
