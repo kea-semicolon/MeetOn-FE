@@ -3,7 +3,7 @@ import api from '@/_service/axios'
 import { useRouter } from 'next/navigation'
 
 interface PostWhenToMeetProps {
-  title: string
+  eventName: string
   startDate: string
   endDate: string
   startTime: number
@@ -13,21 +13,21 @@ interface PostWhenToMeetProps {
 const usePostWhenToMeet = () => {
   const router = useRouter()
   const createSchedule = async ({
-    title,
+    eventName,
     startDate,
     endDate,
     startTime,
     endTime,
   }: PostWhenToMeetProps) => {
-    console.log('Creating schedule info :', {
-      title,
+    console.log('Creating whenToMeet info :', {
+      eventName,
       startDate,
       startTime,
       endDate,
       endTime,
     })
     return api.post<Response>('/when-to-meet', {
-      title,
+      eventName,
       startDate,
       endDate,
       startTime,

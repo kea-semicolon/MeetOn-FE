@@ -1,21 +1,21 @@
 import React from 'react'
 
+interface EventDetails {
+  title: string
+  start: string
+  end: string
+}
+
 interface MinutesFormProps {
-  eventDetails: {
-    title: string
-    start: Date
-    end: Date
-    // 필요한 다른 속성 추가
-  }
+  eventDetails: EventDetails
 }
 
 const MinutesForm: React.FC<MinutesFormProps> = ({ eventDetails }) => {
-  // 이벤트 시작 및 종료 시간을 가져옵니다.
-  const startTime = eventDetails.start.toLocaleTimeString([], {
+  const startTime = new Date(eventDetails.start).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
   })
-  const endTime = eventDetails.end.toLocaleTimeString([], {
+  const endTime = new Date(eventDetails.end).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
   })

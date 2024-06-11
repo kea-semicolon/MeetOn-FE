@@ -4,18 +4,23 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import useGetSchedule from '@/_hook/useGetSchedule'
+import useGetWhenToMeet from '@/_hook/useGetWhenToMeet'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import koLocale from '@fullcalendar/core/locales/ko'
-import WhenToMeetModal from '@/_components/Chart/when2MeetModal'
+import WhenToMeetModal from '@/_components/Meeting-minutes/when2MeetModal'
 import '@/_styles/minutesCalendar.css'
-import MeetingMinutesList from '@/_components/Meeting-minutes/meetingMinutesList' // 추가된 부분
+import MeetingMinutesList from '@/_components/Meeting-minutes/meetingMinutesList'
 import MinutesForm from './minutesForm'
 
 interface CalendarProps {
   onTodayEventsChange: (events: any[]) => void
+  onEventsChange: (events: any[]) => void // Add this line
 }
 
-const MinutesCalendar: NextPage<CalendarProps> = ({ onTodayEventsChange }) => {
+const MinutesCalendar: NextPage<CalendarProps> = ({
+  onTodayEventsChange,
+  onEventsChange,
+}) => {
   const [events, setEvents] = useState<any[]>([])
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
   const calendarRef = useRef<any>(null)
@@ -25,6 +30,8 @@ const MinutesCalendar: NextPage<CalendarProps> = ({ onTodayEventsChange }) => {
   const currentMonth = new Date().getMonth() + 1
 
   const { data } = useGetSchedule(currentYear, currentMonth)
+  const { data: whenToMeetData, refetch: refetchWhenToMeet } =
+    useGetWhenToMeet() // Use the hook
 
   useEffect(() => {
     if (data?.result) {
@@ -36,8 +43,9 @@ const MinutesCalendar: NextPage<CalendarProps> = ({ onTodayEventsChange }) => {
         end: schedule.endTime,
       }))
       setEvents(schedules)
+      onEventsChange(schedules) // Call the handler with the fetched events
     }
-  }, [data])
+  }, [data, onEventsChange])
 
   useEffect(() => {
     const today = new Date()
@@ -74,14 +82,29 @@ const MinutesCalendar: NextPage<CalendarProps> = ({ onTodayEventsChange }) => {
 
   const handleSaveWhenToMeet = () => {}
 
+  const handleWhenToMeetButtonClick = async () => {
+    try {
+      const result = await refetchWhenToMeet() // Refetch data from server
+      if (result.data) {
+        console.log('WhenToMeet data exists :', result.data)
+      } else {
+        console.log('No WhenToMeet data found')
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        console.log('Unauthorized access - please check your credentials.')
+      } else {
+        console.log('An error occurred:', error.message)
+      }
+    }
+    setShowWhen2meetModal(true)
+  }
+
   return (
     <div className="MinutesCalendar w-full">
       {selectedEvent ? (
         <div>
           <MinutesForm eventDetails={selectedEvent} />
-          {/*
-          <button onClick={() => setSelectedEvent(null)}>이전</button>
-          */}
         </div>
       ) : (
         <>
@@ -107,9 +130,7 @@ const MinutesCalendar: NextPage<CalendarProps> = ({ onTodayEventsChange }) => {
               },
               when2meetButton: {
                 text: '',
-                click: () => {
-                  setShowWhen2meetModal(true)
-                },
+                click: handleWhenToMeetButtonClick, // Handle button click
               },
             }}
             titleFormat={{

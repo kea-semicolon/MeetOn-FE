@@ -1,22 +1,34 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MeetingMinutesList from '@/_components/Meeting-minutes/meetingMinutesList'
+import MinutesForm from './minutesForm'
 
-const Table = () => {
-  // 고유한 id를 생성하는 함수
-  const createRow = () => ({
-    id: Math.random().toString(36).substr(2, 9),
-    cells: ['', ''],
-  })
+type Event = {
+  id: string
+  title: string
+  start: string
+  end: string
+}
 
-  const initialRows = Array.from({ length: 9 }, createRow)
-  const [tableRows, setTableRows] = useState(initialRows)
+interface TableProps {
+  events: Event[]
+}
 
-  // 행 추가
-  const addRow = () => {
-    setTableRows([...tableRows, createRow()])
-  }
+const Table: React.FC<TableProps> = ({ events }) => {
+  const [tableRows, setTableRows] = useState<{ id: string; cells: string[] }[]>(
+    [],
+  )
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null) // Add selectedEvent state
 
-  // 셀 값 변경
+  useEffect(() => {
+    if (events.length > 0) {
+      const rowsWithEvents = events.map((event) => ({
+        id: event.id,
+        cells: [new Date(event.start).toLocaleDateString(), event.title],
+      }))
+      setTableRows(rowsWithEvents)
+    }
+  }, [events])
+
   const handleChangeCell = (
     rowId: string,
     columnIndex: number,
@@ -35,49 +47,64 @@ const Table = () => {
     setTableRows(updatedRows)
   }
 
+  const handleTitleClick = (rowId: string) => {
+    const clickedEvent = events.find((event) => event.id === rowId)
+    setSelectedEvent(clickedEvent || null)
+  }
+
   return (
     <div>
-      <div className="rounded-[6px] overflow-hidden border border-[#959595]">
-        <table className="table-fixed w-full bg-[#ffffff]">
-          <thead>
-            <tr>
-              <th className="w-1/5 text-center font-normal text-[14px] border-b border-r border-[#959595] tracking-wider">
-                회의 날짜
-              </th>
-              <th className="px-6 py-3 text-center font-normal text-[14px] border-b border-l border-[#959595] tracking-wider">
-                회의 제목
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableRows.map((row) => (
-              <tr key={row.id} className="w-1/5 border-b border-[#959595]">
-                {row.cells.map((cell, columnIndex) => (
-                  // eslint-disable-next-line react/jsx-key
-                  <td className="w-1/5 border-r border-[#959595] px-6 py-4 whitespace-nowrap">
-                    <label
-                      htmlFor={`cell-${row.id}-${columnIndex}`}
-                      className="sr-only"
-                    >
-                      {columnIndex === 0 ? '회의 날짜' : '회의 제목'}
-                    </label>
-                    <input
-                      id={`cell-${row.id}-${columnIndex}`}
-                      type="text"
-                      value={cell}
-                      onChange={(e) =>
-                        handleChangeCell(row.id, columnIndex, e.target.value)
-                      }
-                      style={{ width: '100%', backgroundColor: 'transparent' }}
-                    />
-                  </td>
-                ))}
+      {!selectedEvent && (
+        <div className="rounded-[6px] overflow-hidden border border-[#959595]">
+          <table className="table-fixed w-full bg-[#ffffff]">
+            <thead>
+              <tr>
+                <th className="w-1/5 bg-[#000000] text-center font-normal text-[14px] text-[#ffffff] tracking-wider border-r border-[#959595]">
+                  회의 날짜
+                </th>
+                <th className="bg-[#000000] px-6 py-3 text-center font-normal text-[14px] text-[#ffffff] tracking-wider">
+                  회의 제목
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <MeetingMinutesList />
+            </thead>
+            <tbody>
+              {tableRows.map((row, rowIndex) => (
+                <tr
+                  key={row.id}
+                  className={`w-1/5 border-b border-[#959595] ${rowIndex === tableRows.length - 1 ? 'border-none' : ''}`}
+                >
+                  {row.cells.map((cell, columnIndex) => (
+                    <td
+                      key={`${row.id}-${columnIndex}`}
+                      className={`w-1/5 px-6 py-4 whitespace-nowrap text-[14px] ${
+                        columnIndex === 0 ? 'border-r' : ''
+                      }`}
+                    >
+                      <label
+                        htmlFor={`cell-${row.id}-${columnIndex}`}
+                        className="sr-only"
+                      >
+                        {columnIndex === 0 ? '회의 날짜' : '회의 제목'}
+                      </label>
+                      <button
+                        onClick={
+                          () =>
+                            columnIndex === 0 ? null : handleTitleClick(row.id) // Handle title click
+                        }
+                        className="w-full bg-transparent text-left"
+                      >
+                        {cell}
+                      </button>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {selectedEvent && <MinutesForm eventDetails={selectedEvent} />}{' '}
+      {!selectedEvent && <MeetingMinutesList />}
     </div>
   )
 }

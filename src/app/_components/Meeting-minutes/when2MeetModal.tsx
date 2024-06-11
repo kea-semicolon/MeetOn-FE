@@ -15,7 +15,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
   onClose,
   onSave,
 }) => {
-  const [title, setTitle] = useState<string>('')
+  const [eventName, setEventName] = useState<string>('')
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [startTime, setStartTime] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
@@ -30,7 +30,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
   const endTimePickerRef = useRef<DatePicker | null>(null)
 
   const handleSave = () => {
-    if (!startDate || !startTime || !endDate || !endTime || !title) {
+    if (!startDate || !startTime || !endDate || !endTime || !eventName) {
       alert('이벤트 이름과 날짜/시간을 모두 입력하세요.')
     } else {
       const startDateTime = new Date(
@@ -57,17 +57,25 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         setTableRows(
           Array.from({ length: numberOfRows }, (_, index) => index + 1),
         ) // 행 배열 설정
+
+        // 필요한 형식으로 날짜와 시간 변환
+        const formattedStartDate = startDate.toISOString().split('T')[0]
+        const formattedEndDate = endDate.toISOString().split('T')[0]
+        const formattedStartTime = startTime.getHours()
+        const formattedEndTime = endTime.getHours()
+
         postWhenToMeetMutation.mutate({
-          title,
-          startDate: startDateTime.toISOString(),
-          endDate: endDateTime.toISOString(),
-          startTime: startDateTime.getTime(),
-          endTime: endDateTime.getTime(),
+          eventName,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+          startTime: formattedStartTime,
+          endTime: formattedEndTime,
         })
       }
     }
     onClose() // 모달 창 닫기
   }
+
   // 시작 날짜와 종료 날짜에 따라 열의 수 계산
   const calculateColumnCount = () => {
     if (!startDate || !endDate) return 0
@@ -160,10 +168,10 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         {/* 이벤트 이름 입력 */}
         <div className="flex justify-center items-center pb-4">
           <textarea
-            value={title}
+            value={eventName}
             placeholder="이벤트 이름을 입력하세요"
             className="w-[339px] h-[38px] text-[14px] rounded-[2px] border border-[#d9d9d9] resize-none pt-2 pl-2"
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setEventName(e.target.value)}
           />
         </div>
 
@@ -270,7 +278,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         <hr />
         <div>{drawTable()}</div>
         <hr />
-        <div className="flex justify-center align-center pt-3">
+        <div className="flex justify-center align-center pt-4">
           <button
             onClick={handleSave}
             className="px-4 py-1.5 rounded-[2px] bg-[#ffffff] text-[14px] border border-[#959595]"

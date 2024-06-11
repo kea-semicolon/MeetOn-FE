@@ -6,7 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import useGetSchedule from '@/_hook/useGetSchedule'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import koLocale from '@fullcalendar/core/locales/ko'
-import WhenToMeetModal from '@/_components/Chart/when2MeetModal'
+import WhenToMeetModal from '@/_components/Meeting-minutes/when2MeetModal'
 import AddEventModal from './addEventModal'
 import '@/_styles/calendar.css'
 
