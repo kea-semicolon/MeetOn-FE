@@ -9,7 +9,7 @@ const useDeleteChannel = () => {
   const deleteChannel = async () => {
     try {
       await api.delete('/channel')
-      router.push('/main')
+      router.push('/login')
     } catch (error) {
       console.error('Error deleting user:', error)
       alert('채널 삭제에 실패했습니다.')
