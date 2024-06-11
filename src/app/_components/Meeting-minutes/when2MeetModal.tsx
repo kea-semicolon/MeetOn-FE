@@ -96,49 +96,86 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
     const startMinutes = startHour * 60 + startMinute
     const endMinutes = endHour * 60 + endMinute
     const durationInMinutes = endMinutes - startMinutes
-    const numberOfRows = Math.ceil(durationInMinutes / 30) // 30분 간격으로 행 계산
+    const numberOfRows = Math.ceil(durationInMinutes / 60) // 30분 간격으로 행 계산
     return numberOfRows
   }
 
+  // 표 그리기
   // 표 그리기
   const drawTable = () => {
     const columnCount = calculateColumnCount()
     const rowCount = calculateRowCount()
 
     if (columnCount > 0 && rowCount > 0) {
+      // 시작 날짜와 종료 날짜 사이의 모든 날짜 가져오기
+      const dates: Date[] = []
+      if (startDate && endDate) {
+        const currentDate = new Date(startDate)
+        while (currentDate <= endDate) {
+          dates.push(new Date(currentDate))
+          currentDate.setDate(currentDate.getDate() + 1)
+        }
+      }
+
       return (
-        <div className="">
-          {/*
-          <p className="bg-blue-400">{`${columnCount}열, ${rowCount}행`}</p> */}
-          <table className="w-full border">
+        <div className="flex items-center justify-center">
+          <table className="">
             <thead>
-              <tr>
-                {/* 열 헤더 추가 */}
-                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-                <th className="border" /> {/* 비워둠 */}
-                {[...Array(columnCount)].map((_, index) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <th key={index} className="border">
-                    Day {index + 1}
-                  </th>
-                ))}
-              </tr>
+              {/* 열 헤더 추가 */}
+              {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+              <th className="" />
+              {dates.map((date, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <th key={index} className="text-[10px] font-normal p-1">
+                  {date.toLocaleDateString('ko-KR', {
+                    month: 'long',
+                    day: 'numeric',
+                  })}{' '}
+                  <br />{' '}
+                  <span className="text-[12px]">
+                    {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                  </span>
+                </th>
+              ))}
             </thead>
             <tbody>
               {/* 행과 각 행의 셀을 추가 */}
-              {[...Array(rowCount)].map((_, rowIndex) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <tr key={rowIndex} className="border">
-                  <td className="border">Time {rowIndex + 1}</td>
-                  {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-                  {[...Array(columnCount)].map((_, colIndex) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <td key={colIndex} className="border">
-                      Cell {colIndex + 1}
+              {[...Array(rowCount)].map((_, rowIndex) => {
+                if (!startTime) return null
+
+                const startHour = startTime.getHours() + rowIndex
+                const endHour = startTime.getHours() + rowIndex + 1
+
+                const formattedStartTime = new Date(startTime)
+                formattedStartTime.setHours(startHour)
+                const formattedEndTime = new Date(startTime)
+                formattedEndTime.setHours(endHour)
+
+                return (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <tr key={rowIndex} className="">
+                    <td className="pr-2">
+                      <div className="text-[10px] text-center">
+                        {formattedStartTime.toLocaleString('en-US', {
+                          hour: 'numeric',
+                          hour12: true,
+                        })}
+                        -
+                        {formattedEndTime.toLocaleString('en-US', {
+                          hour: 'numeric',
+                          hour12: true,
+                        })}
+                      </div>
                     </td>
-                  ))}
-                </tr>
-              ))}
+
+                    {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
+                    {[...Array(columnCount)].map((_, colIndex) => (
+                      // eslint-disable-next-line react/no-array-index-key,jsx-a11y/control-has-associated-label
+                      <td key={colIndex} className="border w-14 h-8" />
+                    ))}
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
@@ -166,7 +203,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         <hr className="my-4 border-gray-300" />
 
         {/* 이벤트 이름 입력 */}
-        <div className="flex justify-center items-center pb-4">
+        <div className="flex justify-center items-center pb-4 pt-4">
           <textarea
             value={eventName}
             placeholder="이벤트 이름을 입력하세요"
@@ -175,7 +212,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
           />
         </div>
 
-        <div className="h-[210px]">
+        <div className="pt-1 pb-7">
           {/* 시작 날짜 선택 */}
           <div className="flex justify-center items-center">
             <div className="flex items-center mb-3">
@@ -209,7 +246,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                   showTimeSelect
                   showTimeSelectOnly
                   placeholderText="시작 시간 선택"
-                  timeIntervals={30}
+                  timeIntervals={60}
                   dateFormat="HH:mm"
                   className="text-xs bg-white w-[107px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-3 px-3"
                   ref={startTimePickerRef}
@@ -258,7 +295,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                   showTimeSelect
                   showTimeSelectOnly
                   placeholderText="종료 시간 선택"
-                  timeIntervals={30}
+                  timeIntervals={60}
                   dateFormat="HH:mm"
                   className="text-xs bg-white w-[107px] h-[32px] border border-[#d9d9d9] rounded-[2px] mx-3 px-3"
                   ref={endTimePickerRef}
@@ -275,9 +312,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
             </div>
           </div>
         </div>
-        <hr />
-        <div>{drawTable()}</div>
-        <hr />
+        <div className="pb-10">{drawTable()}</div>
         <div className="flex justify-center align-center pt-4">
           <button
             onClick={handleSave}
