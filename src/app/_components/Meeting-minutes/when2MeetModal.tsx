@@ -122,28 +122,27 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         }
       }
 
-      // 드래그 중일 때만 배경색 변경
-
       return (
         <div className="flex items-center justify-center" ref={tableRef}>
           <table className="">
             <thead>
-              {/* 열 헤더 추가 */}
-              {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-              <th className="" />
-              {dates.map((date, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <th key={index} className="text-[10px] font-normal p-1">
-                  {date.toLocaleDateString('ko-KR', {
-                    month: 'long',
-                    day: 'numeric',
-                  })}{' '}
-                  <br />{' '}
-                  <span className="text-[12px]">
-                    {date.toLocaleDateString('en-US', { weekday: 'short' })}
-                  </span>
-                </th>
-              ))}
+              <tr>
+                {/* 열 헤더 추가 */}
+                <th className="" />
+                {dates.map((date, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <th key={index} className="text-[10px] font-normal p-1">
+                    {date.toLocaleDateString('ko-KR', {
+                      month: 'long',
+                      day: 'numeric',
+                    })}{' '}
+                    <br />{' '}
+                    <span className="text-[12px]">
+                      {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                    </span>
+                  </th>
+                ))}
+              </tr>
             </thead>
             <tbody>
               {[...Array(rowCount)].map((_, rowIndex) => {
@@ -175,7 +174,6 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                     </td>
                     {dates.map((date, index) => (
                       <td
-                        {/* eslint-disable-next-line react/no-array-index-key */}
                         key={index}
                         className="border w-14 h-8 px-4 py-2"
                         onClick={(e) => {
