@@ -1,17 +1,17 @@
-.calendar .fc {
+.MinutesCalendar .fc {
     background-color: white !important;
 }
 
-.calendar .fc-toolbar h2 {
+.MinutesCalendar .fc-toolbar h2 {
     display: inline !important;
 }
 
-.calendar .fc .fc-daygrid-day-number {
+.MinutesCalendar .fc .fc-daygrid-day-number {
     margin-right: 2px !important;
     font-size: small !important;
 }
 
-.calendar .fc .fc-daygrid-day.fc-day-today {
+.MinutesCalendar .fc .fc-daygrid-day.fc-day-today {
     background-color: transparent !important;
 
     .fc-daygrid-day-number {
@@ -19,26 +19,12 @@
     }
 }
 
-.calendar .fc-toolbar-chunk {
+.MinutesCalendar .fc-toolbar-chunk {
     white-space: nowrap !important;
 }
 
-.calendar .fc-todayButton-button {
-    background-color: #000000 !important;
-    border-color: #000000 !important;
-    border-radius: 3px !important;
-    width: 72px !important;
-    height: 30px !important;
-    color: #ffffff !important;;
-    font-size: small !important;
-    margin: 2px 15px 7px 0 !important;
-    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.05);
-    display: inline-flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-}
 
-.calendar .fc-prev-button {
+.MinutesCalendar .fc-prev-button {
     outline: none !important;
     margin: 0 6px 9px 0 !important;
     width: 26px !important;
@@ -55,31 +41,29 @@
 
 }
 
-.calendar .fc-toolbar-title {
+.MinutesCalendar .fc-toolbar-title {
     font-size: 22px !important;
     margin: 2% !important;
 }
 
-.calendar .fc-event-main {
+.MinutesCalendar .fc-event-main {
     height : 15px !important;
-    display: flex !important;
-    padding-left: 3px !important;
+    text-align: center !important;
 }
 
-.calendar .fc-event-time {
+.MinutesCalendar .fc-event-time {
     font-weight: normal !important;
     margin : auto !important;
     font-size: 8px !important;
 }
 
-.calendar .fc-event-title {
-    padding: 1px 0px 1px 4px !important;
+.MinutesCalendar .fc-event-title {
     margin : auto !important;
     font-size : 8px !important;
 }
 
 
-.calendar .fc-next-button {
+.MinutesCalendar .fc-next-button {
     margin: 0 0 9px 5px !important;
     width: 26px !important;
     height: 26px !important;
@@ -96,7 +80,7 @@
 }
 
 
-.calendar .fc-addEventButton-button {
+.MinutesCalendar .fc-addEventButton-button {
     margin: 2px 13px 0 -5px !important;
     background-color: #D2FA64 !important;
     border: #D2FA64 !important;
@@ -110,56 +94,56 @@
     justify-content: center !important;
 }
 
-.calendar .fc-header-toolbar {
+.MinutesCalendar .fc-header-toolbar {
     height: 36px !important;
 }
 
 
-.calendar .fc .fc-toolbar.fc-header-toolbar {
+.MinutesCalendar .fc .fc-toolbar.fc-header-toolbar {
     padding: 3% 0 0 2% !important;
 
 }
 
-.calendar .fc th {
+.MinutesCalendar .fc th {
     border-top: 1px solid #d9d9d9 !important;
 }
 
 { /* 캘린더 오른쪽 선 */ }
-.calendar .fc-theme-standard td, .fc-theme-standard th {
+.MinutesCalendar .fc-theme-standard td, .fc-theme-standard th {
     border-right-style: hidden !important;
 }
 
 { /* 캘린더 아래쪽 선 */ }
-.calendar .fc-theme-standard td {
+.MinutesCalendar .fc-theme-standard td {
     border-bottom-style: hidden !important;
 }
 
 { /* 내부 격자 */ }
-.calendar .fc .fc-daygrid-day {
+.MinutesCalendar .fc .fc-daygrid-day {
     border: 0.5px solid #d9d9d9 !important;
 }
 
 { /* 테두리 */ }
-.calendar .fc .fc-scrollgrid {
+.MinutesCalendar .fc .fc-scrollgrid {
     border: none !important;
 }
 
 { /* 컨테이너 */ }
-.calendar .fc {
+.MinutesCalendar .fc {
     border: none !important;
     border-radius: 10px !important;
     box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
 {/* 그 외 n개 */}
-.calendar .fc .fc-daygrid-more-link {
+.MinutesCalendar .fc .fc-daygrid-more-link {
     border-radius: 6px !important;
     font-size: 10px;
     color: #848484;
     margin : 3px 0 -1px 0;
 }
 
-.calendar .more-events-link::before {
+.MinutesCalendar .more-events-link::before {
     content: '';
     display: inline-block;
     width: 5px;
@@ -170,18 +154,18 @@
     vertical-align: middle;
 }
 
-.calendar .fc-event {
+.MinutesCalendar .fc-event {
     margin: 0 7px 0 7px !important;
 }
 
 
-.calendar .fc .fc-col-header-cell-cushion {
+.MinutesCalendar .fc .fc-col-header-cell-cushion {
     font-weight: normal;
     margin : 4px 0 4px 0;
     font-size : 12px;
 }
 
-.calendar .fc-when2meetButton-button {
+.MinutesCalendar .fc-when2meetButton-button {
     background-color: #000000 !important;
     background-image: url('../_assets/Icons/plusEvent.svg');
     background-repeat : no-repeat;
@@ -194,19 +178,19 @@
 }
 
 /* 그 외 n개 */
-.calendar .fc-theme-standard .fc-popover {
+.MinutesCalendar .fc-theme-standard .fc-popover {
     border-radius: 3px !important;
 }
 
-.calendar .fc .fc-popover-title {
+.MinutesCalendar .fc .fc-popover-title {
     font-size : 12px !important;
 }
 
-.calendar .fc .fc-more-popover-misc {
+.MinutesCalendar .fc .fc-more-popover-misc {
     display: none !important;
 }
 
-.calendar .fc-daygrid-event-harness {
+.MinutesCalendar .fc-daygrid-event-harness {
     margin-bottom: 3px !important;
 }
 

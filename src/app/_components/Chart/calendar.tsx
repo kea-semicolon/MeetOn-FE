@@ -6,22 +6,26 @@ import interactionPlugin from '@fullcalendar/interaction'
 import useGetSchedule from '@/_hook/useGetSchedule'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import koLocale from '@fullcalendar/core/locales/ko'
+import WhenToMeetModal from '@/_components/Meeting-minutes/when2MeetModal'
 import AddEventModal from './addEventModal'
 import '@/_styles/calendar.css'
 
 interface CalendarProps {
   showAddButton?: boolean
+  showWhen2meetButton?: boolean
   onTodayEventsChange: (events: any[]) => void
 }
 
 const Calendar: NextPage<CalendarProps> = ({
   showAddButton = true,
+  showWhen2meetButton = true,
   onTodayEventsChange,
 }) => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [events, setEvents] = useState<any[]>([])
   const calendarRef = useRef<any>(null)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
+  const [showWhen2meetModal, setShowWhen2meetModal] = useState<boolean>(false)
 
   const currentYear = new Date().getFullYear()
   const currentMonth = new Date().getMonth() + 1
@@ -30,7 +34,7 @@ const Calendar: NextPage<CalendarProps> = ({
 
   useEffect(() => {
     if (data?.result) {
-      console.log('Fetched user list:', data.result)
+      console.log('Fetched schedule list:', data.result)
       const schedules = data.result.map((schedule) => ({
         id: schedule.scheduleId,
         title: schedule.title,
@@ -110,6 +114,12 @@ const Calendar: NextPage<CalendarProps> = ({
     setShowModal(false)
   }
 
+  const handleCloseWhenToMeetModal = () => {
+    setShowWhen2meetModal(false)
+  }
+
+  const handleSaveWhenToMeet = () => {}
+
   return (
     <div className="calendar w-full">
       <FullCalendar
@@ -119,7 +129,9 @@ const Calendar: NextPage<CalendarProps> = ({
         aspectRatio={2}
         headerToolbar={{
           left: 'prev,title,next',
-          end: `todayButton${showAddButton ? ',addEventButton' : ''}`,
+          end: `${
+            showWhen2meetButton ? 'when2meetButton,' : ''
+          }todayButton${showAddButton ? ',addEventButton' : ''}`,
         }}
         locale={koLocale}
         customButtons={{
@@ -134,6 +146,12 @@ const Calendar: NextPage<CalendarProps> = ({
               if (calendarApi) {
                 calendarApi.today()
               }
+            },
+          },
+          when2meetButton: {
+            text: '',
+            click: () => {
+              setShowWhen2meetModal(true)
             },
           },
         }}
@@ -172,6 +190,12 @@ const Calendar: NextPage<CalendarProps> = ({
           onClose={handleCloseModal}
           selectedEvent={selectedEvent}
           onSave={handleSaveEvent}
+        />
+      )}
+      {showWhen2meetModal && (
+        <WhenToMeetModal
+          onClose={handleCloseWhenToMeetModal}
+          onSave={handleSaveWhenToMeet}
         />
       )}
     </div>
