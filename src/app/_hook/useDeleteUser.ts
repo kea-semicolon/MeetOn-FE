@@ -11,7 +11,7 @@ const useDeleteUser = () => {
     try {
       // `memberId`를 경로에 포함시켜서 DELETE 요청을 보냅니다.
       await api.delete(`/channel/kick?memberId=${memberId}`)
-      router.push('/login')
+      router.push('/main')
     } catch (error) {
       console.error('Error deleting user:', error)
       alert('유저 삭제에 실패했습니다.')
