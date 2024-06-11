@@ -27,7 +27,7 @@ const usePutMemo = () => {
     mutationFn: updateMemo,
     onSuccess: (data) => {
       console.log('메모 수정 성공')
-      router.push('/memo')
+      router.push('/main')
     },
     onError: (error: any) => {
       console.error(error.message)

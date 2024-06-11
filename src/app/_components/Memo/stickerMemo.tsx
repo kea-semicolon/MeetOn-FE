@@ -2,15 +2,29 @@
 
 import Image from 'next/image'
 import { DownArrow, UpArrow, Trashcan, Save } from '@/_assets/Icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import usePostMemo from '@/_hook/usePostMemo'
+import useDeleteMemo from '@/_hook/useDeleteMemo'
+import useGetMemo from '@/_hook/useGetMemo'
+import DeleteMemoModal from '@/_components/Memo/deleteMemoModal'
 
 const StickerMemo = ({ memoContent }: { memoContent: string }) => {
+  const { handleDelete, handleDeleteClick, handleCloseModal, showDeleteModal } =
+    useDeleteMemo()
   const [content, setContent] = useState<boolean>(true)
   const [memoText, setMemoText] = useState<string>(memoContent)
-
+  const [selectedMemoId, setSelectedMemoId] = useState<number | null>(null)
   const { mutate: createMemo } = usePostMemo()
+  const { data: Memo } = useGetMemo()
 
+  useEffect(() => {
+    if (Memo?.memoList) {
+      console.log(Memo.memoList)
+      if (Memo.memoList.length > 0) {
+        setSelectedMemoId(Memo.memoList[0].memoId)
+      }
+    }
+  }, [Memo])
   const handleSave = () => {
     createMemo({ content: memoText })
   }
@@ -32,7 +46,7 @@ const StickerMemo = ({ memoContent }: { memoContent: string }) => {
             alt="save"
           />
         </button>
-        <button type="button">
+        <button type="button" onClick={handleDeleteClick}>
           <Image
             className="absolute right-2 top-0.5"
             src={Trashcan}
@@ -45,6 +59,12 @@ const StickerMemo = ({ memoContent }: { memoContent: string }) => {
           className="text-[14px] p-3 focus:outline-none w-full h-[183px] bg-opacity-90 bg-[#FDFFE8]"
           value={memoText}
           onChange={(e) => setMemoText(e.target.value)}
+        />
+      )}
+      {showDeleteModal && (
+        <DeleteMemoModal
+          onClose={handleCloseModal}
+          onDelete={() => handleDelete(Number(selectedMemoId))}
         />
       )}
     </div>
