@@ -15,13 +15,9 @@ import MinutesForm from './minutesForm'
 
 interface CalendarProps {
   onTodayEventsChange: (events: any[]) => void
-  onEventsChange: (events: any[]) => void // Add this line
 }
 
-const MinutesCalendar: NextPage<CalendarProps> = ({
-  onTodayEventsChange,
-  onEventsChange,
-}) => {
+const MinutesCalendar: NextPage<CalendarProps> = ({ onTodayEventsChange }) => {
   const [events, setEvents] = useState<any[]>([])
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
   const calendarRef = useRef<any>(null)
@@ -46,9 +42,8 @@ const MinutesCalendar: NextPage<CalendarProps> = ({
       }))
       console.log('new events : ', newEvents)
       setEvents(newEvents)
-      onEventsChange(newEvents) // Call the handler with the fetched events
     }
-  }, [minutesData, onEventsChange])
+  }, [minutesData]) // Remove setEvents dependency
 
   useEffect(() => {
     const today = new Date()
@@ -76,8 +71,6 @@ const MinutesCalendar: NextPage<CalendarProps> = ({
     const clickedEvent = clickInfo.event
     const scheduleId = clickedEvent.id
     const { content } = clickedEvent.extendedProps
-    console.log('Selected minutes id :', scheduleId)
-    console.log('Selected minutes content :', content)
     setSelectedEvent({
       id: scheduleId,
       title: clickedEvent.title,
@@ -111,6 +104,21 @@ const MinutesCalendar: NextPage<CalendarProps> = ({
     setShowWhen2meetModal(true)
   }
 
+  // 오늘 날짜에 해당하는 회의록 필터링
+  const today = new Date()
+  const isToday = (date: Date) => {
+    return (
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate()
+    )
+  }
+
+  const todayEvents = events.filter((event) => {
+    const eventStart = new Date(event.start)
+    return isToday(eventStart)
+  })
+
   return (
     <div className="MinutesCalendar w-full">
       {selectedEvent ? (
@@ -123,6 +131,7 @@ const MinutesCalendar: NextPage<CalendarProps> = ({
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             timeZone="local"
+            displayEventTime={false}
             aspectRatio={2}
             headerToolbar={{
               left: 'prev,title,next',
@@ -156,7 +165,6 @@ const MinutesCalendar: NextPage<CalendarProps> = ({
               hour12: false,
             }}
             editable
-            displayEventTime
             eventDisplay="block"
             fixedWeekCount={false}
             events={events}
@@ -182,7 +190,7 @@ const MinutesCalendar: NextPage<CalendarProps> = ({
             ref={calendarRef}
             eventClick={handleEventClick}
           />
-          <MeetingMinutesList />
+          <MeetingMinutesList events={todayEvents} />
         </>
       )}
       {showWhen2meetModal && (

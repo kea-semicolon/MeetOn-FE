@@ -7,6 +7,7 @@ type Event = {
   title: string
   start: string
   end: string
+  content: string
 }
 
 interface TableProps {
@@ -25,6 +26,7 @@ const Table: React.FC<TableProps> = ({ events }) => {
         id: event.id,
         cells: [new Date(event.start).toLocaleDateString(), event.title],
       }))
+      console.log('rowsWithevents', rowsWithEvents)
       setTableRows(rowsWithEvents)
     }
   }, [events])
@@ -49,6 +51,7 @@ const Table: React.FC<TableProps> = ({ events }) => {
 
   const handleTitleClick = (rowId: string) => {
     const clickedEvent = events.find((event) => event.id === rowId)
+    console.log('clicked event : ', clickedEvent)
     setSelectedEvent(clickedEvent || null)
   }
 
@@ -104,7 +107,6 @@ const Table: React.FC<TableProps> = ({ events }) => {
         </div>
       )}
       {selectedEvent && <MinutesForm eventDetails={selectedEvent} />}{' '}
-      {!selectedEvent && <MeetingMinutesList />}
     </div>
   )
 }

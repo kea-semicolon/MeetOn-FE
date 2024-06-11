@@ -1,31 +1,36 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import MinutesCalendar from '@/_components/Meeting-minutes/minutesCalendar'
+import MeetingMinutesList from '@/_components/Meeting-minutes/meetingMinutesList'
 import Toggle from '@/_components/Meeting-minutes/toggle'
-import Table from '@/_components/Meeting-minutes/table'
+import MinutesCalendar from '@/_components/Meeting-minutes/minutesCalendar'
+import Table from './table'
 
 const MeetingMinutes = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [isCalendarView, setIsCalendarView] = useState(true)
   const [todayEvents, setTodayEvents] = useState<any[]>([])
-  const [events, setEvents] = useState<any[]>([]) // State to hold all events
 
   const handleToggleView = () => {
     setIsCalendarView(!isCalendarView)
   }
 
   const handleTodayEventsChange = useCallback(
-    (schedules: any[]) => {
-      setTodayEvents(schedules)
+    (events: any[]) => {
+      setTodayEvents(events)
     },
     [setTodayEvents],
   )
 
-  // Handler to update all events from MinutesCalendar
-  const handleEventsChange = useCallback(
-    (schedules: any[]) => {
-      setEvents(schedules)
-    },
-    [setEvents],
-  )
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, []) // Empty dependency array to ensure this effect only runs once
 
   return (
     <div className="w-3/5 h-full absolute bg-[#F8F9FB]">
@@ -37,12 +42,9 @@ const MeetingMinutes = () => {
       </div>
       <div className="pl-4 pr-4 pb-4">
         {isCalendarView ? (
-          <MinutesCalendar
-            onTodayEventsChange={handleTodayEventsChange}
-            onEventsChange={handleEventsChange}
-          />
+          <MinutesCalendar onTodayEventsChange={handleTodayEventsChange} />
         ) : (
-          <Table events={events} />
+          <Table events={todayEvents} />
         )}
       </div>
     </div>

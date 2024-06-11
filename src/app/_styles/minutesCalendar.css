@@ -48,8 +48,7 @@
 
 .MinutesCalendar .fc-event-main {
     height : 15px !important;
-    display: flex !important;
-    padding-left: 3px !important;
+    text-align: center !important;
 }
 
 .MinutesCalendar .fc-event-time {
@@ -59,7 +58,6 @@
 }
 
 .MinutesCalendar .fc-event-title {
-    padding: 1px 0px 1px 4px !important;
     margin : auto !important;
     font-size : 8px !important;
 }
