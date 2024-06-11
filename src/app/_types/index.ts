@@ -83,3 +83,15 @@ export interface WhenToMeetInfo {
   startTime: number
   endTime: number
 }
+
+export interface MinutesInfo {
+  result: any
+  meetingId: number
+  title: string
+  createdDate: string
+  content: string
+}
+
+export interface Minutes {
+  result: MinutesInfo[]
+}

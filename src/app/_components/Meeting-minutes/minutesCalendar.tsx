@@ -3,13 +3,14 @@ import { NextPage } from 'next'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import useGetSchedule from '@/_hook/useGetSchedule'
+import useGetMinutes from '@/_hook/useGetMinutes'
 import useGetWhenToMeet from '@/_hook/useGetWhenToMeet'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import koLocale from '@fullcalendar/core/locales/ko'
 import WhenToMeetModal from '@/_components/Meeting-minutes/when2MeetModal'
 import '@/_styles/minutesCalendar.css'
 import MeetingMinutesList from '@/_components/Meeting-minutes/meetingMinutesList'
+import { MinutesInfo } from '@/_types'
 import MinutesForm from './minutesForm'
 
 interface CalendarProps {
@@ -29,23 +30,25 @@ const MinutesCalendar: NextPage<CalendarProps> = ({
   const currentYear = new Date().getFullYear()
   const currentMonth = new Date().getMonth() + 1
 
-  const { data } = useGetSchedule(currentYear, currentMonth)
+  const { data: minutesData } = useGetMinutes()
   const { data: whenToMeetData, refetch: refetchWhenToMeet } =
     useGetWhenToMeet() // Use the hook
 
   useEffect(() => {
-    if (data?.result) {
-      console.log('Fetched schedule list:', data.result)
-      const schedules = data.result.map((schedule) => ({
-        id: schedule.scheduleId,
-        title: schedule.title,
-        start: schedule.startTime,
-        end: schedule.endTime,
+    if (minutesData?.result) {
+      console.log('Fetched minutes list:', minutesData.result)
+      const newEvents = minutesData.result.map((meeting: MinutesInfo) => ({
+        id: meeting.meetingId,
+        title: '회의록',
+        start: meeting.createdDate,
+        end: meeting.createdDate,
+        content: meeting.content,
       }))
-      setEvents(schedules)
-      onEventsChange(schedules) // Call the handler with the fetched events
+      console.log('new events : ', newEvents)
+      setEvents(newEvents)
+      onEventsChange(newEvents) // Call the handler with the fetched events
     }
-  }, [data, onEventsChange])
+  }, [minutesData, onEventsChange])
 
   useEffect(() => {
     const today = new Date()
@@ -72,8 +75,16 @@ const MinutesCalendar: NextPage<CalendarProps> = ({
   const handleEventClick = (clickInfo: any) => {
     const clickedEvent = clickInfo.event
     const scheduleId = clickedEvent.id
-    console.log('Selected event scheduleId:', scheduleId)
-    setSelectedEvent(clickedEvent)
+    const { content } = clickedEvent.extendedProps
+    console.log('Selected minutes id :', scheduleId)
+    console.log('Selected minutes content :', content)
+    setSelectedEvent({
+      id: scheduleId,
+      title: clickedEvent.title,
+      start: clickedEvent.start,
+      end: clickedEvent.end,
+      content,
+    })
   }
 
   const handleCloseWhenToMeetModal = () => {

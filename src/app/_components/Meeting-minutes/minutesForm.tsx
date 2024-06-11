@@ -4,6 +4,7 @@ interface EventDetails {
   title: string
   start: string
   end: string
+  content: string
 }
 
 interface MinutesFormProps {
@@ -12,10 +13,6 @@ interface MinutesFormProps {
 
 const MinutesForm: React.FC<MinutesFormProps> = ({ eventDetails }) => {
   const startTime = new Date(eventDetails.start).toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-  const endTime = new Date(eventDetails.end).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
   })
@@ -30,27 +27,20 @@ const MinutesForm: React.FC<MinutesFormProps> = ({ eventDetails }) => {
           value={eventDetails.title}
           readOnly
         />
-        <p>
-          {startTime} - {endTime}
-        </p>
+        <p>{startTime}</p>
       </div>
-      <div className="flex pt-2.5 pb-2.5 justify-center items-center">
-        <div className="flex-1 bg-[#ffffff] border border-[#959595] rounded-[3px] mr-2 text-[14px] py-3 px-2.5">
-          참여자 리스트
-        </div>
-        <button className="bg-[#D2FA64] px-5 py-3 text-[14px] rounded-[3px]">
-          회의 로그 보기
-        </button>
-      </div>
-      <div>
+      <div className="pt-3">
         <textarea
           className="resize-none mb-1.5 w-full h-96 px-3 py-2 border border-[#959595] rounded-[3px] text-[14px] focus:outline-none"
           placeholder="내용을 입력하세요"
-          value={eventDetails.title}
+          value={eventDetails.content}
           readOnly
         />
       </div>
       <div className="flex justify-end">
+        <button className="bg-[#D2FA64] border border-black px-5 py-3 text-[14px] rounded-[3px] mr-2">
+          회의 로그 보기
+        </button>
         <button className="bg-[#000000] rounded-[2px] px-5 py-1.5 text-[#D2FA64] text-[14px]">
           삭제
         </button>

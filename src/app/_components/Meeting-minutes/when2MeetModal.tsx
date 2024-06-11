@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import DatePicker from 'react-datepicker'
+import { useTableDragSelect } from 'use-table-drag-select'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Cancel, ViewCalendarBtn } from '@/_assets/Icons'
 import '@/_styles/addEventModal.css'
@@ -22,12 +23,39 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
   const [endTime, setEndTime] = useState<Date | null>(null)
   const [tableRows, setTableRows] = useState<number[]>([])
 
+  const [isDragging, setIsDragging] = useState<boolean>(false)
+
   const postWhenToMeetMutation = usePostWhenToMeet() // 새 일정을 추가하기 위한 훅
+
+  const tableRef = useRef<HTMLTableElement>(null)
+  const [ref, value] = useTableDragSelect()
 
   const startDatePickerRef = useRef<DatePicker | null>(null)
   const startTimePickerRef = useRef<DatePicker | null>(null)
   const endDatePickerRef = useRef<DatePicker | null>(null)
   const endTimePickerRef = useRef<DatePicker | null>(null)
+
+  useEffect(() => {
+    if (tableRef.current) {
+      const [ref, value] = useTableDragSelect(tableRef.current)
+      ref.current?.addEventListener('mousedown', handleMouseDown)
+      ref.current?.addEventListener('mouseup', handleMouseUp)
+
+      const onSelectHandler = (selectedCells: any) => {
+        console.log(selectedCells)
+        // 여기에 선택된 셀에 대한 처리를 추가할 수 있어요.
+      }
+
+      ref.current?.addEventListener('mouseup', () => {
+        onSelectHandler(value)
+      })
+
+      return () => {
+        ref.current?.removeEventListener('mousedown', handleMouseDown)
+        ref.current?.removeEventListener('mouseup', handleMouseUp)
+      }
+    }
+  }, [tableRef])
 
   const handleSave = () => {
     if (!startDate || !startTime || !endDate || !endTime || !eventName) {
@@ -100,8 +128,15 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
     return numberOfRows
   }
 
-  // 표 그리기
-  // 표 그리기
+  const handleMouseDown = () => {
+    setIsDragging(true)
+  }
+
+  // 드래그 종료 이벤트 핸들러
+  const handleMouseUp = () => {
+    setIsDragging(false)
+  }
+
   const drawTable = () => {
     const columnCount = calculateColumnCount()
     const rowCount = calculateRowCount()
@@ -117,8 +152,13 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         }
       }
 
+      // 드래그 중일 때만 배경색 변경
+      const cellClassName = isDragging
+        ? 'border w-14 h-8 bg-black'
+        : 'border w-14 h-8'
+
       return (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center" ref={tableRef}>
           <table className="">
             <thead>
               {/* 열 헤더 추가 */}
@@ -139,7 +179,6 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
               ))}
             </thead>
             <tbody>
-              {/* 행과 각 행의 셀을 추가 */}
               {[...Array(rowCount)].map((_, rowIndex) => {
                 if (!startTime) return null
 
@@ -152,9 +191,13 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                 formattedEndTime.setHours(endHour)
 
                 return (
-                  // eslint-disable-next-line react/no-array-index-key
                   <tr key={rowIndex} className="">
-                    <td className="pr-2">
+                    <td
+                      key={rowIndex}
+                      className={cellClassName}
+                      onMouseDown={handleMouseDown}
+                      onMouseUp={handleMouseUp}
+                    >
                       <div className="text-[10px] text-center">
                         {formattedStartTime.toLocaleString('en-US', {
                           hour: 'numeric',
@@ -167,12 +210,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                         })}
                       </div>
                     </td>
-
-                    {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-                    {[...Array(columnCount)].map((_, colIndex) => (
-                      // eslint-disable-next-line react/no-array-index-key,jsx-a11y/control-has-associated-label
-                      <td key={colIndex} className="border w-14 h-8" />
-                    ))}
+                    {/* 생략 */}
                   </tr>
                 )
               })}
