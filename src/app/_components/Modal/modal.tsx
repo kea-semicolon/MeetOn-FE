@@ -7,6 +7,7 @@ interface ModalProps {
   onClose: () => void
   onCreate: () => void
   channelName: string
+  status: string
   hostStatus: string
   setChannelName: React.Dispatch<React.SetStateAction<string>>
 }
@@ -16,6 +17,7 @@ export default function Modal({
   onCreate,
   channelName,
   setChannelName,
+  status,
   hostStatus,
 }: ModalProps) {
   const route = useRouter()
@@ -47,12 +49,12 @@ export default function Modal({
           취소
         </button>
         <button
-          className="bg-[#000000] border border-[#D2FA64] text-[#D2FA64] rounded-[3px] w-[150px] h-[54px]"
+          className="bg-[#000000] border border-[#D2FA64] text-[#D2FA64] rounded-[5px] w-[150px] h-[54px]"
           type="button"
           onClick={handleCreateClick}
         >
           {' '}
-          참여하기
+          {status}
         </button>
       </div>
     </div>

@@ -97,6 +97,7 @@ export default function Signup() {
       {isModalOpen && (
         <div className="z-20 absolute">
           <Modal
+            status="만들기"
             hostStatus="방 이름을 입력하세요"
             onClose={closeModal}
             onCreate={handleCreateChannel}
@@ -108,6 +109,7 @@ export default function Signup() {
       {isModalOpen2 && (
         <div className="z-20 absolute">
           <Modal
+            status="참여하기"
             hostStatus="방 코드를 입력하세요"
             onClose={closeModal}
             onCreate={handleCreateChannel}
