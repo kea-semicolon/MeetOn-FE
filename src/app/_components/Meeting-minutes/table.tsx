@@ -18,7 +18,7 @@ const Table: React.FC<TableProps> = ({ events }) => {
   const [tableRows, setTableRows] = useState<{ id: string; cells: string[] }[]>(
     [],
   )
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null) // Add selectedEvent state
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
 
   useEffect(() => {
     if (events.length > 0) {
@@ -26,7 +26,6 @@ const Table: React.FC<TableProps> = ({ events }) => {
         id: event.id,
         cells: [new Date(event.start).toLocaleDateString(), event.title],
       }))
-      console.log('rowsWithevents', rowsWithEvents)
       setTableRows(rowsWithEvents)
     }
   }, [events])
@@ -51,13 +50,17 @@ const Table: React.FC<TableProps> = ({ events }) => {
 
   const handleTitleClick = (rowId: string) => {
     const clickedEvent = events.find((event) => event.id === rowId)
-    console.log('clicked event : ', clickedEvent)
     setSelectedEvent(clickedEvent || null)
   }
 
   return (
     <div>
-      {!selectedEvent && (
+      {events.length === 0 && (
+        <p className="w-full h-80 text-center rounded-[6px] flex justify-center items-center text-[#959595]">
+          생성된 회의록이 존재하지 않습니다.
+        </p>
+      )}
+      {events.length > 0 && (
         <div className="rounded-[6px] overflow-hidden border border-[#959595]">
           <table className="table-fixed w-full bg-[#ffffff]">
             <thead>

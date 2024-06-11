@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import DatePicker from 'react-datepicker'
-import { useTableDragSelect } from 'use-table-drag-select'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Cancel, ViewCalendarBtn } from '@/_assets/Icons'
 import '@/_styles/addEventModal.css'
@@ -22,40 +21,20 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
   const [endDate, setEndDate] = useState<Date | null>(null)
   const [endTime, setEndTime] = useState<Date | null>(null)
   const [tableRows, setTableRows] = useState<number[]>([])
+  const [clickedCells, setClickedCells] = useState<{ [key: string]: number }>(
+    {},
+  )
 
   const [isDragging, setIsDragging] = useState<boolean>(false)
 
   const postWhenToMeetMutation = usePostWhenToMeet() // 새 일정을 추가하기 위한 훅
 
   const tableRef = useRef<HTMLTableElement>(null)
-  const [ref, value] = useTableDragSelect()
 
   const startDatePickerRef = useRef<DatePicker | null>(null)
   const startTimePickerRef = useRef<DatePicker | null>(null)
   const endDatePickerRef = useRef<DatePicker | null>(null)
   const endTimePickerRef = useRef<DatePicker | null>(null)
-
-  useEffect(() => {
-    if (tableRef.current) {
-      const [ref, value] = useTableDragSelect(tableRef.current)
-      ref.current?.addEventListener('mousedown', handleMouseDown)
-      ref.current?.addEventListener('mouseup', handleMouseUp)
-
-      const onSelectHandler = (selectedCells: any) => {
-        console.log(selectedCells)
-        // 여기에 선택된 셀에 대한 처리를 추가할 수 있어요.
-      }
-
-      ref.current?.addEventListener('mouseup', () => {
-        onSelectHandler(value)
-      })
-
-      return () => {
-        ref.current?.removeEventListener('mousedown', handleMouseDown)
-        ref.current?.removeEventListener('mouseup', handleMouseUp)
-      }
-    }
-  }, [tableRef])
 
   const handleSave = () => {
     if (!startDate || !startTime || !endDate || !endTime || !eventName) {
@@ -128,15 +107,6 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
     return numberOfRows
   }
 
-  const handleMouseDown = () => {
-    setIsDragging(true)
-  }
-
-  // 드래그 종료 이벤트 핸들러
-  const handleMouseUp = () => {
-    setIsDragging(false)
-  }
-
   const drawTable = () => {
     const columnCount = calculateColumnCount()
     const rowCount = calculateRowCount()
@@ -153,9 +123,6 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
       }
 
       // 드래그 중일 때만 배경색 변경
-      const cellClassName = isDragging
-        ? 'border w-14 h-8 bg-black'
-        : 'border w-14 h-8'
 
       return (
         <div className="flex items-center justify-center" ref={tableRef}>
@@ -191,13 +158,9 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                 formattedEndTime.setHours(endHour)
 
                 return (
-                  <tr key={rowIndex} className="">
-                    <td
-                      key={rowIndex}
-                      className={cellClassName}
-                      onMouseDown={handleMouseDown}
-                      onMouseUp={handleMouseUp}
-                    >
+                  // eslint-disable-next-line react/no-array-index-key
+                  <tr key={rowIndex}>
+                    <td>
                       <div className="text-[10px] text-center">
                         {formattedStartTime.toLocaleString('en-US', {
                           hour: 'numeric',
@@ -210,7 +173,49 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                         })}
                       </div>
                     </td>
-                    {/* 생략 */}
+                    {dates.map((date, index) => (
+                      <td
+                        {/* eslint-disable-next-line react/no-array-index-key */}
+                        key={index}
+                        className="border w-14 h-8 px-4 py-2"
+                        onClick={(e) => {
+                          // 현재 셀의 인덱스를 문자열로 변환하여 키로 사용
+                          const cellKey = `${rowIndex}-${index}`
+
+                          // 클릭한 셀의 상태를 가져오거나 초기화
+                          const prevClickCount = clickedCells[cellKey] || 0
+
+                          // 중복 클릭이면 opacity를 0.2씩 증가시킴
+                          if (prevClickCount > 0) {
+                            const newOpacity = Math.min(
+                              (prevClickCount + 1) * 0.2,
+                              1,
+                            ) // opacity를 1을 넘지 않도록 함
+                            console.log('new opacity : ', newOpacity)
+
+                            // 클릭한 셀의 스타일 변경
+                            e.currentTarget.style.backgroundColor = 'green'
+                            e.currentTarget.style.opacity = String(newOpacity)
+
+                            console.log('중복 클릭입니다.')
+                          } else {
+                            // 클릭한 셀의 상태를 업데이트하고 이전 클릭 횟수에 1을 더함
+                            setClickedCells((prevClickedCells) => ({
+                              ...prevClickedCells,
+                              [cellKey]: (prevClickCount || 0) + 1,
+                            }))
+
+                            // 클릭한 셀의 스타일 변경
+                            e.currentTarget.style.backgroundColor = 'green'
+                            e.currentTarget.style.opacity = '0.2' // 처음 클릭시 opacity를 0.2로 설정
+
+                            console.log(
+                              `Clicked cell at Row: ${rowIndex}, Column: ${index}`,
+                            )
+                          }
+                        }}
+                      />
+                    ))}
                   </tr>
                 )
               })}
