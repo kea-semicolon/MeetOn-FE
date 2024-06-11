@@ -63,9 +63,8 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         const numberOfRows = Math.ceil(durationInMinutes / 30) // 30분 간격으로 행 계산
         setTableRows(
           Array.from({ length: numberOfRows }, (_, index) => index + 1),
-        ) // 행 배열 설정
+        )
 
-        // 필요한 형식으로 날짜와 시간 변환
         const formattedStartDate = startDate.toISOString().split('T')[0]
         const formattedEndDate = endDate.toISOString().split('T')[0]
         const formattedStartTime = startTime.getHours()
@@ -80,20 +79,18 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
         })
       }
     }
-    onClose() // 모달 창 닫기
+    onClose()
   }
 
-  // 시작 날짜와 종료 날짜에 따라 열의 수 계산
   const calculateColumnCount = () => {
     if (!startDate || !endDate) return 0
     const startDateTime = startDate.getTime()
     const endDateTime = endDate.getTime()
     const numberOfDays =
-      Math.ceil((endDateTime - startDateTime) / (1000 * 60 * 60 * 24)) + 1 // 선택한 날짜 수 계산
+      Math.ceil((endDateTime - startDateTime) / (1000 * 60 * 60 * 24)) + 1
     return numberOfDays
   }
 
-  // 시작 시간과 종료 시간에 따라 행의 수 계산
   const calculateRowCount = () => {
     if (!startTime || !endTime) return 0
     const startHour = startTime.getHours()
@@ -103,7 +100,7 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
     const startMinutes = startHour * 60 + startMinute
     const endMinutes = endHour * 60 + endMinute
     const durationInMinutes = endMinutes - startMinutes
-    const numberOfRows = Math.ceil(durationInMinutes / 60) // 30분 간격으로 행 계산
+    const numberOfRows = Math.ceil(durationInMinutes / 60)
     return numberOfRows
   }
 
@@ -177,35 +174,27 @@ const WhenToMeetModal: React.FC<WhenToMeetModalProps> = ({
                         key={index}
                         className="border w-14 h-8 px-4 py-2"
                         onClick={(e) => {
-                          // 현재 셀의 인덱스를 문자열로 변환하여 키로 사용
                           const cellKey = `${rowIndex}-${index}`
-
-                          // 클릭한 셀의 상태를 가져오거나 초기화
                           const prevClickCount = clickedCells[cellKey] || 0
 
-                          // 중복 클릭이면 opacity를 0.2씩 증가시킴
                           if (prevClickCount > 0) {
                             const newOpacity = Math.min(
                               (prevClickCount + 1) * 0.2,
                               1,
-                            ) // opacity를 1을 넘지 않도록 함
-                            console.log('new opacity : ', newOpacity)
+                            )
 
-                            // 클릭한 셀의 스타일 변경
                             e.currentTarget.style.backgroundColor = 'green'
                             e.currentTarget.style.opacity = String(newOpacity)
 
                             console.log('중복 클릭입니다.')
                           } else {
-                            // 클릭한 셀의 상태를 업데이트하고 이전 클릭 횟수에 1을 더함
                             setClickedCells((prevClickedCells) => ({
                               ...prevClickedCells,
                               [cellKey]: (prevClickCount || 0) + 1,
                             }))
 
-                            // 클릭한 셀의 스타일 변경
                             e.currentTarget.style.backgroundColor = 'green'
-                            e.currentTarget.style.opacity = '0.2' // 처음 클릭시 opacity를 0.2로 설정
+                            e.currentTarget.style.opacity = '0.2'
 
                             console.log(
                               `Clicked cell at Row: ${rowIndex}, Column: ${index}`,
